@@ -1,10 +1,25 @@
 import 'package:flutter_svg/flutter_svg.dart';
 
-renderSvg(image, color) {
-  return new SvgPicture.asset(
+renderSvgWithColor(image, color, [assets]) {
+  if (assets != null) {
+    return new SvgPicture.asset(
+      image,
+      height: 60,
+      color: color,
+      package: 'nutty_putty_avatars',
+    );
+  }
+
+  return new SvgPicture.network(
     image,
     height: 60,
     color: color,
-    package: 'nutty_putty_avatars',
+  );
+}
+
+renderSvg(image) {
+  return new SvgPicture.network(
+    image,
+    height: 60,
   );
 }
