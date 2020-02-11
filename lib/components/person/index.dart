@@ -13,6 +13,7 @@ class Person extends StatelessWidget {
       @required this.faceHair,
       @required this.headColor,
       @required this.hairColor,
+      @required this.bgColor,
       @required this.background,
       @required this.accessories,
       @required this.eyesColor,
@@ -21,6 +22,7 @@ class Person extends StatelessWidget {
   final head;
   final hair;
   final faceHair;
+  final bgColor;
   final eyes;
   final mouth;
   final background;
@@ -35,7 +37,7 @@ class Person extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        renderSvg(background['image']),
+        renderSvgWithColor(background['image'], bgColor),
         hair['long_hair_image'] != null
             ? renderSvgWithColor(hair['long_hair_image'], hairColor)
             : Container(

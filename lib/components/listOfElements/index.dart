@@ -11,7 +11,6 @@ class ListOfElements extends StatelessWidget {
       {@required this.list,
       @required this.partOfAvatar,
       @required this.changeActiveElement,
-      @required this.activeElementColor,
       @required this.head,
       @required this.hair,
       @required this.secondList,
@@ -22,6 +21,7 @@ class ListOfElements extends StatelessWidget {
       @required this.accessories,
       @required this.headColor,
       @required this.background,
+      @required this.bgColor,
       @required this.hairColor,
       @required this.eyesColor,
       @required this.mouthColor,
@@ -29,9 +29,9 @@ class ListOfElements extends StatelessWidget {
   final List list;
   final int partOfAvatar;
   final Function changeActiveElement;
-  final activeElementColor;
   final head;
   final secondList;
+  final bgColor;
   final hair;
   final eyes;
   final mouth;
@@ -92,6 +92,7 @@ class ListOfElements extends StatelessWidget {
                           head: partOfAvatar == 1 ? item : head,
                           headColor: headColor,
                           hair: partOfAvatar == 2 && !secondList ? item : hair,
+                          bgColor: bgColor,
                           hairColor: hairColor,
                           eyes: partOfAvatar == 3 && !secondList ? item : eyes,
                           mouth: partOfAvatar == 3 && secondList ? item : mouth,

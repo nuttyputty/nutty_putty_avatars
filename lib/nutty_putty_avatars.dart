@@ -2,47 +2,45 @@ library nutty_putty_avatars;
 
 import 'dart:convert';
 
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/utils.dart';
-// import 'package:flutter_colorpicker/utils.dart';
+import 'package:flutter/rendering.dart';
 import 'package:nutty_putty_avatars/constants/palletes.dart';
-// import "package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart";
-// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-// import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
+import 'package:nutty_putty_avatars/styles/index.dart';
 import './components/person/index.dart';
 import './components/colorChanger/index.dart';
 import './components/listOfElements/index.dart';
 import './components/partsSwitch/index.dart';
-// import './components/slider.dart';
 
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
-import './constants/arraysOfParts.dart';
-import './components/test.dart';
+GlobalKey _globalKey = new GlobalKey();
+
+takeImage() async {
+  RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject();
+  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+  ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  var pngBytes = byteData.buffer.asUint8List();
+  var bs64 = base64Encode(pngBytes);
+
+  return {'image': pngBytes, 'avatarDetails': {}};
+}
 
 class Avatar extends StatefulWidget {
+  Avatar({Key key, this.bgColor, this.bgImage}) : super(key: key);
+  final bgImage;
+  final bgColor;
   @override
   _AvatarState createState() => _AvatarState();
 }
 
 class _AvatarState extends State<Avatar> {
-  GlobalKey _globalKey = new GlobalKey();
-  static Color headColor = hexToColor('#F5E3C3');
-  static Color bgColor = hexToColor('#FFFFFF');
-  static Color hairColor = hexToColor('#32302E');
-  static Color clothesColor = hexToColor('#32302E');
+  List parts;
   int partOfAvatar = 0;
-  List<String> palette = bgPalette;
-
-  List faceHairs;
-  List heads;
-  List hairs;
-  List mouths;
-  List eyes;
-  List accessories;
-  List backgrounds;
-  List clothes;
+  var person;
 
   @override
   void initState() {
@@ -56,77 +54,141 @@ class _AvatarState extends State<Avatar> {
 
       var decodeResponse = jsonDecode(response);
 
+      var initialPerson = {
+        'background': {
+          'color': hexToColor(bgPalette[0]),
+          'element': decodeResponse['backgrounds'][0]
+        },
+        'head': {
+          'color': hexToColor(headPalette[0]),
+          'element': decodeResponse['heads'][0]
+        },
+        'hair': {
+          'color': hexToColor(hairPalette[0]),
+          'element': decodeResponse['hairs'][0]
+        },
+        'eyes': {'element': decodeResponse['eyes'][0]},
+        'mouth': {'element': decodeResponse['mouths'][0]},
+        'face_hair': {
+          'color': hexToColor(hairPalette[0]),
+          'element': decodeResponse['face_hairs'][0]
+        },
+        'clothes': {
+          'color': hexToColor(clothPalette[0]),
+          'element': decodeResponse['clothes'][0]
+        },
+        'accessories': {'element': decodeResponse['accessories'][0]}
+      };
+
       setState(() {
-        faceHairs = decodeResponse['face_hairs'];
-        heads = decodeResponse['heads'];
-        hairs = decodeResponse['hairs'];
-        mouths = decodeResponse['mouths'];
-        eyes = decodeResponse['eyes'];
-        clothes = decodeResponse['clothes'];
-        accessories = decodeResponse['accessories'];
-        backgrounds = decodeResponse['backgrounds'];
-        activeBackground = decodeResponse['backgrounds'][0];
-        activeEyes = decodeResponse['eyes'][0];
-        activeMouth = decodeResponse['mouths'][0];
-        activeHead = decodeResponse['heads'][0];
-        activeHair = decodeResponse['hairs'][0];
-        activeFaceHair = decodeResponse['face_hairs'][0];
-        activeClothes = decodeResponse['clothes'][0];
-        activeAccessories = decodeResponse['accessories'][0];
+        parts = [
+          {
+            'part': 'background',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'BACKGROUND TYPE',
+                'parts': decodeResponse['backgrounds']
+              },
+              {
+                'type': 'pallet',
+                'title': 'BACKGROUND COLOR',
+                'colors': bgPalette
+              }
+            ]
+          },
+          {
+            'part': 'head',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'HEAD TYPE',
+                'parts': decodeResponse['heads']
+              },
+              {'type': 'pallet', 'title': 'SKIN TONE', 'colors': headPalette}
+            ]
+          },
+          {
+            'part': 'hair',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'HAIR TYPE',
+                'parts': decodeResponse['hairs']
+              },
+              {
+                'type': 'part',
+                'title': 'FACE HAIR TYPE',
+                'secondPart': true,
+                'parts': decodeResponse['face_hairs']
+              },
+              {'type': 'pallet', 'title': 'HAIR COLOR', 'colors': hairPalette}
+            ]
+          },
+          {
+            'part': 'face',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'EYES TYPE',
+                'parts': decodeResponse['eyes']
+              },
+              {
+                'type': 'part',
+                'title': 'MOUTH TYPE',
+                'secondPart': true,
+                'parts': decodeResponse['mouths']
+              },
+            ]
+          },
+          {
+            'part': 'clothes',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'CLOTHES TYPE',
+                'parts': decodeResponse['clothes']
+              },
+              {'type': 'pallet', 'title': 'CLOTH COLOR', 'colors': clothPalette}
+            ]
+          },
+          {
+            'part': 'accessories',
+            'items': [
+              {
+                'type': 'part',
+                'title': 'ACCESSORIES',
+                'parts': decodeResponse['accessories']
+              },
+            ]
+          },
+        ];
+        person = initialPerson;
       });
     } catch (err) {
       print(err);
     }
   }
 
-  Object activeHead;
-  Object activeHair;
-  Object activeFaceHair;
-
-  Object activeEyes;
-  Object activeMouth;
-  Object activeClothes;
-  Object activeAccessories;
-  Object activeBackground;
   List partsOfAvatarList = [
-    {
-      'partOfAvatar': 0,
-      'image': 'assets/images/partIcons/backgroundIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
-    {
-      'partOfAvatar': 1,
-      'image': 'assets/images/partIcons/headIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
-    {
-      'partOfAvatar': 2,
-      'image': 'assets/images/partIcons/hairIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
-    {
-      'partOfAvatar': 3,
-      'image': 'assets/images/partIcons/emotionIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
-    {
-      'partOfAvatar': 4,
-      'image': 'assets/images/partIcons/tshirtIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
-    {
-      'partOfAvatar': 5,
-      'image': 'assets/images/partIcons/accessoriesIcon.svg',
-      'color': hexToColor('#8D9CB3')
-    },
+    'assets/images/partIcons/backgroundIcon.svg',
+    'assets/images/partIcons/headIcon.svg',
+    'assets/images/partIcons/hairIcon.svg',
+    'assets/images/partIcons/emotionIcon.svg',
+    'assets/images/partIcons/tshirtIcon.svg',
+    'assets/images/partIcons/accessoriesIcon.svg',
   ];
 
+  // part of avatar
+  // 0 - background
+  // 1 - head
+  // 2 - hair
+  // 3 - face
+  // 4 - clothes
+  // 5 - accessories
   changePartOfAvatar(part) {
     setState(() {
       partOfAvatar = part;
-      palette = part == 0
-          ? bgPalette
-          : part == 1 ? headPalette : part == 2 ? hairPalette : clothPalette;
     });
   }
 
@@ -144,111 +206,59 @@ class _AvatarState extends State<Avatar> {
     );
   }
 
-  fung(hue, light) {
-    return HSLColor.fromAHSL(1, hue, 1, light);
-  }
+  changeColor(color, element) {
+    if (element == 'hair') {
+      person['face_hair']['color'] = color;
+      person['hair']['color'] = color;
+    } else {
+      person[element]['color'] = color;
+    }
 
-  // part of avatar
-  // 0 - head
-  // 1 - hair
-  // 2 - clothes
-  changeColor(color) {
     setState(() {
-      switch (partOfAvatar) {
-        case 0:
-          bgColor = color;
-          break;
-        case 1:
-          print('asd');
-          headColor = color;
-          break;
-        case 2:
-          hairColor = color;
-          break;
-        case 4:
-          clothesColor = color;
-          break;
-      }
+      person = person;
     });
   }
 
-  changeActiveElement(item, secondList) {
-    print('[ITEM] $item');
-    item = item.toColor();
+  changeActiveElement(item, element, secondList) {
+    switch (element) {
+      case 'hair':
+        if (!secondList) {
+          person['hair']['element'] = item;
+        } else {
+          person['face_hair']['element'] = item;
+        }
+        break;
+      case 'face':
+        if (!secondList) {
+          person['eyes']['element'] = item;
+        } else {
+          person['mouth']['element'] = item;
+        }
+
+        break;
+      default:
+        person[element]['element'] = item;
+    }
     setState(() {
-      switch (partOfAvatar) {
-        case 0:
-          activeBackground = item;
-          break;
-        case 1:
-          activeHead = item;
-          break;
-        case 2:
-          if (!secondList) {
-            activeHair = item;
-          } else {
-            activeFaceHair = item;
-          }
-          break;
-        case 3:
-          if (!secondList) {
-            activeEyes = item;
-          } else {
-            activeMouth = item;
-          }
-          break;
-        case 4:
-          activeClothes = item;
-          break;
-        case 5:
-          activeAccessories = item;
-          break;
-      }
+      person = person;
     });
   }
-
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-
-    var title1 = partOfAvatar == 0
-        ? 'Background Type'
-        : partOfAvatar == 1
-            ? 'Head type'
-            : partOfAvatar == 2
-                ? 'Hair type'
-                : partOfAvatar == 3
-                    ? 'Eyes type'
-                    : partOfAvatar == 4 ? 'clothes Type' : 'accessories';
-    var title2 = partOfAvatar == 2
-        ? 'Face Hair type'
-        : partOfAvatar == 3 ? 'mouth type' : '';
-    var title3 = partOfAvatar == 0
-        ? 'Background color'
-        : partOfAvatar == 1
-            ? 'Skin Tone'
-            : partOfAvatar == 2
-                ? 'hair color'
-                : partOfAvatar == 3
-                    ? 'Eyes type'
-                    : partOfAvatar == 4 ? 'cloth color' : '';
-
-    return new Scaffold(
-        backgroundColor: hexToColor('#E3EDF7'),
-        body: accessories != null &&
-                clothes != null &&
-                eyes != null &&
-                hairs != null &&
-                mouths != null &&
-                heads != null &&
-                faceHairs != null &&
-                eyes != null
-            ? ListView(
-                physics: ClampingScrollPhysics(),
-                children: <Widget>[
+    return parts != null
+        ? Expanded(
+            child: Container(
+                decoration: BoxDecoration(
+                    color: widget.bgColor != null
+                        ? widget.bgColor
+                        : hexToColor('#E3EDF7'),
+                    image: widget.bgImage != null
+                        ? DecorationImage(
+                            fit: BoxFit.cover, image: widget.bgImage)
+                        : null),
+                child: Column(children: <Widget>[
                   new Container(
                       padding: EdgeInsets.only(left: 14, right: 14),
                       child: new Column(children: <Widget>[
@@ -275,29 +285,14 @@ class _AvatarState extends State<Avatar> {
                           width: 142,
                           height: 142,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(38),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [0.45, 1],
-                              colors: [
-                                hexToColor('#E3EDF7').withOpacity(1),
-                                Color.fromRGBO(255, 255, 255, 0.7)
-                              ],
-                            ),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Color.fromRGBO(255, 255, 255, 0.5),
-                                offset: Offset(-3, -3),
-                                blurRadius: 2,
+                              borderRadius: BorderRadius.circular(38),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                stops: [0.45, 1],
+                                colors: gradient,
                               ),
-                              BoxShadow(
-                                color: Color.fromRGBO(152, 176, 199, 0.3),
-                                offset: Offset(3, 3),
-                                blurRadius: 10,
-                              ),
-                            ],
-                          ),
+                              boxShadow: shadow),
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 20),
                             child: Transform.scale(
@@ -305,17 +300,20 @@ class _AvatarState extends State<Avatar> {
                                 child: RepaintBoundary(
                                     key: _globalKey,
                                     child: Person(
-                                      head: activeHead,
-                                      headColor: headColor,
-                                      hair: activeHair,
-                                      accessories: activeAccessories,
-                                      faceHair: activeFaceHair,
-                                      hairColor: hairColor,
-                                      eyes: activeEyes,
-                                      mouth: activeMouth,
-                                      background: activeBackground,
-                                      clothes: activeClothes,
-                                      clothesColor: clothesColor,
+                                      head: person['head']['element'],
+                                      headColor: person['head']['color'],
+                                      hair: person['hair']['element'],
+                                      accessories: person['accessories']
+                                          ['element'],
+                                      faceHair: person['face_hair']['element'],
+                                      hairColor: person['hair']['color'],
+                                      eyes: person['eyes']['element'],
+                                      mouth: person['mouth']['element'],
+                                      background: person['background']
+                                          ['element'],
+                                      clothes: person['clothes']['element'],
+                                      bgColor: person['background']['color'],
+                                      clothesColor: person['clothes']['color'],
                                       eyesColor: Colors.black,
                                       mouthColor: Colors.white,
                                     ))),
@@ -331,107 +329,71 @@ class _AvatarState extends State<Avatar> {
                             activePart: partOfAvatar,
                           ),
                         ),
-                        renderTitle(title1),
-                        Padding(
-                          padding: EdgeInsets.only(top: 15, bottom: 15),
-                          child: ListOfElements(
-                            list: partOfAvatar == 0
-                                ? backgrounds
-                                : partOfAvatar == 1
-                                    ? heads
-                                    : partOfAvatar == 2
-                                        ? hairs
-                                        : partOfAvatar == 3
-                                            ? eyes
-                                            : partOfAvatar == 4
-                                                ? clothes
-                                                : partOfAvatar == 5
-                                                    ? accessories
-                                                    : [],
-                            partOfAvatar: partOfAvatar,
-                            head: activeHead,
-                            faceHair: activeFaceHair,
-                            accessories: activeAccessories,
-                            headColor: headColor,
-                            hair: activeHair,
-                            hairColor: hairColor,
-                            eyes: activeEyes,
-                            mouth: activeMouth,
-                            background: activeBackground,
-                            clothes: activeClothes,
-                            clothesColor: clothesColor,
-                            eyesColor: Colors.black,
-                            mouthColor: Colors.white,
-                            secondList: false,
-                            changeActiveElement: (item) {
-                              changeActiveElement(item, false);
-                            },
-                            activeElementColor: headColor,
-                          ),
-                        ),
-                        partOfAvatar == 2 || partOfAvatar == 3
-                            ? new Column(
-                                children: <Widget>[
-                                  renderTitle(title2),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 15, bottom: 15),
-                                    child: ListOfElements(
-                                      list: partOfAvatar == 2
-                                          ? faceHairs
-                                          : partOfAvatar == 3 ? mouths : [],
-                                      partOfAvatar: partOfAvatar,
-                                      head: activeHead,
-                                      headColor: headColor,
-                                      hair: activeHair,
-                                      hairColor: hairColor,
-                                      secondList: true,
-                                      eyes: activeEyes,
-                                      mouth: activeMouth,
-                                      faceHair: activeFaceHair,
-                                      clothes: activeClothes,
-                                      background: activeBackground,
-                                      clothesColor: clothesColor,
-                                      accessories: activeAccessories,
-                                      eyesColor: Colors.black,
-                                      mouthColor: Colors.white,
-                                      changeActiveElement: (item) {
-                                        changeActiveElement(item, true);
-                                      },
-                                      activeElementColor: headColor,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : new Container(),
-                        partOfAvatar != 3 && partOfAvatar != 5
-                            ? new Column(
-                                children: <Widget>[
-                                  renderTitle(title3),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 15),
-                                    child: ColorChanger(
-                                        color: partOfAvatar == 0
-                                            ? bgColor
-                                            : partOfAvatar == 1
-                                                ? headColor
-                                                : partOfAvatar == 2
-                                                    ? hairColor
-                                                    : clothesColor,
-                                        onChanged: (color) {
-                                          changeColor(color);
-                                        },
-                                        palette: palette),
-                                  ),
-                                ],
-                              )
-                            : new Container(),
+                        Column(
+                          children:
+                              parts[partOfAvatar]['items'].map<Widget>((item) {
+                            return Column(
+                              children: <Widget>[
+                                renderTitle(item['title']),
+                                item['type'] == 'part'
+                                    ? Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 15, bottom: 15),
+                                        child: ListOfElements(
+                                          list: item['parts'],
+                                          partOfAvatar: partOfAvatar,
+                                          head: person['head']['element'],
+                                          headColor: person['head']['color'],
+                                          hair: person['hair']['element'],
+                                          accessories: person['accessories']
+                                              ['element'],
+                                          bgColor: person['background']
+                                              ['color'],
+                                          faceHair: person['face_hair']
+                                              ['element'],
+                                          hairColor: person['hair']['color'],
+                                          eyes: person['eyes']['element'],
+                                          mouth: person['mouth']['element'],
+                                          background: person['background']
+                                              ['element'],
+                                          clothes: person['clothes']['element'],
+                                          clothesColor: person['clothes']
+                                              ['color'],
+                                          eyesColor: Colors.black,
+                                          mouthColor: Colors.white,
+                                          secondList:
+                                              item['secondPart'] != null,
+                                          changeActiveElement: (element) {
+                                            changeActiveElement(
+                                                element,
+                                                parts[partOfAvatar]['part'],
+                                                item['secondPart'] != null);
+                                          },
+                                        ),
+                                      )
+                                    : Container(),
+                                item['type'] == 'pallet'
+                                    ? Padding(
+                                        padding: EdgeInsets.only(top: 15),
+                                        child: ColorChanger(
+                                            color: person[parts[partOfAvatar]
+                                                ['part']]['color'],
+                                            onChanged: (color) {
+                                              changeColor(color,
+                                                  parts[partOfAvatar]['part']);
+                                            },
+                                            palette: item['colors']),
+                                      )
+                                    : Container()
+                              ],
+                            );
+                          }).toList(),
+                        )
                       ]))
-                ],
-              )
-            : new CircularProgressIndicator(
-                backgroundColor: Colors.transparent,
-                valueColor:
-                    new AlwaysStoppedAnimation<Color>(hexToColor('#f44336'))));
+                ])))
+        : new CircularProgressIndicator(
+            backgroundColor: Colors.transparent,
+            valueColor:
+                new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')));
   }
 }

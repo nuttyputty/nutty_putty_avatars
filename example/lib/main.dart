@@ -23,8 +23,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var avatar;
   @override
   Widget build(BuildContext context) {
-    return Avatar();
+    return Scaffold(
+      body: ListView(
+        // mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Avatar(
+            bgColor: Colors.transparent,
+          ),
+          FlatButton(
+            onPressed: () async {
+              var a = await takeImage();
+              print(a);
+
+              setState(() {
+                avatar = a;
+              });
+            },
+            child: Text('save'),
+          ),
+          avatar != null
+              ? Image.memory(
+                  avatar,
+                  scale: 2,
+                )
+              : Container()
+        ],
+      ),
+    );
   }
 }

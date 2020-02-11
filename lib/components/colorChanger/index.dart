@@ -5,7 +5,7 @@ import "package:flutter/painting.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/widgets.dart";
 
-import '../slider.dart';
+import '../test.dart';
 
 import '../../services/hexToColor.dart';
 
@@ -13,41 +13,46 @@ class ColorChanger extends StatefulWidget {
   final color;
   final onChanged;
   final List<String> palette;
+  final activeHue;
   final initialColor;
   ColorChanger(
       {Key key,
       @required this.color,
       @required this.onChanged,
       this.palette,
+      this.activeHue,
       this.initialColor})
       : assert(color != null),
         super(key: key);
-  double get initialLightness => HSLColor.fromColor(initialColor).lightness;
 
-  double get initialHue => HSLColor.fromColor(initialColor).hue;
   @override
   _ColorChangerState createState() => new _ColorChangerState();
 }
 
 class _ColorChangerState extends State<ColorChanger>
     with TickerProviderStateMixin {
-  double sliderValue = 1.0;
-  bool initial = true;
-  var activeColor = 0;
-  var a;
-  colorButton(value, index) {
-    var active =
-        HSLColor.fromColor(widget.color).withLightness(1).withSaturation(1) ==
-            HSLColor.fromColor(value).withLightness(1).withSaturation(1);
+  var activeColor;
+  var activeHue;
+  initState() {
+    super.initState();
+    print('tyt');
+    setState(() {
+      activeHue = HSLColor.fromColor(widget.color).hue;
+    });
+    print('[ACTIVE HUE] $activeHue');
+  }
 
+  colorButton(value, index) {
+    print('[HSL] ${HSLColor.fromColor(value).hue}');
+    bool active = activeHue == HSLColor.fromColor(value).hue;
     return new SizedBox(
         width: 23,
         height: 23,
         child: FloatingActionButton(
             onPressed: () {
-              widget.onChanged(HSLColor.fromColor(value));
+              widget.onChanged(value);
               setState(() {
-                activeColor = index;
+                activeHue = HSLColor.fromColor(value).hue;
               });
             },
             mini: true,
@@ -107,23 +112,13 @@ class _ColorChangerState extends State<ColorChanger>
                   turns: new AlwaysStoppedAnimation(00 / 360),
                   child: CircleColorPicker(
                     initialColor: widget.color,
-                    initialHue: HSLColor.fromColor(widget.color).hue,
+                    initialHue: activeHue,
                     onChanged: (v) {
                       widget.onChanged(v);
                     },
-                  )
-
-                  // CircleColorPicker(
-                  //   initialColor: widget.color.toColor(),
-                  //   initialHue: widget.color.hue,
-                  //   onChanged: (val) {
-                  //     widget.onChanged(val);
-                  //     setState(() {
-                  //       a = val;
-                  //     });
-                  //   },
-                  // ),
-                  )),
+                    thumbSize: 45,
+                    
+                  ))),
         ),
       ]),
     );

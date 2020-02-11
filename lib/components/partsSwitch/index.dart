@@ -9,12 +9,12 @@ class PartsSwitch extends StatelessWidget {
   final Function changePart;
   final int activePart;
 
-  switchButton(data) {
-    var active = data['partOfAvatar'] == activePart;
+  switchButton(data, index) {
+    bool active = index == activePart;
     return new IconButton(
       padding: EdgeInsets.all(0),
       onPressed: () {
-        changePart(data['partOfAvatar']);
+        changePart(index);
       },
       color: Colors.blue,
       icon: Container(
@@ -34,8 +34,8 @@ class PartsSwitch extends StatelessWidget {
                   )
                 : null),
         padding: EdgeInsets.all(6),
-        child: renderSvgWithColor(data['image'],
-            active ? hexToColor('#C4CFDE') : data['color'], true),
+        child: renderSvgWithColor(
+            data, active ? hexToColor('#C4CFDE') : hexToColor('#8D9CB3'), true),
       ),
     );
   }
@@ -63,7 +63,9 @@ class PartsSwitch extends StatelessWidget {
         child: new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children:
-                parts.map<Widget>((item) => switchButton(item)).toList()));
+            children: parts.map<Widget>((item) {
+              int index = parts.indexOf(item);
+              return switchButton(item, index);
+            }).toList()));
   }
 }
