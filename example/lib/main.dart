@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
+import 'package:image/image.dart' as I;
+import 'dart:io';
+
+import 'dart:ui';
 
 void main() => runApp(MyApp());
 
@@ -24,6 +28,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var avatar;
+  var a = Avatar();
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   a.takeImage();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +48,16 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           FlatButton(
             onPressed: () async {
+              // print(a);
               var a = await takeImage();
-              print(a);
+              // print(a);
+              // var b = Image.memory(base64Decode(a));
+              // var c = File;
 
-              setState(() {
-                avatar = a;
-              });
+              var file = File(a);
+
+              // await file.writeAsBytes(a);
+              print(file);
             },
             child: Text('save'),
           ),
