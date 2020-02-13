@@ -24,9 +24,9 @@ takeImage() async {
   ui.Image image = await boundary.toImage(pixelRatio: 3.0);
   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
   var pngBytes = byteData.buffer.asUint8List();
-  var bs64 = base64Encode(pngBytes);
+  String bs64 = base64Encode(pngBytes);
 
-  return {'image': pngBytes, 'avatarDetails': {}};
+  return bs64;
 }
 
 class Avatar extends StatefulWidget {
@@ -239,6 +239,7 @@ class _AvatarState extends State<Avatar> {
       default:
         person[element]['element'] = item;
     }
+
     setState(() {
       person = person;
     });
