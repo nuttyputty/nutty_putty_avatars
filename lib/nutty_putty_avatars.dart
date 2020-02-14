@@ -2,6 +2,10 @@ library nutty_putty_avatars;
 
 import 'dart:convert';
 
+import 'dart:io';
+
+import 'dart:ui';
+
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -23,10 +27,14 @@ takeImage() async {
   RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject();
   ui.Image image = await boundary.toImage(pixelRatio: 3.0);
   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
   var pngBytes = byteData.buffer.asUint8List();
   String bs64 = base64Encode(pngBytes);
 
-  return bs64;
+  print(File(bs64).length());
+
+  print('[IMAGE] $image');
+  return image;
 }
 
 class Avatar extends StatefulWidget {
