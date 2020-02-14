@@ -31,10 +31,7 @@ takeImage() async {
   var pngBytes = byteData.buffer.asUint8List();
   String bs64 = base64Encode(pngBytes);
 
-  print(File(bs64).length());
-
-  print('[IMAGE] $image');
-  return image;
+  return pngBytes;
 }
 
 class Avatar extends StatefulWidget {
