@@ -49,6 +49,7 @@ class _ColorChangerState extends State<ColorChanger>
         width: 23,
         height: 23,
         child: FloatingActionButton(
+            heroTag: index,
             onPressed: () {
               widget.onChanged(value);
               setState(() {
@@ -117,7 +118,6 @@ class _ColorChangerState extends State<ColorChanger>
                       widget.onChanged(v);
                     },
                     thumbSize: 45,
-                    
                   ))),
         ),
       ]),
