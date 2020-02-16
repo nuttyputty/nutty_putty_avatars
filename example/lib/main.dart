@@ -49,15 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
           FlatButton(
             onPressed: () async {
               // print(a);
-              var a = await takeImage();
+
               // print(a);
               // var b = Image.memory(base64Decode(a));
               // var c = File;
-
-              var file = File(a);
+              print(await AvatarState.takeImage());
 
               // await file.writeAsBytes(a);
-              print(file);
             },
             child: Text('save'),
           ),

@@ -21,36 +21,40 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
-GlobalKey _globalKey = new GlobalKey();
-
-takeImage() async {
-  RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject();
-  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-  ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-  var pngBytes = byteData.buffer.asUint8List();
-  String bs64 = base64Encode(pngBytes);
-
-  return pngBytes;
-}
-
 class Avatar extends StatefulWidget {
-  Avatar({Key key, this.bgColor, this.bgImage}) : super(key: key);
+  Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
+      : super(key: key);
   final bgImage;
   final bgColor;
+  final initialAvatar;
   @override
-  _AvatarState createState() => _AvatarState();
+  AvatarState createState() => AvatarState();
 }
 
-class _AvatarState extends State<Avatar> {
+class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-  var person;
+  static GlobalKey _globalKey = new GlobalKey();
+  static var person;
 
   @override
   void initState() {
     super.initState();
     getImages();
+  }
+
+  static takeImage() async {
+    RenderRepaintBoundary boundary =
+        _globalKey.currentContext.findRenderObject();
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    var pngBytes = byteData.buffer.asUint8List();
+
+    return {
+      'parts': person,
+      'image': pngBytes,
+    };
   }
 
   getImages() async {
@@ -168,7 +172,8 @@ class _AvatarState extends State<Avatar> {
             ]
           },
         ];
-        person = initialPerson;
+        person =
+            widget.initialAvatar == null ? initialPerson : widget.initialAvatar;
       });
     } catch (err) {
       print(err);
@@ -393,6 +398,7 @@ class _AvatarState extends State<Avatar> {
             ]))
         : new CircularProgressIndicator(
             backgroundColor: Colors.transparent,
+            strokeWidth: 30,
             valueColor:
                 new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')));
   }
