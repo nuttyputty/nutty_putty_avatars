@@ -13,7 +13,7 @@ dependencies:
   flutter_hsvcolor_picker: ^0.0.1
   flutter_svg: ^0.15.0
   flutter_inapp_purchase: ^2.0.4
-  flutter_colorpicker: any
+  
   flutter_circle_color_picker: ^0.1.1
 dev_dependencies:
   flutter_test:

@@ -3,10 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_colorpicker/utils.dart';
-
-import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
-
 class CircleColorPicker extends StatefulWidget {
   const CircleColorPicker(
       {Key key,
