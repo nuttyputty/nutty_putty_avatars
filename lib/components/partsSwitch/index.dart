@@ -46,20 +46,21 @@ class PartsSwitch extends StatelessWidget {
         height: 44,
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: hexToColor('#FFFFFF').withOpacity(0.45),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Color.fromRGBO(255, 255, 255, 0.4),
-                offset: Offset(-3, -3),
-                blurRadius: 10,
-              ),
-              BoxShadow(
-                color: Color.fromRGBO(152, 176, 199, 0.25),
-                offset: Offset(3, 3),
-                blurRadius: 5,
-              ),
-            ]),
+          color: hexToColor('#FFFFFF').withOpacity(0.95),
+          borderRadius: BorderRadius.circular(10),
+          // boxShadow: <BoxShadow>[
+          //   BoxShadow(
+          //     color: Color.fromRGBO(255, 255, 255, 0.4),
+          //     offset: Offset(-3, -3),
+          //     blurRadius: 10,
+          //   ),
+          //   BoxShadow(
+          //     color: Color.fromRGBO(152, 176, 199, 0.25),
+          //     offset: Offset(3, 3),
+          //     blurRadius: 5,
+          //   ),
+          // ]
+        ),
         child: new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,

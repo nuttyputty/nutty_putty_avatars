@@ -71,28 +71,29 @@ class _ColorChangerState extends State<ColorChanger>
       height: 115,
       padding: EdgeInsets.only(left: 14, right: 14, top: 18, bottom: 20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.45, 1],
-            colors: [
-              hexToColor('#E3EDF7').withOpacity(1),
-              Color.fromRGBO(255, 255, 255, 0.7)
-            ],
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Color.fromRGBO(255, 255, 255, 0.4),
-              offset: Offset(-5, -5),
-              blurRadius: 2,
-            ),
-            BoxShadow(
-              color: Color.fromRGBO(152, 176, 199, 0.25),
-              offset: Offset(3, 3),
-              blurRadius: 10,
-            ),
-          ]),
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.45, 1],
+          colors: [
+            hexToColor('#E3EDF7').withOpacity(1),
+            Color.fromRGBO(255, 255, 255, 0.7)
+          ],
+        ),
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //     color: Color.fromRGBO(255, 255, 255, 0.4),
+        //     offset: Offset(-5, -5),
+        //     blurRadius: 2,
+        //   ),
+        //   BoxShadow(
+        //     color: Color.fromRGBO(152, 176, 199, 0.25),
+        //     offset: Offset(3, 3),
+        //     blurRadius: 10,
+        //   ),
+        // ]
+      ),
       child: new Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
         new Padding(
           padding: EdgeInsets.only(left: 12, right: 12),

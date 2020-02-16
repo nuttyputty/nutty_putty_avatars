@@ -289,14 +289,15 @@ class _AvatarState extends State<Avatar> {
                       width: 142,
                       height: 142,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(38),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [0.45, 1],
-                            colors: gradient,
-                          ),
-                          boxShadow: shadow),
+                        borderRadius: BorderRadius.circular(38),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.45, 1],
+                          colors: gradient,
+                        ),
+                        // boxShadow: shadow
+                      ),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(

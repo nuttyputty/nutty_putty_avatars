@@ -62,18 +62,18 @@ class ListOfElements extends StatelessWidget {
             Color.fromRGBO(255, 255, 255, 0.7)
           ],
         ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Color.fromRGBO(255, 255, 255, 0.5),
-            offset: Offset(-3, -3),
-            blurRadius: 2,
-          ),
-          BoxShadow(
-            color: Color.fromRGBO(152, 176, 199, 0.3),
-            offset: Offset(3, 3),
-            blurRadius: 10,
-          ),
-        ],
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //     color: Color.fromRGBO(255, 255, 255, 0.5),
+        //     offset: Offset(-3, -3),
+        //     blurRadius: 2,
+        //   ),
+        //   BoxShadow(
+        //     color: Color.fromRGBO(152, 176, 199, 0.3),
+        //     offset: Offset(3, 3),
+        //     blurRadius: 10,
+        //   ),
+        // ],
       ),
       child: new ListView(
         shrinkWrap: true,
