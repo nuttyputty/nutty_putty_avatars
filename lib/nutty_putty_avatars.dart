@@ -34,13 +34,12 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-  static GlobalKey _globalKey;
+  static GlobalKey _globalKey = new GlobalKey();
   static var person;
 
   @override
   void initState() {
     super.initState();
-    _globalKey = new GlobalKey();
     getImages();
   }
 
@@ -272,24 +271,24 @@ class AvatarState extends State<Avatar> {
               new Container(
                   padding: EdgeInsets.only(left: 14, right: 14),
                   child: new Column(children: <Widget>[
-                    height > 767
-                        ? Padding(
-                            padding: EdgeInsets.only(top: 60, bottom: 28),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: new Text(
-                                'AVATAR\nSETTINGS',
-                                style: TextStyle(
-                                  color: hexToColor('#31456A'),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            height: 40,
-                          ),
+                    // height > 767
+                    //     ? Padding(
+                    //         padding: EdgeInsets.only(top: 60, bottom: 28),
+                    //         child: Align(
+                    //           alignment: Alignment.centerLeft,
+                    //           child: new Text(
+                    //             'AVATAR\nSETTINGS',
+                    //             style: TextStyle(
+                    //               color: hexToColor('#31456A'),
+                    //               fontSize: 24,
+                    //               fontWeight: FontWeight.w900,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     : Container(
+                    //         height: 40,
+                    //       ),
                     Container(
                       alignment: Alignment.center,
                       width: 142,
