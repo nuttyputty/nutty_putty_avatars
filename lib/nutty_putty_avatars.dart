@@ -34,12 +34,13 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-  static GlobalKey _globalKey = new GlobalKey();
+  static GlobalKey _globalKey;
   static var person;
 
   @override
   void initState() {
     super.initState();
+    _globalKey = new GlobalKey();
     getImages();
   }
 
