@@ -47,16 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bgColor: Colors.transparent,
           ),
           FlatButton(
-            onPressed: () async {
-              // print(a);
-
-              // print(a);
-              // var b = Image.memory(base64Decode(a));
-              // var c = File;
-              print(await AvatarState.takeImage());
-
-              // await file.writeAsBytes(a);
-            },
+            onPressed: () async {},
             child: Text('save'),
           ),
           avatar != null

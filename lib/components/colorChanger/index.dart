@@ -35,15 +35,12 @@ class _ColorChangerState extends State<ColorChanger>
   var activeHue;
   initState() {
     super.initState();
-    print('tyt');
     setState(() {
       activeHue = HSLColor.fromColor(widget.color).hue;
     });
-    print('[ACTIVE HUE] $activeHue');
   }
 
   colorButton(value, index) {
-    print('[HSL] ${HSLColor.fromColor(value).hue}');
     bool active = activeHue == HSLColor.fromColor(value).hue;
     return new SizedBox(
         width: 23,

@@ -73,28 +73,28 @@ class AvatarState extends State<Avatar> {
 
       var initialPerson = {
         'background': {
-          'color': hexToColor(bgPalette[0]),
+          'color': hexToColor(bgPalette[5]),
           'element': decodeResponse['backgrounds'][0]
         },
         'head': {
-          'color': hexToColor(headPalette[0]),
+          'color': hexToColor(headPalette[1]),
           'element': decodeResponse['heads'][0]
         },
         'hair': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['hairs'][0]
+          'element': decodeResponse['hairs'].last
         },
-        'eyes': {'element': decodeResponse['eyes'][0]},
-        'mouth': {'element': decodeResponse['mouths'][0]},
+        'eyes': {'element': decodeResponse['eyes'][1]},
+        'mouth': {'element': decodeResponse['mouths'][1]},
         'face_hair': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['face_hairs'][0]
+          'element': decodeResponse['face_hairs'].last
         },
         'clothes': {
           'color': hexToColor(clothPalette[0]),
           'element': decodeResponse['clothes'][0]
         },
-        'accessories': {'element': decodeResponse['accessories'][0]}
+        'accessories': {'element': decodeResponse['accessories'].last}
       };
 
       setState(() {
@@ -183,7 +183,6 @@ class AvatarState extends State<Avatar> {
         person =
             widget.initialAvatar == null ? initialPerson : widget.initialAvatar;
       });
-      print('[PARTS] ${decodeResponse['hairs']}');
     } catch (err) {
       print(err);
     }

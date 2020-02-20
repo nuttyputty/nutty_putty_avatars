@@ -9,8 +9,6 @@ getRequest(String path, [s3]) async {
     "Content-Type": "application/json",
   });
 
-  print('[CODE] ${response.statusCode}');
-
   if (response.statusCode < 200 || response.statusCode > 400 || json == null) {
     throw new Exception("Error while fetching data");
   }
