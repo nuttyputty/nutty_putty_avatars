@@ -35,6 +35,7 @@ class Person extends StatelessWidget {
   final clothesColor;
 
   Widget build(BuildContext context) {
+    print(hair['long_hair_image']);
     return Stack(
       children: <Widget>[
         renderSvgWithColor(background['image'], bgColor),

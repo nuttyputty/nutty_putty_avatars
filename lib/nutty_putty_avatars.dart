@@ -43,18 +43,21 @@ class AvatarState extends State<Avatar> {
     getImages();
   }
 
-  static takeImage() async {
-    RenderRepaintBoundary boundary =
-        _globalKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  static takeImage() {
+    Future.delayed(Duration(milliseconds: 20), () async {
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
 
-    var pngBytes = byteData.buffer.asUint8List();
+      var pngBytes = byteData.buffer.asUint8List();
 
-    return {
-      'parts': person,
-      'image': pngBytes,
-    };
+      return {
+        'parts': person,
+        'image': pngBytes,
+      };
+    });
   }
 
   getImages() async {
@@ -175,6 +178,7 @@ class AvatarState extends State<Avatar> {
         person =
             widget.initialAvatar == null ? initialPerson : widget.initialAvatar;
       });
+      print('[PARTS] ${decodeResponse['hairs']}');
     } catch (err) {
       print(err);
     }
@@ -271,24 +275,6 @@ class AvatarState extends State<Avatar> {
               new Container(
                   padding: EdgeInsets.only(left: 14, right: 14),
                   child: new Column(children: <Widget>[
-                    // height > 767
-                    //     ? Padding(
-                    //         padding: EdgeInsets.only(top: 60, bottom: 28),
-                    //         child: Align(
-                    //           alignment: Alignment.centerLeft,
-                    //           child: new Text(
-                    //             'AVATAR\nSETTINGS',
-                    //             style: TextStyle(
-                    //               color: hexToColor('#31456A'),
-                    //               fontSize: 24,
-                    //               fontWeight: FontWeight.w900,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : Container(
-                    //         height: 40,
-                    //       ),
                     Container(
                       alignment: Alignment.center,
                       width: 142,
