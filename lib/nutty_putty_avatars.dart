@@ -47,6 +47,7 @@ class AvatarState extends State<Avatar> {
     Future.delayed(Duration(milliseconds: 20), () async {
       RenderRepaintBoundary boundary =
           _globalKey.currentContext.findRenderObject();
+
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
@@ -58,6 +59,10 @@ class AvatarState extends State<Avatar> {
         'image': pngBytes,
       };
     });
+  }
+
+  static getParts() {
+    return person;
   }
 
   getImages() async {
