@@ -44,6 +44,8 @@ class AvatarState extends State<Avatar> {
   }
 
   static takeImage() async {
+    print('TTTTTTTTT');
+    print(_globalKey);
     RenderRepaintBoundary boundary =
         _globalKey.currentContext.findRenderObject();
     print(boundary);
