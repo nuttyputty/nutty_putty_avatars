@@ -47,22 +47,27 @@ class AvatarState extends State<Avatar> {
   }
 
   static takeImage() async {
-    try {} catch (e) {}
-    RenderRepaintBoundary boundary;
-    var pngBytes;
-    // Future.delayed(Duration(milliseconds: 200), () async {
-    boundary = _globalKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    try {
+      if (_globalKey.currentContext == null) {
+        _globalKey = new GlobalKey<NavigatorState>();
+      }
 
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
 
-    pngBytes = byteData.buffer.asUint8List();
-    // });
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
 
-    return {
-      'parts': person,
-      'image': pngBytes,
-    };
+      var pngBytes = byteData.buffer.asUint8List();
+
+      return {
+        'parts': person,
+        'image': pngBytes,
+      };
+    } catch (e) {
+      print('[TAKE IMAGE] $e');
+    }
   }
 
   static getParts() {
