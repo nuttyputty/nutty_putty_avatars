@@ -304,7 +304,7 @@ class AvatarState extends State<Avatar> {
                         child: Transform.scale(
                           scale: 2,
                           child: Screenshot(
-                            controller: widget.controller,
+                            controller: screenshotController,
                             child: Person(
                               head: person['head']['element'],
                               headColor: person['head']['color'],
