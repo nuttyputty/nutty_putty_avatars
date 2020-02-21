@@ -21,6 +21,8 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
+GlobalKey<NavigatorState> _globalKey;
+
 class Avatar extends StatefulWidget {
   Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
       : super(key: key);
@@ -34,12 +36,13 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-  static GlobalKey _globalKey = new GlobalKey();
+  // static GlobalKey _globalKey = new GlobalKey();
   static var person;
 
   @override
   void initState() {
     super.initState();
+    _globalKey = new GlobalKey<NavigatorState>();
     getImages();
   }
 
