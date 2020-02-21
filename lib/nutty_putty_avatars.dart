@@ -48,6 +48,8 @@ class AvatarState extends State<Avatar> {
 
   static takeImage() async {
     try {
+      print('[GLOBAL KEY] $_globalKey');
+      print('[CURRENT CONTEX] ${_globalKey.currentContext}');
       if (_globalKey.currentContext == null) {
         _globalKey = new GlobalKey<NavigatorState>();
       }
