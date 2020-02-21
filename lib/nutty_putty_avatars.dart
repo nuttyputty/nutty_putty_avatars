@@ -3,7 +3,7 @@ library nutty_putty_avatars;
 import 'dart:convert';
 
 import 'dart:io';
-import 'package:screenshot/screenshot.dart';
+
 import 'dart:ui';
 
 import 'dart:typed_data';
@@ -21,24 +21,19 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
-ScreenshotController screenshotController = ScreenshotController();
-
+GlobalKey _globalKey = new GlobalKey();
 takeImage() async {
-  try {
-    var a = await screenshotController.capture().then((File image) async {
-      print("File Saved to Gallery");
-      print(image);
-
-      return image;
-    }).catchError((onError) {
-      print(onError);
-    });
-    return {
-      'image': a,
-    };
-  } catch (e) {
-    print('CATCH $e');
-  }
+  RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject();
+  print(boundary);
+  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+  print(image);
+  ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  print(byteData);
+  var pngBytes = byteData.buffer.asUint8List();
+  print(pngBytes);
+  return {
+    'image': pngBytes,
+  };
 }
 
 class Avatar extends StatefulWidget {
@@ -303,8 +298,8 @@ class AvatarState extends State<Avatar> {
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(
                           scale: 2,
-                          child: Screenshot(
-                            controller: screenshotController,
+                          child: RepaintBoundary(
+                            key: _globalKey,
                             child: Person(
                               head: person['head']['element'],
                               headColor: person['head']['color'],
