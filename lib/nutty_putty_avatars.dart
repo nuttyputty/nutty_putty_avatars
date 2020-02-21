@@ -50,12 +50,11 @@ class AvatarState extends State<Avatar> {
     try {
       print('[GLOBAL KEY] $_globalKey');
       print('[CURRENT CONTEX] ${_globalKey.currentContext}');
-      if (_globalKey.currentContext == null) {
-        _globalKey = cont;
-      }
+      // if (_globalKey.currentContext == null) {
+      //   _globalKey = cont;
+      // }
 
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject();
+      RenderRepaintBoundary boundary = cont.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
 
       ByteData byteData =
