@@ -21,8 +21,6 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
-GlobalKey<NavigatorState> _globalKey;
-
 class Avatar extends StatefulWidget {
   Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
       : super(key: key);
@@ -36,13 +34,14 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-  // static GlobalKey _globalKey = new GlobalKey();
+  static GlobalKey _globalKey = new GlobalKey();
   static var person;
   static var cont;
   @override
   void initState() {
     super.initState();
     _globalKey = new GlobalKey<NavigatorState>();
+    print('[GLOBAL KEY] ${_globalKey.currentContext}');
     getImages();
   }
 
@@ -50,11 +49,9 @@ class AvatarState extends State<Avatar> {
     try {
       print('[GLOBAL KEY] $_globalKey');
       print('[CURRENT CONTEX] ${_globalKey.currentContext}');
-      // if (_globalKey.currentContext == null) {
-      //   _globalKey = cont;
-      // }
 
-      RenderRepaintBoundary boundary = cont.findRenderObject();
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
 
       ByteData byteData =
@@ -275,11 +272,7 @@ class AvatarState extends State<Avatar> {
 
   @override
   Widget build(BuildContext context) {
-    if (cont == null) {
-      setState(() {
-        cont = context;
-      });
-    }
+    print(_globalKey.currentContext);
     final double height = MediaQuery.of(context).size.height;
     return parts != null
         ? Container(
