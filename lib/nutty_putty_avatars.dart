@@ -21,22 +21,8 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
-GlobalKey _globalKey = new GlobalKey();
-takeImage() async {
-  RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject();
-  print(boundary);
-  ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-  print(image);
-  ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  print(byteData);
-  var pngBytes = byteData.buffer.asUint8List();
-  print(pngBytes);
-  return {
-    'image': pngBytes,
-  };
-}
-
 class Avatar extends StatefulWidget {
+  static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
       : super(key: key);
   final bgImage;
@@ -64,6 +50,21 @@ class AvatarState extends State<Avatar> {
 
   static getParts() {
     return person;
+  }
+
+  static takeImage() async {
+    RenderRepaintBoundary boundary =
+        Avatar._globalKey.currentContext.findRenderObject();
+
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    var pngBytes = byteData.buffer.asUint8List();
+
+    return {
+      'image': pngBytes,
+    };
   }
 
   getImages() async {
@@ -299,7 +300,7 @@ class AvatarState extends State<Avatar> {
                         child: Transform.scale(
                           scale: 2,
                           child: RepaintBoundary(
-                            key: _globalKey,
+                            key: Avatar._globalKey,
                             child: Person(
                               head: person['head']['element'],
                               headColor: person['head']['color'],

@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           FlatButton(
             onPressed: () async {
-              var a = await takeImage();
+              var a = await AvatarState.takeImage();
 
               var v = a['image'];
               setState(() {
