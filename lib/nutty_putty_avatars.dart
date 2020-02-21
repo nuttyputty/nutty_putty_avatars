@@ -21,12 +21,34 @@ import './components/partsSwitch/index.dart';
 import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
+ScreenshotController screenshotController = ScreenshotController();
+
+takeImage() async {
+  try {
+    var a = await screenshotController.capture().then((File image) async {
+      print("File Saved to Gallery");
+      print(image);
+
+      return image;
+    }).catchError((onError) {
+      print(onError);
+    });
+    return {
+      'image': a,
+    };
+  } catch (e) {
+    print('CATCH $e');
+  }
+}
+
 class Avatar extends StatefulWidget {
   Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
       : super(key: key);
   final bgImage;
   final bgColor;
+
   final initialAvatar;
+
   @override
   AvatarState createState() => AvatarState();
 }
@@ -35,7 +57,6 @@ class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
 
-  static ScreenshotController screenshotController = ScreenshotController();
   static var person;
   static var cont;
   var i;
@@ -44,25 +65,6 @@ class AvatarState extends State<Avatar> {
     super.initState();
 
     getImages();
-  }
-
-  static takeImage() async {
-    try {
-      var a = await screenshotController.capture().then((File image) async {
-        print("File Saved to Gallery");
-        print(image);
-
-        return image;
-      }).catchError((onError) {
-        print(onError);
-      });
-      return {
-        'parts': person,
-        'image': a,
-      };
-    } catch (e) {
-      print('CATCH $e');
-    }
   }
 
   static getParts() {
@@ -302,7 +304,7 @@ class AvatarState extends State<Avatar> {
                         child: Transform.scale(
                           scale: 2,
                           child: Screenshot(
-                            controller: screenshotController,
+                            controller: widget.controller,
                             child: Person(
                               head: person['head']['element'],
                               headColor: person['head']['color'],
