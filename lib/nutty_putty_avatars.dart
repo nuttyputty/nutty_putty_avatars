@@ -43,22 +43,19 @@ class AvatarState extends State<Avatar> {
     getImages();
   }
 
-  static takeImage() {
-    Future.delayed(Duration(milliseconds: 20), () async {
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject();
+  static takeImage() async {
+    RenderRepaintBoundary boundary =
+        _globalKey.currentContext.findRenderObject();
 
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
-      var pngBytes = byteData.buffer.asUint8List();
+    var pngBytes = byteData.buffer.asUint8List();
 
-      return {
-        'parts': person,
-        'image': pngBytes,
-      };
-    });
+    return {
+      'parts': person,
+      'image': pngBytes,
+    };
   }
 
   static getParts() {
