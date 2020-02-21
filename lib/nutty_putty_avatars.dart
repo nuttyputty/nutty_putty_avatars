@@ -3,7 +3,7 @@ library nutty_putty_avatars;
 import 'dart:convert';
 
 import 'dart:io';
-
+import 'package:screenshot/screenshot.dart';
 import 'dart:ui';
 
 import 'dart:typed_data';
@@ -35,8 +35,10 @@ class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
   static GlobalKey _globalKey = new GlobalKey();
+  static ScreenshotController screenshotController = ScreenshotController();
   static var person;
   static var cont;
+  var i;
   @override
   void initState() {
     super.initState();
@@ -47,25 +49,43 @@ class AvatarState extends State<Avatar> {
 
   static takeImage() async {
     try {
-      print('[GLOBAL KEY] $_globalKey');
-      print('[CURRENT CONTEX] ${_globalKey.currentContext}');
+      var a = await screenshotController.capture().then((File image) async {
+        //print("Capture Done");
+        print("File Saved to Gallery");
+        print(image);
+        // final result =
+        //     await ImageGallerySaver.save(image.readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
 
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-
-      ByteData byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-
-      var pngBytes = byteData.buffer.asUint8List();
-
+        return image;
+      }).catchError((onError) {
+        print(onError);
+      });
+      print("[AAAAAAA] $a");
       return {
         'parts': person,
-        'image': pngBytes,
+        'image': a,
       };
-    } catch (e) {
-      print('[TAKE IMAGE] $e');
-    }
+    } catch (e) {}
+
+    //   print('[GLOBAL KEY] $_globalKey');
+    //   print('[CURRENT CONTEX] ${_globalKey.currentContext}');
+
+    //   RenderRepaintBoundary boundary =
+    //       _globalKey.currentContext.findRenderObject();
+    //   ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+
+    //   ByteData byteData =
+    //       await image.toByteData(format: ui.ImageByteFormat.png);
+
+    //   var pngBytes = byteData.buffer.asUint8List();
+
+    //   return {
+    //     'parts': person,
+    //     'image': pngBytes,
+    //   };
+    // } catch (e) {
+    //   print('[TAKE IMAGE] $e');
+    // }
   }
 
   static getParts() {
@@ -304,25 +324,46 @@ class AvatarState extends State<Avatar> {
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(
-                            scale: 2,
-                            child: RepaintBoundary(
-                                key: _globalKey,
-                                child: Person(
-                                  head: person['head']['element'],
-                                  headColor: person['head']['color'],
-                                  hair: person['hair']['element'],
-                                  accessories: person['accessories']['element'],
-                                  faceHair: person['face_hair']['element'],
-                                  hairColor: person['hair']['color'],
-                                  eyes: person['eyes']['element'],
-                                  mouth: person['mouth']['element'],
-                                  background: person['background']['element'],
-                                  clothes: person['clothes']['element'],
-                                  bgColor: person['background']['color'],
-                                  clothesColor: person['clothes']['color'],
-                                  eyesColor: Colors.black,
-                                  mouthColor: Colors.white,
-                                ))),
+                          scale: 2,
+                          child: Screenshot(
+                            controller: screenshotController,
+                            child: Person(
+                              head: person['head']['element'],
+                              headColor: person['head']['color'],
+                              hair: person['hair']['element'],
+                              accessories: person['accessories']['element'],
+                              faceHair: person['face_hair']['element'],
+                              hairColor: person['hair']['color'],
+                              eyes: person['eyes']['element'],
+                              mouth: person['mouth']['element'],
+                              background: person['background']['element'],
+                              clothes: person['clothes']['element'],
+                              bgColor: person['background']['color'],
+                              clothesColor: person['clothes']['color'],
+                              eyesColor: Colors.black,
+                              mouthColor: Colors.white,
+                            ),
+                          ),
+
+                          // RepaintBoundary(
+                          //     key: _globalKey,
+                          //     child: Person(
+                          //       head: person['head']['element'],
+                          //       headColor: person['head']['color'],
+                          //       hair: person['hair']['element'],
+                          //       accessories: person['accessories']['element'],
+                          //       faceHair: person['face_hair']['element'],
+                          //       hairColor: person['hair']['color'],
+                          //       eyes: person['eyes']['element'],
+                          //       mouth: person['mouth']['element'],
+                          //       background: person['background']['element'],
+                          //       clothes: person['clothes']['element'],
+                          //       bgColor: person['background']['color'],
+                          //       clothesColor: person['clothes']['color'],
+                          //       eyesColor: Colors.black,
+                          //       mouthColor: Colors.white,
+                          //     ))
+                        ),
                       ),
                     ),
                     Padding(

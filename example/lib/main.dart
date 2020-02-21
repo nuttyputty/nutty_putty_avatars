@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //   super.initState();
   //   a.takeImage();
   // }
-
+  var c;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +49,17 @@ class _MyHomePageState extends State<MyHomePage> {
           FlatButton(
             onPressed: () async {
               var a = await AvatarState.takeImage();
+              // print(a[]);
+              var v = a['image'];
+              setState(() {
+                c = v;
+              });
             },
             child: Text('save'),
           ),
-          avatar != null
-              ? Image.memory(
-                  avatar,
+          c != null
+              ? Image.file(
+                  c,
                   scale: 2,
                 )
               : Container()
