@@ -38,7 +38,7 @@ class AvatarState extends State<Avatar> {
   int partOfAvatar = 0;
   // static GlobalKey _globalKey = new GlobalKey();
   static var person;
-
+  static var cont;
   @override
   void initState() {
     super.initState();
@@ -51,7 +51,7 @@ class AvatarState extends State<Avatar> {
       print('[GLOBAL KEY] $_globalKey');
       print('[CURRENT CONTEX] ${_globalKey.currentContext}');
       if (_globalKey.currentContext == null) {
-        _globalKey = new GlobalKey<NavigatorState>();
+        _globalKey = cont;
       }
 
       RenderRepaintBoundary boundary =
@@ -276,6 +276,11 @@ class AvatarState extends State<Avatar> {
 
   @override
   Widget build(BuildContext context) {
+    if (cont == null) {
+      setState(() {
+        cont = context;
+      });
+    }
     final double height = MediaQuery.of(context).size.height;
     return parts != null
         ? Container(
