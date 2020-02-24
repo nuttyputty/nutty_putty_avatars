@@ -32,9 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        // mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+      body: new ListView(
+                    physics: ClampingScrollPhysics(),
+                    children: <Widget>[
           Avatar(
             bgColor: Colors.transparent,
           ),
