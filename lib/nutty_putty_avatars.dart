@@ -22,7 +22,6 @@ import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
 class Avatar extends StatefulWidget {
-  static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
       : super(key: key);
   final bgImage;
@@ -37,7 +36,7 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-
+  static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   static var person;
   static var cont;
   var i;
@@ -52,19 +51,24 @@ class AvatarState extends State<Avatar> {
     return person;
   }
 
-  static takeImage() async {
-    RenderRepaintBoundary boundary =
-        Avatar._globalKey.currentContext.findRenderObject();
+  static takeImage() {
+    var a = Future.delayed(Duration(milliseconds: 20), () async {
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
 
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
 
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      var pngBytes = byteData.buffer.asUint8List();
 
-    var pngBytes = byteData.buffer.asUint8List();
-
-    return {
-      'image': pngBytes,
-    };
+      return {
+        'parts': person,
+        'image': pngBytes,
+      };
+    });
+    print(a);
+    return a;
   }
 
   getImages() async {
@@ -300,7 +304,7 @@ class AvatarState extends State<Avatar> {
                         child: Transform.scale(
                           scale: 2,
                           child: RepaintBoundary(
-                            key: Avatar._globalKey,
+                            key: _globalKey,
                             child: Person(
                               head: person['head']['element'],
                               headColor: person['head']['color'],
