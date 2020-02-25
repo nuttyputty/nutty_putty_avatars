@@ -310,7 +310,8 @@ class AvatarState extends State<Avatar> {
                                 ? [widget.elementsColor, widget.elementsColor]
                                 : gradient,
                           ),
-                          boxShadow: shadow),
+                          boxShadow:
+                              widget.elementsColor != null ? null : shadow),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(
