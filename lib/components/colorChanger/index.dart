@@ -15,11 +15,13 @@ class ColorChanger extends StatefulWidget {
   final List<String> palette;
   final activeHue;
   final initialColor;
+  final bg;
   ColorChanger(
       {Key key,
       @required this.color,
       @required this.onChanged,
       this.palette,
+      this.bg,
       this.activeHue,
       this.initialColor})
       : assert(color != null),
@@ -73,10 +75,12 @@ class _ColorChangerState extends State<ColorChanger>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           stops: [0.45, 1],
-          colors: [
-            hexToColor('#E3EDF7').withOpacity(1),
-            Color.fromRGBO(255, 255, 255, 0.7)
-          ],
+          colors: widget.bg != null
+              ? [widget.bg, widget.bg]
+              : [
+                  hexToColor('#E3EDF7').withOpacity(1),
+                  Color.fromRGBO(255, 255, 255, 0.7)
+                ],
         ),
         // boxShadow: <BoxShadow>[
         //   BoxShadow(

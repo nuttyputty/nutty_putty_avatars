@@ -22,13 +22,20 @@ import './services/hexToColor.dart';
 import './services/httpRequests.dart';
 
 class Avatar extends StatefulWidget {
-  Avatar({Key key, this.bgColor, this.bgImage, this.initialAvatar})
+  Avatar(
+      {Key key,
+      this.elementsColor,
+      this.bgColor,
+      this.partBorderColor,
+      this.bgImage,
+      this.initialAvatar})
       : super(key: key);
   final bgImage;
   final bgColor;
+  final elementsColor;
   static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   final initialAvatar;
-
+  final partBorderColor;
   @override
   AvatarState createState() => AvatarState();
 }
@@ -71,7 +78,7 @@ class AvatarState extends State<Avatar> {
   getImages() async {
     try {
       var response = await getRequest('/images');
-
+      print('[RESPONSE] $response');
       var decodeResponse = jsonDecode(response);
 
       var initialPerson = {
@@ -266,6 +273,13 @@ class AvatarState extends State<Avatar> {
     });
   }
 
+  var a = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [0.45, 1],
+    colors: [hexToColor('#2A2A2A'), hexToColor('#2A2A2A')],
+  );
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -287,15 +301,16 @@ class AvatarState extends State<Avatar> {
                       width: 142,
                       height: 142,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(38),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          stops: [0.45, 1],
-                          colors: gradient,
-                        ),
-                        // boxShadow: shadow
-                      ),
+                          borderRadius: BorderRadius.circular(38),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.45, 1],
+                            colors: widget.elementsColor != null
+                                ? [widget.elementsColor, widget.elementsColor]
+                                : gradient,
+                          ),
+                          boxShadow: shadow),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(
@@ -327,10 +342,11 @@ class AvatarState extends State<Avatar> {
                           top: height > 667 ? 32 : 25,
                           bottom: height > 667 ? 20 : 15),
                       child: PartsSwitch(
-                        changePart: changePartOfAvatar,
-                        parts: partsOfAvatarList,
-                        activePart: partOfAvatar,
-                      ),
+                          changePart: changePartOfAvatar,
+                          parts: partsOfAvatarList,
+                          partBorder: widget.partBorderColor,
+                          activePart: partOfAvatar,
+                          color: widget.elementsColor),
                     ),
                     Column(
                       children:
@@ -343,38 +359,41 @@ class AvatarState extends State<Avatar> {
                                     padding:
                                         EdgeInsets.only(top: 15, bottom: 15),
                                     child: ListOfElements(
-                                      list: item['parts'],
-                                      partOfAvatar: partOfAvatar,
-                                      head: person['head']['element'],
-                                      headColor: person['head']['color'],
-                                      hair: person['hair']['element'],
-                                      accessories: person['accessories']
-                                          ['element'],
-                                      bgColor: person['background']['color'],
-                                      faceHair: person['face_hair']['element'],
-                                      hairColor: person['hair']['color'],
-                                      eyes: person['eyes']['element'],
-                                      mouth: person['mouth']['element'],
-                                      background: person['background']
-                                          ['element'],
-                                      clothes: person['clothes']['element'],
-                                      clothesColor: person['clothes']['color'],
-                                      eyesColor: Colors.black,
-                                      mouthColor: Colors.white,
-                                      secondList: item['secondPart'] != null,
-                                      changeActiveElement: (element) {
-                                        changeActiveElement(
-                                            element,
-                                            parts[partOfAvatar]['part'],
-                                            item['secondPart'] != null);
-                                      },
-                                    ),
+                                        list: item['parts'],
+                                        partOfAvatar: partOfAvatar,
+                                        head: person['head']['element'],
+                                        headColor: person['head']['color'],
+                                        hair: person['hair']['element'],
+                                        accessories: person['accessories']
+                                            ['element'],
+                                        bgColor: person['background']['color'],
+                                        faceHair: person['face_hair']
+                                            ['element'],
+                                        hairColor: person['hair']['color'],
+                                        eyes: person['eyes']['element'],
+                                        mouth: person['mouth']['element'],
+                                        background: person['background']
+                                            ['element'],
+                                        clothes: person['clothes']['element'],
+                                        clothesColor: person['clothes']
+                                            ['color'],
+                                        eyesColor: Colors.black,
+                                        mouthColor: Colors.white,
+                                        secondList: item['secondPart'] != null,
+                                        changeActiveElement: (element) {
+                                          changeActiveElement(
+                                              element,
+                                              parts[partOfAvatar]['part'],
+                                              item['secondPart'] != null);
+                                        },
+                                        color: widget.elementsColor),
                                   )
                                 : Container(),
                             item['type'] == 'pallet'
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 15),
                                     child: ColorChanger(
+                                        bg: widget.elementsColor,
                                         color:
                                             person[parts[partOfAvatar]['part']]
                                                 ['color'],

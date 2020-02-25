@@ -4,10 +4,17 @@ import 'package:nutty_putty_avatars/services/hexToColor.dart';
 import 'package:nutty_putty_avatars/services/renderSvg.dart';
 
 class PartsSwitch extends StatelessWidget {
-  PartsSwitch({@required this.changePart, this.activePart, this.parts});
+  PartsSwitch(
+      {@required this.changePart,
+      this.partBorder,
+      this.activePart,
+      this.parts,
+      this.color});
   final List parts;
+  final partBorder;
   final Function changePart;
   final int activePart;
+  final color;
 
   switchButton(data, index) {
     bool active = index == activePart;
@@ -22,7 +29,10 @@ class PartsSwitch extends StatelessWidget {
         width: 36,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            gradient: active
+            border: partBorder != null && active
+                ? Border.all(color: partBorder, width: 1)
+                : null,
+            gradient: active && partBorder == null
                 ? LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -46,7 +56,8 @@ class PartsSwitch extends StatelessWidget {
         height: 44,
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
-          color: hexToColor('#FFFFFF').withOpacity(0.95),
+          color:
+              color != null ? color : hexToColor('#FFFFFF').withOpacity(0.95),
           borderRadius: BorderRadius.circular(10),
           // boxShadow: <BoxShadow>[
           //   BoxShadow(

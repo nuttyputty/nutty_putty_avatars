@@ -7,25 +7,27 @@ import '../../services/shadow.dart';
 import '../../services/hexToColor.dart';
 
 class ListOfElements extends StatelessWidget {
-  ListOfElements(
-      {@required this.list,
-      @required this.partOfAvatar,
-      @required this.changeActiveElement,
-      @required this.head,
-      @required this.hair,
-      @required this.secondList,
-      @required this.eyes,
-      @required this.mouth,
-      @required this.faceHair,
-      @required this.clothes,
-      @required this.accessories,
-      @required this.headColor,
-      @required this.background,
-      @required this.bgColor,
-      @required this.hairColor,
-      @required this.eyesColor,
-      @required this.mouthColor,
-      @required this.clothesColor});
+  ListOfElements({
+    @required this.list,
+    @required this.partOfAvatar,
+    @required this.changeActiveElement,
+    @required this.head,
+    @required this.hair,
+    @required this.secondList,
+    @required this.eyes,
+    @required this.mouth,
+    @required this.faceHair,
+    @required this.clothes,
+    @required this.accessories,
+    @required this.headColor,
+    @required this.background,
+    @required this.bgColor,
+    @required this.hairColor,
+    @required this.eyesColor,
+    @required this.mouthColor,
+    @required this.clothesColor,
+    this.color,
+  });
   final List list;
   final int partOfAvatar;
   final Function changeActiveElement;
@@ -44,7 +46,7 @@ class ListOfElements extends StatelessWidget {
   final eyesColor;
   final mouthColor;
   final clothesColor;
-
+  final color;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -57,10 +59,12 @@ class ListOfElements extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           stops: [0.45, 1],
-          colors: [
-            hexToColor('#E3EDF7').withOpacity(1),
-            Color.fromRGBO(255, 255, 255, 0.7)
-          ],
+          colors: color != null
+              ? [color, color]
+              : [
+                  hexToColor('#E3EDF7').withOpacity(1),
+                  Color.fromRGBO(255, 255, 255, 0.7)
+                ],
         ),
         // boxShadow: <BoxShadow>[
         //   BoxShadow(
