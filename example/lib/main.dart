@@ -3,6 +3,8 @@ import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 
 import 'dart:ui';
 
+import 'package:nutty_putty_avatars/services/hexToColor.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -33,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: new ListView(
-                    physics: ClampingScrollPhysics(),
-                    children: <Widget>[
+        physics: ClampingScrollPhysics(),
+        children: <Widget>[
           Avatar(
             bgColor: Colors.transparent,
           ),
