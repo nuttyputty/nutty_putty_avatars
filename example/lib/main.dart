@@ -39,6 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Avatar(
             bgColor: Colors.transparent,
+            // avatarBg: AssetImage(
+            //   'assets/Star.png',
+            // ),
           ),
           FlatButton(
             onPressed: () async {

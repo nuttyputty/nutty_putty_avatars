@@ -28,11 +28,13 @@ class Avatar extends StatefulWidget {
       this.bgColor,
       this.partBorderColor,
       this.bgImage,
+      this.avatarBg,
       this.initialAvatar})
       : super(key: key);
   final bgImage;
   final bgColor;
   final elementsColor;
+  final avatarBg;
   static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   final initialAvatar;
   final partBorderColor;
@@ -302,16 +304,27 @@ class AvatarState extends State<Avatar> {
                       height: 142,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(38),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [0.45, 1],
-                            colors: widget.elementsColor != null
-                                ? [widget.elementsColor, widget.elementsColor]
-                                : gradient,
-                          ),
-                          boxShadow:
-                              widget.elementsColor != null ? null : shadow),
+                          image: widget.avatarBg != null
+                              ? DecorationImage(
+                                  image: widget.avatarBg, fit: BoxFit.contain)
+                              : null,
+                          gradient: widget.avatarBg == null
+                              ? LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  stops: [0.45, 1],
+                                  colors: widget.elementsColor != null
+                                      ? [
+                                          widget.elementsColor,
+                                          widget.elementsColor
+                                        ]
+                                      : gradient,
+                                )
+                              : null,
+                          boxShadow: widget.elementsColor != null ||
+                                  widget.avatarBg != null
+                              ? null
+                              : shadow),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Transform.scale(
