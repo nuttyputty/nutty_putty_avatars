@@ -45,14 +45,11 @@ class Avatar extends StatefulWidget {
 class AvatarState extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
-
   static var person;
-  static var cont;
-  var i;
+
   @override
   void initState() {
     super.initState();
-
     getImages();
   }
 
@@ -73,8 +70,6 @@ class AvatarState extends State<Avatar> {
       'parts': person,
       'image': pngBytes,
     };
-
-    // return a;
   }
 
   getImages() async {
