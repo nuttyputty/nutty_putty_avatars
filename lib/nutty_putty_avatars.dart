@@ -89,19 +89,24 @@ class AvatarState extends State<Avatar> {
         },
         'hair': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['hairs'].last
+          'element': decodeResponse['hairs']
+              .firstWhere((item) => item['id'] == '5e205cc7022bc6000cf01aa6')
         },
         'eyes': {'element': decodeResponse['eyes'][1]},
         'mouth': {'element': decodeResponse['mouths'][1]},
         'face_hair': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['face_hairs'].last
+          'element': decodeResponse['face_hairs']
+              .firstWhere((item) => item['id'] == '5e205ce7022bc6000cf01aa7')
         },
         'clothes': {
           'color': hexToColor(clothPalette[0]),
           'element': decodeResponse['clothes'][0]
         },
-        'accessories': {'element': decodeResponse['accessories'].last}
+        'accessories': {
+          'element': decodeResponse['accessories']
+              .firstWhere((item) => item['id'] == '5e4e27242f7fbd000d8da37c')
+        }
       };
 
       setState(() {
