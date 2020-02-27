@@ -425,12 +425,13 @@ class AvatarState extends State<Avatar> {
                   ]))
             ]))
         : new Container(
-            width: 40,
+            width: 20,
             height: 40,
+            alignment: Alignment.center,
             child: new CircularProgressIndicator(
-                backgroundColor: Colors.transparent,
-                valueColor:
-                    new AlwaysStoppedAnimation<Color>(hexToColor('#f44336'))),
+              valueColor:
+                  new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
+            ),
           );
   }
 }
