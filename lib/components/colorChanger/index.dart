@@ -35,15 +35,20 @@ class _ColorChangerState extends State<ColorChanger>
     with TickerProviderStateMixin {
   var activeColor;
   var activeHue;
+  var activeSat;
   initState() {
     super.initState();
     setState(() {
       activeHue = HSLColor.fromColor(widget.color).hue;
+      activeSat = HSLColor.fromColor(widget.color).saturation;
     });
   }
 
   colorButton(value, index) {
-    bool active = activeHue == HSLColor.fromColor(value).hue;
+    bool active;
+
+    active = activeHue == HSLColor.fromColor(value).hue &&
+        activeSat == HSLColor.fromColor(value).saturation;
     return new SizedBox(
         width: 23,
         height: 23,
@@ -53,6 +58,7 @@ class _ColorChangerState extends State<ColorChanger>
               widget.onChanged(value);
               setState(() {
                 activeHue = HSLColor.fromColor(value).hue;
+                activeSat = HSLColor.fromColor(value).saturation;
               });
             },
             mini: true,
