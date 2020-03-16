@@ -347,6 +347,13 @@ class AvatarState extends State<Avatar> {
           }
           return item;
         }).toList();
+
+        print('HAT HAIRS');
+        print(hatHairs);
+
+        print('HAIRS');
+        print(hairs);
+
         print('[ITEM] $item');
         var index = hatHairs.indexOf(person['hair']['element']);
         print('[INDEX1] $index');
