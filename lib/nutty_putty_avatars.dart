@@ -185,8 +185,7 @@ class AvatarState extends State<Avatar> {
                 'title': 'HAIR TYPE',
                 'subpart': 'hair',
                 'parts': widget.initialAvatar != null &&
-                        widget.initialAvatar['hats']['element']['id'] !=
-                            '5e6b28b3672bc00008a12f5e'
+                        widget.initialAvatar['hats']['element']['image'] != null
                     ? decodeResponse['hat_hairs']
                     : decodeResponse['hairs']
               },
