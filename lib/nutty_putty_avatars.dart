@@ -67,11 +67,11 @@ class AvatarState extends State<Avatar> {
         });
       }).whenComplete(() async {
         var purchased = await getPurchases(false);
-        print(purchased);
+
         var data = await hasPurchased(
             Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
             purchased);
-        print('[DATATATA]  $data');
+
         setState(() {
           fullVersion = data != null;
         });
@@ -135,19 +135,7 @@ class AvatarState extends State<Avatar> {
         'accessories': {'element': decodeResponse['accessories'].last},
         'eyebrows': {'element': decodeResponse['eyebrows'][0]}
       };
-      // print('[HATS]');
-      // print(widget.initialAvatar['hats']);
-      // print('[1]');
-      // print(widget.initialAvatar != null &&
-      //     widget.initialAvatar['hats']['element']['image'] != null);
-      // print('[2]');
-      // print(widget.initialAvatar['hats']['element']['image'] != null);
-      // print('[3]');
-      print(widget.initialAvatar);
-      print('HAT HAIRS');
-      print(decodeResponse['hat_hairs']);
-      print('HAIRS');
-      print(decodeResponse['hairs']);
+
       setState(() {
         hatHairs = decodeResponse['hat_hairs'];
         hairs = decodeResponse['hairs'];
@@ -348,27 +336,14 @@ class AvatarState extends State<Avatar> {
           return item;
         }).toList();
 
-        print('HAT HAIRS');
-        print(hatHairs);
-
-        print('HAIRS');
-        print(hairs);
-
-        print('[ITEM] ${person['hair']['element']}');
         var index = hatHairs.indexWhere(
             (item) => person['hair']['element']['id'] == item['id']);
-        print('[INDEX1] $index');
 
         if (index == -1) {
           index = hairs.indexWhere(
               (item) => person['hair']['element']['id'] == item['id']);
-          print('[INDEX2] $index');
         }
 
-        print('HAT');
-        print(hatHairs[index]);
-        print('HAIRS');
-        print(hairs[index]);
         setState(() {
           person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
           parts = a;

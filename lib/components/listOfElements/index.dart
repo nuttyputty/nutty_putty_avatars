@@ -94,19 +94,10 @@ class ListOfElements extends StatelessWidget {
         children: list['parts'].map<Widget>((item) {
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
-            print('[HAIR] $hair');
-
             var index = hatHairs.indexWhere((i) => hair['id'] == i['id']);
 
-            print('[INDEX1] $index');
-            // print('hatHairs');
-            // print(hatHairs);
-            // print('hairs');
-            // print(hairs);
             if (index == -1) {
               index = hairs.indexWhere((i) => hair['id'] == i['id']);
-
-              print('[INDEX2] $index');
             }
             if (index != -1) {
               hairPart = item['image'] != null ? hatHairs[index] : hairs[index];
@@ -121,7 +112,7 @@ class ListOfElements extends StatelessWidget {
                   icon: Transform.scale(
                       scale: 1.8,
                       child: Person(
-                        isFree: !fullVersion ? item['free'] : true,
+                        isFree: true,
                         head: list['subpart'] == 'head' ? item : head,
                         headColor: headColor,
                         eyebrows:

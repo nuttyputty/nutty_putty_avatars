@@ -27,8 +27,7 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
       FlutterInappPurchase.purchaseError.listen((purchaseError) {
     print('ERRORRR');
   });
-  print('[IOS] $iosList');
-  print('[IOS] $androidList');
+
   _getProduct(iosList, androidList);
   getPurchases(false);
 }
@@ -36,14 +35,14 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
 Future _getProduct(ios, android) async {
   List<IAPItem> items = await FlutterInappPurchase.instance
       .getProducts(Platform.isIOS ? ios : android);
-  print('[ITEMS] $items');
+
   return items;
 }
 
 Future getPurchases(restore) async {
   List<PurchasedItem> items =
       await FlutterInappPurchase.instance.getAvailablePurchases();
-  print('[ITEMS PURCHASED] $items');
+
   return items;
 }
 
