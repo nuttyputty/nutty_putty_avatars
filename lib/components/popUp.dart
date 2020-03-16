@@ -74,6 +74,7 @@ void showPopUp(context) {
                   child: FlatButton(
                     onPressed: () {
                       requestPurchase();
+                      Navigator.pop(context);
                     },
                     padding:
                         EdgeInsets.only(left: 30, top: 8, right: 30, bottom: 8),

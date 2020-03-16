@@ -28,7 +28,7 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
     print('ERRORRR');
   });
   print('[IOS] $iosList');
-  print('[ANDROID] $androidList');
+  print('[IOS] $androidList');
   _getProduct(iosList, androidList);
   getPurchases(false);
 }
@@ -54,7 +54,7 @@ hasPurchased(String productID, purchasedProduct) {
 }
 
 void requestPurchase() {
-  print('tyt');
-  FlutterInappPurchase.instance
-      .requestPurchase('com.nuttyputty.partymafia.avatars');
+  FlutterInappPurchase.instance.requestPurchase(Platform.isIOS
+      ? 'com.nuttyputty.partymafia.fullAvatars'
+      : 'com.nuttyputty.partymafia.avatars');
 }

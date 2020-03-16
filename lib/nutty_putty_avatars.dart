@@ -1,6 +1,7 @@
 library nutty_putty_avatars;
 
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -67,8 +68,9 @@ class AvatarState extends State<Avatar> {
       }).whenComplete(() async {
         var purchased = await getPurchases(false);
         print(purchased);
-        var data =
-            await hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
+        var data = await hasPurchased(
+            Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
+            purchased);
         print('[DATATATA]  $data');
         setState(() {
           fullVersion = data != null;
