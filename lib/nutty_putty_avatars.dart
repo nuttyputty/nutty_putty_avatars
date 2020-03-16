@@ -135,19 +135,19 @@ class AvatarState extends State<Avatar> {
         'accessories': {'element': decodeResponse['accessories'].last},
         'eyebrows': {'element': decodeResponse['eyebrows'][0]}
       };
-      print('[HATS]');
-      print(widget.initialAvatar['hats']);
-      print('[1]');
-      print(widget.initialAvatar != null &&
-          widget.initialAvatar['hats']['element']['image'] != null);
-      print('[2]');
-      print(widget.initialAvatar['hats']['element']['image'] != null);
-      print('[3]');
-      print(widget.initialAvatar['hats']['element']);
-      print('HAT HAIRS');
-      print(decodeResponse['hat_hairs']);
-      print('HAIRS');
-      print(decodeResponse['hairs']);
+      // print('[HATS]');
+      // print(widget.initialAvatar['hats']);
+      // print('[1]');
+      // print(widget.initialAvatar != null &&
+      //     widget.initialAvatar['hats']['element']['image'] != null);
+      // print('[2]');
+      // print(widget.initialAvatar['hats']['element']['image'] != null);
+      // print('[3]');
+      // print(widget.initialAvatar['hats']['element']);
+      // print('HAT HAIRS');
+      // print(decodeResponse['hat_hairs']);
+      // print('HAIRS');
+      // print(decodeResponse['hairs']);
       setState(() {
         hatHairs = decodeResponse['hat_hairs'];
         hairs = decodeResponse['hairs'];
