@@ -95,10 +95,14 @@ class ListOfElements extends StatelessWidget {
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
             var index = hatHairs.indexOf(hair);
+            print('[INDEX1] $index');
             if (index == -1) {
               index = hairs.indexOf(hair);
+              print('[INDEX2] $index');
             }
             hairPart = item['image'] != null ? hatHairs[index] : hairs[index];
+            print('[HAIR1] ${hairPart[index]}');
+            print('[HAIR2] ${hairs[index]}');
           }
           return Padding(
               padding: EdgeInsets.only(left: 7.5, right: 7.5),
