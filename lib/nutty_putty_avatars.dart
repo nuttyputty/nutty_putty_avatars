@@ -66,7 +66,7 @@ class AvatarState extends State<Avatar> {
         });
       }).whenComplete(() async {
         var purchased = await getPurchases(false);
-
+        print(purchased);
         var data =
             await hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
         print('[DATATATA]  $data');

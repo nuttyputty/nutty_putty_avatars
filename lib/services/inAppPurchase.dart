@@ -39,14 +39,14 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
 Future _getProduct(ios, android) async {
   List<IAPItem> items = await FlutterInappPurchase.instance
       .getProducts(Platform.isIOS ? ios : android);
-
+  print('[ITEMS] $items');
   return items;
 }
 
 Future getPurchases(restore) async {
   List<PurchasedItem> items =
       await FlutterInappPurchase.instance.getAvailablePurchases();
-
+  print('[ITEMS PURCHASED] $items');
   return items;
 }
 
@@ -57,6 +57,7 @@ hasPurchased(String productID, purchasedProduct) {
 }
 
 void requestPurchase() {
+  print('tyt');
   FlutterInappPurchase.instance
       .requestPurchase('com.nuttyputty.partymafia.avatars');
 }
