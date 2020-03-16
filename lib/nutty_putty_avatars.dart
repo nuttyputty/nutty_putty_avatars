@@ -145,9 +145,9 @@ class AvatarState extends State<Avatar> {
       print('[3]');
       print(widget.initialAvatar['hats']['element']);
       print('HAT HAIRS');
-      print(hatHairs);
+      print(decodeResponse['hat_hairs']);
       print('HAIRS');
-      print(hairs);
+      print(decodeResponse['hairs']);
       setState(() {
         hatHairs = decodeResponse['hat_hairs'];
         hairs = decodeResponse['hairs'];
