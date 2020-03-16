@@ -60,8 +60,11 @@ class AvatarState extends State<Avatar> {
     super.initState();
     getImages();
     if (widget.iosList != null && widget.androidList != null) {
-      initPlatformState(widget.iosList, widget.androidList)
-          .whenComplete(() async {
+      initPlatformState(widget.iosList, widget.androidList, () {
+        setState(() {
+          fullVersion = true;
+        });
+      }).whenComplete(() async {
         var purchased = await getPurchases(false);
 
         var data =
@@ -73,8 +76,6 @@ class AvatarState extends State<Avatar> {
       });
     }
   }
-
-  purchaseFullParts() {}
 
   static getParts() {
     return person;

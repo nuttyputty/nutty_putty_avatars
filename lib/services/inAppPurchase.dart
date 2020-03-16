@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'dart:io' show Platform;
 
-Future<void> initPlatformState(iosList, androidList) async {
+Future<void> initPlatformState(iosList, androidList, cb) async {
   await FlutterInappPurchase.instance.initConnection;
 
   await FlutterInappPurchase.instance.platformVersion;
@@ -22,7 +22,7 @@ Future<void> initPlatformState(iosList, androidList) async {
         productItem.purchaseToken,
       );
     }
-    print('aaaaaa');
+    cb();
     _getProduct(iosList, androidList);
     getPurchases(false);
   });
