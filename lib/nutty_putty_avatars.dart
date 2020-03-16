@@ -69,7 +69,7 @@ class AvatarState extends State<Avatar> {
 
         var data =
             await hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
-
+        print('[DATATATA]  $data');
         setState(() {
           fullVersion = data != null;
         });
