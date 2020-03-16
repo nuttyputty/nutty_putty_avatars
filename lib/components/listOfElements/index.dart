@@ -94,7 +94,7 @@ class ListOfElements extends StatelessWidget {
         children: list['parts'].map<Widget>((item) {
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
-            // print('[HAIR] $hair');
+            print('[HAIR] $hair');
             var index = hatHairs.firstWhere(
                 (item) => hair['element']['id'] == item['id'],
                 orElse: () => null);
