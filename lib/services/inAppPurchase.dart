@@ -22,11 +22,11 @@ Future<void> initPlatformState(iosList, androidList) async {
     }
 
     _getProduct(iosList, androidList);
-    _getPurchases(false);
+    getPurchases(false);
   });
 
   _getProduct(iosList, androidList);
-  _getPurchases(false);
+  getPurchases(false);
 }
 
 Future _getProduct(ios, android) async {
@@ -36,7 +36,7 @@ Future _getProduct(ios, android) async {
   return items;
 }
 
-Future _getPurchases(restore) async {
+Future getPurchases(restore) async {
   List<PurchasedItem> items =
       await FlutterInappPurchase.instance.getAvailablePurchases();
 
@@ -51,7 +51,7 @@ hasPurchased(String productID, purchasedProduct) {
 
 void requestPurchase() {
   FlutterInappPurchase.instance
-      .requestPurchase('com.nuttyputty.partymafia.rogue')
+      .requestPurchase('com.nuttyputty.partymafia.avatars')
       .whenComplete(() {
     // _getProduct(iosList, androidList);
     // _getPurchases(false);

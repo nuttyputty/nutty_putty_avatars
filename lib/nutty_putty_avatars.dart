@@ -54,12 +54,19 @@ class AvatarState extends State<Avatar> {
   List hairs;
   bool isHatActive = false;
   bool showSlider = true;
+  bool fullVersion = false;
   @override
   void initState() {
     super.initState();
     getImages();
     if (widget.iosList != null && widget.androidList != null) {
-      initPlatformState(widget.iosList, widget.androidList);
+      initPlatformState(widget.iosList, widget.androidList).whenComplete(() {
+        var purchased = getPurchases(false);
+        var data = hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
+        setState(() {
+          fullVersion = data != null;
+        });
+      });
     }
   }
 
