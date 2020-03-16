@@ -1,7 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-String API = 'http://159.203.113.181/api/v1/';
+bool isStaging = true;
+
+String stagingApi = 'http://134.122.28.183/api/v1/';
+String prodApi = 'http://159.203.113.181/api/v1/';
+
+String API = isStaging ? stagingApi : prodApi;
 
 getRequest(String path, [s3]) async {
   final response = await http.get('$API$path', headers: {

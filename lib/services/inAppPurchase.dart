@@ -41,7 +41,6 @@ Future _getPurchases(restore) async {
       await FlutterInappPurchase.instance.getAvailablePurchases();
 
   return items;
-  // checkIfPurchasedAnyProducts();
 }
 
 hasPurchased(String productID, purchasedProduct) {
@@ -50,10 +49,8 @@ hasPurchased(String productID, purchasedProduct) {
       orElse: () => null);
 }
 
-void requestPurchase() {
-  FlutterInappPurchase.instance
-      .requestPurchase('com.nuttyputty.partymafia.lawyer')
-      .whenComplete(() {
+void requestPurchase(id) {
+  FlutterInappPurchase.instance.requestPurchase(id).whenComplete(() {
     // _getProduct(iosList, androidList);
     // _getPurchases(false);
   });
