@@ -95,17 +95,23 @@ class ListOfElements extends StatelessWidget {
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
             // print('[HAIR] $hair');
-            var index = hatHairs.indexOf(hair);
+            var index = hatHairs.firstWhere(
+                (item) => hair['element']['id'] == item['id'],
+                orElse: () => null);
+
             // print('[INDEX1] $index');
             // print('hatHairs');
             // print(hatHairs);
             // print('hairs');
             // print(hairs);
-            if (index == -1) {
-              index = hairs.indexOf(hair);
+            if (index == null) {
+              index = hairs.firstWhere(
+                  (item) => hair['element']['id'] == item['id'],
+                  orElse: () => null);
+
               // print('[INDEX2] $index');
             }
-            if (index != -1) {
+            if (index != null) {
               hairPart = item['image'] != null ? hatHairs[index] : hairs[index];
             }
           }
