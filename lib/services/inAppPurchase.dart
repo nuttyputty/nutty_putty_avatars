@@ -27,7 +27,8 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
       FlutterInappPurchase.purchaseError.listen((purchaseError) {
     print('ERRORRR');
   });
-
+  print('[IOS] $iosList');
+  print('[ANDROID] $androidList');
   _getProduct(iosList, androidList);
   getPurchases(false);
 }
