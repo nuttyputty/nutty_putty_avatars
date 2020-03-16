@@ -97,6 +97,10 @@ class ListOfElements extends StatelessWidget {
             print('[HAIR] $hair');
             var index = hatHairs.indexOf(hair);
             print('[INDEX1] $index');
+            print('hatHairs');
+            print(hatHairs);
+            print('hairs');
+            print(hairs);
             if (index == -1) {
               index = hairs.indexOf(hair);
               print('[INDEX2] $index');
