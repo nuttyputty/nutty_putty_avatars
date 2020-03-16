@@ -49,8 +49,10 @@ hasPurchased(String productID, purchasedProduct) {
       orElse: () => null);
 }
 
-void requestPurchase(id) {
-  FlutterInappPurchase.instance.requestPurchase(id).whenComplete(() {
+void requestPurchase() {
+  FlutterInappPurchase.instance
+      .requestPurchase('com.nuttyputty.partymafia.rogue')
+      .whenComplete(() {
     // _getProduct(iosList, androidList);
     // _getPurchases(false);
   });

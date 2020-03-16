@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
+import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
 import 'package:nutty_putty_avatars/styles/index.dart';
 
 Widget wrapper(title, text, isImage) {
@@ -72,7 +73,7 @@ void showPopUp(context) {
                   padding: EdgeInsets.only(top: 20),
                   child: FlatButton(
                     onPressed: () {
-                      print('asd');
+                      requestPurchase();
                     },
                     padding:
                         EdgeInsets.only(left: 30, top: 8, right: 30, bottom: 8),
