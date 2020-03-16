@@ -355,15 +355,13 @@ class AvatarState extends State<Avatar> {
         print(hairs);
 
         print('[ITEM] ${person['hair']['element']}');
-        var index = hatHairs.firstWhere(
-            (item) => person['hair']['element']['id'] == item['id'],
-            orElse: () => null);
+        var index = hatHairs.indexWhere(
+            (item) => person['hair']['element']['id'] == item['id']);
         print('[INDEX1] $index');
 
         if (index == null) {
-          index = hairs.firstWhere(
-              (item) => person['hair']['element']['id'] == item['id'],
-              orElse: () => null);
+          index = hairs.indexWhere(
+              (item) => person['hair']['element']['id'] == item['id']);
           print('[INDEX2] $index');
         }
 
