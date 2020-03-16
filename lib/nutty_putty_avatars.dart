@@ -101,7 +101,7 @@ class AvatarState extends State<Avatar> {
       var response = await getRequest('/images');
 
       var decodeResponse = jsonDecode(response);
-      print('[RESPONSE] ${decodeResponse['hat_hairs']}');
+
       var initialPerson = {
         'background': {
           'color': hexToColor(bgPalette[5]),

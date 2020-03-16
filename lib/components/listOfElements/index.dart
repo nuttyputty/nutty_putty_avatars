@@ -104,7 +104,6 @@ class ListOfElements extends StatelessWidget {
               padding: EdgeInsets.only(left: 7.5, right: 7.5),
               child: new IconButton(
                   onPressed: () {
-                    print('[LIST] $list');
                     changeActiveElement(item);
                   },
                   icon: Transform.scale(
