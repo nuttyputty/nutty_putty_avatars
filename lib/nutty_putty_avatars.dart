@@ -349,10 +349,17 @@ class AvatarState extends State<Avatar> {
         }).toList();
 
         var index = hatHairs.indexOf(person['hair']['element']);
+        print('[INDEX1] $index');
+
         if (index == -1) {
           index = hairs.indexOf(person['hair']['element']);
+          print('[INDEX2] $index');
         }
 
+        print('HAT');
+        print(hatHairs[index]);
+        print('HAIRS');
+        print(hairs[index]);
         setState(() {
           person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
           parts = a;
