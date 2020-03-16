@@ -60,9 +60,13 @@ class AvatarState extends State<Avatar> {
     super.initState();
     getImages();
     if (widget.iosList != null && widget.androidList != null) {
-      initPlatformState(widget.iosList, widget.androidList).whenComplete(() {
-        var purchased = getPurchases(false);
-        var data = hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
+      initPlatformState(widget.iosList, widget.androidList)
+          .whenComplete(() async {
+        var purchased = await getPurchases(false);
+        print('[PURCHASED] $purchased');
+        var data =
+            await hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
+        print('[DATA] $data');
         setState(() {
           fullVersion = data != null;
         });
@@ -317,7 +321,7 @@ class AvatarState extends State<Avatar> {
   }
 
   changeActiveElement(item, element) {
-    if (item['free']) {
+    if (item['free'] || fullVersion) {
       if (element == 'hats') {
         bool isHat = item['image'] != null;
         var a = parts.map((item) {
