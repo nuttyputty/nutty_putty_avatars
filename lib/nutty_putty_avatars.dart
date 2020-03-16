@@ -143,7 +143,7 @@ class AvatarState extends State<Avatar> {
       // print('[2]');
       // print(widget.initialAvatar['hats']['element']['image'] != null);
       // print('[3]');
-      print(widget.initialAvatar['hats']['element']);
+      print(widget.initialAvatar);
       print('HAT HAIRS');
       print(decodeResponse['hat_hairs']);
       print('HAIRS');
