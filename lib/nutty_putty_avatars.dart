@@ -359,7 +359,7 @@ class AvatarState extends State<Avatar> {
             (item) => person['hair']['element']['id'] == item['id']);
         print('[INDEX1] $index');
 
-        if (index == null) {
+        if (index == -1) {
           index = hairs.indexWhere(
               (item) => person['hair']['element']['id'] == item['id']);
           print('[INDEX2] $index');
