@@ -94,13 +94,17 @@ class ListOfElements extends StatelessWidget {
         children: list['parts'].map<Widget>((item) {
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
+            print('[HAIR] $hair');
             var index = hatHairs.indexOf(hair);
             print('[INDEX1] $index');
             if (index == -1) {
               index = hairs.indexOf(hair);
               print('[INDEX2] $index');
             }
-            hairPart = item['image'] != null ? hatHairs[index] : hairs[index];
+            if (index != -1) {
+              hairPart = item['image'] != null ? hatHairs[index] : hairs[index];
+            }
+
             print('[HAIR1] ${hairPart[index]}');
             print('[HAIR2] ${hairs[index]}');
           }
