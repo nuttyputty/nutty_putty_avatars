@@ -354,7 +354,7 @@ class AvatarState extends State<Avatar> {
         print('HAIRS');
         print(hairs);
 
-        print('[ITEM] $item');
+        print('[ITEM] ${person['hair']['element']}');
         var index = hatHairs.indexOf(person['hair']['element']);
         print('[INDEX1] $index');
 
