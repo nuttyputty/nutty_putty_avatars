@@ -74,9 +74,7 @@ class AvatarState extends State<Avatar> {
     }
   }
 
-  purchaseFullParts() {
-    requestPurchase();
-  }
+  purchaseFullParts() {}
 
   static getParts() {
     return person;
