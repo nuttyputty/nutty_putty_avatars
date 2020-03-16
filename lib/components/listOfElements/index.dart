@@ -26,6 +26,7 @@ class ListOfElements extends StatelessWidget {
       @required this.mouthColor,
       @required this.clothesColor,
       @required this.hats,
+      this.fullVersion,
       this.color,
       this.hairs,
       this.hatHairs});
@@ -52,6 +53,7 @@ class ListOfElements extends StatelessWidget {
   final clothesColor;
   final color;
   final hats;
+  final fullVersion;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -108,7 +110,7 @@ class ListOfElements extends StatelessWidget {
                   icon: Transform.scale(
                       scale: 1.8,
                       child: Person(
-                        isFree: item['free'],
+                        isFree: !fullVersion ? item['free'] : true,
                         head: list['subpart'] == 'head' ? item : head,
                         headColor: headColor,
                         eyebrows:

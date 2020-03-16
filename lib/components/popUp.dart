@@ -72,9 +72,7 @@ void showPopUp(context) {
               Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: FlatButton(
-                    onPressed: () {
-                      requestPurchase();
-                    },
+                    onPressed: () {},
                     padding:
                         EdgeInsets.only(left: 30, top: 8, right: 30, bottom: 8),
                     color: hexToColor('#80B5EB'),

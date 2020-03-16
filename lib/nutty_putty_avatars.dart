@@ -63,15 +63,19 @@ class AvatarState extends State<Avatar> {
       initPlatformState(widget.iosList, widget.androidList)
           .whenComplete(() async {
         var purchased = await getPurchases(false);
-        print('[PURCHASED] $purchased');
+
         var data =
             await hasPurchased('com.nuttyputty.partymafia.avatars', purchased);
-        print('[DATA] $data');
+
         setState(() {
           fullVersion = data != null;
         });
       });
     }
+  }
+
+  purchaseFullParts() {
+    requestPurchase();
   }
 
   static getParts() {
@@ -490,6 +494,7 @@ class AvatarState extends State<Avatar> {
                                         item['subpart'],
                                       );
                                     },
+                                    fullVersion: fullVersion,
                                     color: widget.elementsColor)
                                 : Container(),
                             item['type'] == 'pallet'
