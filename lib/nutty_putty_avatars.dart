@@ -325,38 +325,38 @@ class AvatarState extends State<Avatar> {
   }
 
   changeActiveElement(item, element) {
-    // if (item['free'] || fullVersion) {
-    if (element == 'hats') {
-      bool isHat = item['image'] != null;
-      var a = parts.map((item) {
-        if (item['part'] == 2) {
-          item['items'][0]['parts'] = isHat ? hatHairs : hairs;
+    if (item['free'] || fullVersion) {
+      if (element == 'hats') {
+        bool isHat = item['image'] != null;
+        var a = parts.map((item) {
+          if (item['part'] == 2) {
+            item['items'][0]['parts'] = isHat ? hatHairs : hairs;
+            return item;
+          }
           return item;
-        }
-        return item;
-      }).toList();
+        }).toList();
 
-      var index = hatHairs
-          .indexWhere((item) => person['hair']['element']['id'] == item['id']);
-
-      if (index == -1) {
-        index = hairs.indexWhere(
+        var index = hatHairs.indexWhere(
             (item) => person['hair']['element']['id'] == item['id']);
+
+        if (index == -1) {
+          index = hairs.indexWhere(
+              (item) => person['hair']['element']['id'] == item['id']);
+        }
+
+        setState(() {
+          person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
+          parts = a;
+        });
       }
 
       setState(() {
-        person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
-        parts = a;
+        person[element]['element'] = item;
+        showSlider = item['free'] && element == 'background';
       });
+    } else {
+      showPopUp(context);
     }
-
-    setState(() {
-      person[element]['element'] = item;
-      showSlider = item['free'] && element == 'background';
-    });
-    // } else {
-    //   showPopUp(context);
-    // }
   }
 
   var a = LinearGradient(
