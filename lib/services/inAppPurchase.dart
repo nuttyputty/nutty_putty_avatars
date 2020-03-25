@@ -25,6 +25,7 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
 
   StreamSubscription _purchaseErrorSubscription =
       FlutterInappPurchase.purchaseError.listen((purchaseError) {
+    print('$purchaseError');
     print('ERRORRR');
   });
 
