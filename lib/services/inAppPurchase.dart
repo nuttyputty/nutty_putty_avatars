@@ -43,7 +43,7 @@ Future _getProduct(ios, android) async {
 Future getPurchases([restore]) async {
   List<PurchasedItem> items =
       await FlutterInappPurchase.instance.getAvailablePurchases();
-  print(items);
+
   if (restore != null) {
     restore();
   }
