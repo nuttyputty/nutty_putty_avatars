@@ -56,6 +56,7 @@ class ListOfElements extends StatelessWidget {
   final fullVersion;
   @override
   Widget build(BuildContext context) {
+    print(' [LIST] $fullVersion');
     final double width = MediaQuery.of(context).size.width;
     return new Container(
       margin: EdgeInsets.only(top: 5, bottom: 5),

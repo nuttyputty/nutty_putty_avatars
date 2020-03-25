@@ -73,7 +73,7 @@ class AvatarState extends State<Avatar> {
         var data = await hasPurchased(
             Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
             purchased);
-
+        print('[DATAAA] $data');
         setState(() {
           fullVersion = data != null;
         });

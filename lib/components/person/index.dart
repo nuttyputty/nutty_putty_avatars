@@ -44,6 +44,7 @@ class Person extends StatelessWidget {
   final clothesColor;
   final isFree;
   Widget build(BuildContext context) {
+    print('[PAAAART] $isFree');
     return Stack(
       children: <Widget>[
         background['free']
