@@ -27,6 +27,7 @@ class Avatar extends StatefulWidget {
       {Key key,
       this.elementsColor,
       this.bgColor,
+      this.restoreCb,
       this.partBorderColor,
       this.bgImage,
       this.avatarBg,
@@ -39,6 +40,7 @@ class Avatar extends StatefulWidget {
   final elementsColor;
   final avatarBg;
   final iosList;
+  final restoreCb;
   final androidList;
   static GlobalKey _globalKey = new GlobalKey<AvatarState>();
   final initialAvatar;
@@ -387,62 +389,88 @@ class AvatarState extends State<Avatar> {
               new Container(
                   padding: EdgeInsets.only(left: 14, right: 14),
                   child: new Column(children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      width: 142,
-                      height: 142,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(38),
-                          image: widget.avatarBg != null
-                              ? DecorationImage(
-                                  image: widget.avatarBg, fit: BoxFit.contain)
-                              : null,
-                          gradient: widget.avatarBg == null
-                              ? LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  stops: [0.45, 1],
-                                  colors: widget.elementsColor != null
-                                      ? [
-                                          widget.elementsColor,
-                                          widget.elementsColor
-                                        ]
-                                      : gradient,
-                                )
-                              : null,
-                          boxShadow: widget.elementsColor != null ||
-                                  widget.avatarBg != null
-                              ? null
-                              : shadow),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: RepaintBoundary(
-                            key: Avatar._globalKey,
-                            child: Person(
-                              isFree: true,
-                              head: person['head']['element'],
-                              hats: person['hats']['element'],
-                              headColor: person['head']['color'],
-                              eyebrows: person['eyebrows']['element'],
-                              hair: person['hair']['element'],
-                              accessories: person['accessories']['element'],
-                              faceHair: person['face_hairs']['element'],
-                              hairColor: person['face_hairs']['color'],
-                              noses: person['noses']['element'],
-                              eyes: person['eyes']['element'],
-                              mouth: person['mouth']['element'],
-                              background: person['background']['element'],
-                              clothes: person['clothes']['element'],
-                              bgColor: person['background']['color'],
-                              clothesColor: person['clothes']['color'],
-                              eyesColor: person['eyes']['color'],
-                              mouthColor: Colors.white,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Spacer(),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 142,
+                          height: 142,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(38),
+                              image: widget.avatarBg != null
+                                  ? DecorationImage(
+                                      image: widget.avatarBg,
+                                      fit: BoxFit.contain)
+                                  : null,
+                              gradient: widget.avatarBg == null
+                                  ? LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      stops: [0.45, 1],
+                                      colors: widget.elementsColor != null
+                                          ? [
+                                              widget.elementsColor,
+                                              widget.elementsColor
+                                            ]
+                                          : gradient,
+                                    )
+                                  : null,
+                              boxShadow: widget.elementsColor != null ||
+                                      widget.avatarBg != null
+                                  ? null
+                                  : shadow),
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child: Transform.scale(
+                              scale: 2,
+                              child: RepaintBoundary(
+                                key: Avatar._globalKey,
+                                child: Person(
+                                  isFree: true,
+                                  head: person['head']['element'],
+                                  hats: person['hats']['element'],
+                                  headColor: person['head']['color'],
+                                  eyebrows: person['eyebrows']['element'],
+                                  hair: person['hair']['element'],
+                                  accessories: person['accessories']['element'],
+                                  faceHair: person['face_hairs']['element'],
+                                  hairColor: person['face_hairs']['color'],
+                                  noses: person['noses']['element'],
+                                  eyes: person['eyes']['element'],
+                                  mouth: person['mouth']['element'],
+                                  background: person['background']['element'],
+                                  clothes: person['clothes']['element'],
+                                  bgColor: person['background']['color'],
+                                  clothesColor: person['clothes']['color'],
+                                  eyesColor: person['eyes']['color'],
+                                  mouthColor: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(9.5, 10, 0, 10),
+                            child: FlatButton(
+                              padding: EdgeInsets.all(0),
+                              child: Text(
+                                'Restore\npurchase',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 12, color: hexToColor('#8D9CB3')),
+                              ),
+                              onPressed: () {
+                                getPurchases(() {
+                                  if (widget.restoreCb != null) {
+                                    widget.restoreCb();
+                                  }
+                                });
+                              },
+                            )),
+                      ],
                     ),
                     Padding(
                       padding: EdgeInsets.only(
