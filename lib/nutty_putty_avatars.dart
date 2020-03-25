@@ -68,7 +68,7 @@ class AvatarState extends State<Avatar> {
           fullVersion = true;
         });
       }).whenComplete(() async {
-        var purchased = await getPurchases(false);
+        var purchased = await getPurchases();
 
         var data = await hasPurchased(
             Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
