@@ -104,6 +104,9 @@ class AvatarState extends State<Avatar> {
 
   getImages() async {
     try {
+      print('[[[[[[[');
+      print(widget.isStaging);
+      print('[[[[[[[');
       var response = await getRequest('/images', widget.isStaging);
 
       var decodeResponse = jsonDecode(response);
