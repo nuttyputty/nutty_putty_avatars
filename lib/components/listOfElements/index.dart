@@ -26,6 +26,7 @@ class ListOfElements extends StatelessWidget {
       @required this.mouthColor,
       @required this.clothesColor,
       @required this.hats,
+      this.person,
       this.fullVersion,
       this.color,
       this.hairs,
@@ -35,6 +36,7 @@ class ListOfElements extends StatelessWidget {
   final Function changeActiveElement;
   final head;
   final hairs;
+  final person;
   final hatHairs;
   final bgColor;
   final noses;
@@ -92,6 +94,8 @@ class ListOfElements extends StatelessWidget {
         physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: list['parts'].map<Widget>((item) {
+          var active = person[list['subpart']]['element']['id'] == item['id'];
+          print('[AAAA] $active');
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
             var index = hatHairs.indexWhere((i) => hair['id'] == i['id']);
@@ -104,38 +108,38 @@ class ListOfElements extends StatelessWidget {
             }
           }
           return Padding(
-              padding: EdgeInsets.only(left: 7.5, right: 7.5),
-              child: new IconButton(
-                  onPressed: () {
-                    changeActiveElement(item);
-                  },
-                  icon: Transform.scale(
-                      scale: 1.8,
-                      child: Person(
-                        isFree: fullVersion ? true : item['free'],
-                        head: list['subpart'] == 'head' ? item : head,
-                        headColor: headColor,
-                        eyebrows:
-                            list['subpart'] == 'eyebrows' ? item : eyebrows,
-                        noses: list['subpart'] == 'noses' ? item : noses,
-                        hair: list['subpart'] == 'hair' ? item : hairPart,
-                        bgColor: bgColor,
-                        hairColor: hairColor,
-                        hats: list['subpart'] == 'hats' ? item : hats,
-                        eyes: list['subpart'] == 'eyes' ? item : eyes,
-                        mouth: list['subpart'] == 'mouth' ? item : mouth,
-                        clothes: list['subpart'] == 'clothes' ? item : clothes,
-                        background:
-                            list['subpart'] == 'background' ? item : background,
-                        faceHair:
-                            list['subpart'] == 'face_hairs' ? item : faceHair,
-                        clothesColor: clothesColor,
-                        accessories: list['subpart'] == 'accessories'
-                            ? item
-                            : accessories,
-                        eyesColor: eyesColor,
-                        mouthColor: Colors.white,
-                      ))));
+            padding: EdgeInsets.only(left: 7.5, right: 7.5),
+            child: new IconButton(
+                onPressed: () {
+                  changeActiveElement(item);
+                },
+                icon: Transform.scale(
+                    scale: 1.8,
+                    child: Person(
+                      isFree: fullVersion ? true : item['free'],
+                      active: active,
+                      head: list['subpart'] == 'head' ? item : head,
+                      headColor: headColor,
+                      eyebrows: list['subpart'] == 'eyebrows' ? item : eyebrows,
+                      noses: list['subpart'] == 'noses' ? item : noses,
+                      hair: list['subpart'] == 'hair' ? item : hairPart,
+                      bgColor: bgColor,
+                      hairColor: hairColor,
+                      hats: list['subpart'] == 'hats' ? item : hats,
+                      eyes: list['subpart'] == 'eyes' ? item : eyes,
+                      mouth: list['subpart'] == 'mouth' ? item : mouth,
+                      clothes: list['subpart'] == 'clothes' ? item : clothes,
+                      background:
+                          list['subpart'] == 'background' ? item : background,
+                      faceHair:
+                          list['subpart'] == 'face_hairs' ? item : faceHair,
+                      clothesColor: clothesColor,
+                      accessories:
+                          list['subpart'] == 'accessories' ? item : accessories,
+                      eyesColor: eyesColor,
+                      mouthColor: Colors.white,
+                    ))),
+          );
         }).toList(),
       ),
     );

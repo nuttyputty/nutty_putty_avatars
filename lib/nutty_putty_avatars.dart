@@ -117,24 +117,24 @@ class AvatarState extends State<Avatar> {
         },
         'hair': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['hairs'].last
+          'element': decodeResponse['hairs'][0]
         },
-        'hats': {'element': decodeResponse['hats'].last},
+        'hats': {'element': decodeResponse['hats'][0]},
         'eyes': {
-          'element': decodeResponse['eyes'][1],
+          'element': decodeResponse['eyes'][0],
           'color': hexToColor(eyesPalette[0])
         },
-        'noses': {'element': decodeResponse['noses'][1]},
-        'mouth': {'element': decodeResponse['mouths'][1]},
+        'noses': {'element': decodeResponse['noses'][0]},
+        'mouth': {'element': decodeResponse['mouths'][0]},
         'face_hairs': {
           'color': hexToColor(hairPalette[0]),
-          'element': decodeResponse['face_hairs'].last
+          'element': decodeResponse['face_hairs'][0]
         },
         'clothes': {
           'color': hexToColor(clothPalette[0]),
           'element': decodeResponse['clothes'][0]
         },
-        'accessories': {'element': decodeResponse['accessories'].last},
+        'accessories': {'element': decodeResponse['accessories'][0]},
         'eyebrows': {'element': decodeResponse['eyebrows'][0]}
       };
 
@@ -534,6 +534,7 @@ class AvatarState extends State<Avatar> {
                                       );
                                     },
                                     fullVersion: fullVersion,
+                                    person: person,
                                     color: widget.elementsColor)
                                 : Container(),
                             item['type'] == 'pallet'

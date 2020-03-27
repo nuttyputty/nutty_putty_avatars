@@ -60,7 +60,7 @@ void showPopUp(context) {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              wrapper('Have more freedom!',
+              wrapper('Unlock Avatar+ \$9.99',
                   'Combine more items and\nget new looks', true),
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -80,7 +80,7 @@ void showPopUp(context) {
                         EdgeInsets.only(left: 30, top: 8, right: 30, bottom: 8),
                     color: hexToColor('#80B5EB'),
                     child: Text(
-                      '9.99\$',
+                      'Buy Now',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

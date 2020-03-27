@@ -24,7 +24,8 @@ class Person extends StatelessWidget {
       @required this.eyesColor,
       @required this.hats,
       @required this.mouthColor,
-      @required this.clothesColor});
+      @required this.clothesColor,
+      this.active});
   final head;
   final hair;
   final faceHair;
@@ -33,6 +34,7 @@ class Person extends StatelessWidget {
   final eyebrows;
   final noses;
   final hats;
+  final active;
   final mouth;
   final background;
   final clothes;
@@ -45,7 +47,22 @@ class Person extends StatelessWidget {
   final isFree;
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: <Widget>[
+        active != null && active
+            ? Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Image(
+                  height: 25.5,
+                  width: 25.5,
+                  image: AssetImage('assets/images/Circle.png',
+                      package: 'nutty_putty_avatars'),
+                ),
+              )
+            : Container(
+                width: 0,
+                height: 0,
+              ),
         background['free']
             ? renderSvgWithColor(background['image'], bgColor)
             : renderSvg(background['image']),
