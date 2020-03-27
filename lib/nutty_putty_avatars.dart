@@ -33,6 +33,7 @@ class Avatar extends StatefulWidget {
       this.avatarBg,
       this.iosList,
       this.androidList,
+      this.isStaging,
       this.initialAvatar})
       : super(key: key);
   final bgImage;
@@ -40,6 +41,7 @@ class Avatar extends StatefulWidget {
   final elementsColor;
   final avatarBg;
   final iosList;
+  final isStaging;
   final restoreCb;
   final androidList;
   static GlobalKey _globalKey = new GlobalKey<AvatarState>();
@@ -102,7 +104,7 @@ class AvatarState extends State<Avatar> {
 
   getImages() async {
     try {
-      var response = await getRequest('/images');
+      var response = await getRequest('/images', widget.isStaging);
 
       var decodeResponse = jsonDecode(response);
 
