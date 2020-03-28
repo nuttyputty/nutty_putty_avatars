@@ -95,7 +95,7 @@ class ListOfElements extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: list['parts'].map<Widget>((item) {
           var active = person[list['subpart']]['element']['id'] == item['id'];
-          print('[AAAA] $active');
+
           var hairPart = hair;
           if (list['subpart'] == 'hats') {
             var index = hatHairs.indexWhere((i) => hair['id'] == i['id']);

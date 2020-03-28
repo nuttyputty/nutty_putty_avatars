@@ -108,17 +108,18 @@ class AvatarState extends State<Avatar> {
       var response = await getRequest('/images', widget.isStaging);
 
       var decodeResponse = jsonDecode(response);
-      print(decodeResponse['backgrounds']);
-      print(decodeResponse['heads']);
-      print(decodeResponse['hairs']);
-      print(decodeResponse['hats']);
-      print(decodeResponse['eyes']);
-      print(decodeResponse['noses']);
-      print(decodeResponse['mouths']);
-      print(decodeResponse['face_hairs']);
-      print(decodeResponse['clothes']);
-      print(decodeResponse['accessories']);
-      print(decodeResponse['eyebrows']);
+
+      // print(decodeResponse['backgrounds']);
+      // print(decodeResponse['heads']);
+      // print(decodeResponse['hairs']);
+      // print(decodeResponse['hats']);
+      // print(decodeResponse['eyes']);
+      // print(decodeResponse['noses']);
+      // print(decodeResponse['mouths']);
+      // print(decodeResponse['face_hairs']);
+      // print(decodeResponse['clothes']);
+      // print(decodeResponse['accessories']);
+      // print(decodeResponse['eyebrows']);
       var initialPerson = {
         'background': {
           'color': hexToColor(bgPalette[5]),
@@ -150,6 +151,15 @@ class AvatarState extends State<Avatar> {
         'accessories': {'element': decodeResponse['accessories'][0]},
         'eyebrows': {'element': decodeResponse['eyebrows'][0]}
       };
+
+      var initAvatar = widget.initialAvatar;
+      if (widget.initialAvatar != null) {
+        initialPerson.forEach((key, val) {
+          if (!initAvatar.containsKey(key)) {
+            initAvatar[key] = val;
+          }
+        });
+      }
 
       setState(() {
         hatHairs = decodeResponse['hat_hairs'];
@@ -292,8 +302,7 @@ class AvatarState extends State<Avatar> {
             ]
           },
         ];
-        person =
-            widget.initialAvatar == null ? initialPerson : widget.initialAvatar;
+        person = widget.initialAvatar == null ? initialPerson : initAvatar;
       });
     } catch (err) {
       print(err);
