@@ -20,17 +20,17 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
     }
     cb();
     _getProduct(iosList, androidList);
-    getPurchases(false);
+    getPurchases();
   });
 
   StreamSubscription _purchaseErrorSubscription =
       FlutterInappPurchase.purchaseError.listen((purchaseError) {
     print('$purchaseError');
-    print('ERRORRR');
+    print('ERROR');
   });
 
   _getProduct(iosList, androidList);
-  getPurchases(false);
+  getPurchases();
 }
 
 Future _getProduct(ios, android) async {
