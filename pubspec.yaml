@@ -13,7 +13,7 @@ dependencies:
   flutter_hsvcolor_picker: ^0.0.1
   flutter_svg: ^0.15.0
   flutter_inapp_purchase: ^2.0.4
-  flutter_colorpicker: any
+  # screenshot: ^0.1.1
   flutter_circle_color_picker: ^0.1.1
 dev_dependencies:
   flutter_test:
@@ -24,13 +24,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/ListBg.png
-    - assets/images/person/
-    - assets/images/heads/
     - assets/images/partIcons/
-    - assets/images/mouth/
-    - assets/images/hairs/
-    - assets/images/faceHair/
-    - assets/images/eyes/
+    
   
 
  

@@ -4,17 +4,24 @@ import 'package:nutty_putty_avatars/services/hexToColor.dart';
 import 'package:nutty_putty_avatars/services/renderSvg.dart';
 
 class PartsSwitch extends StatelessWidget {
-  PartsSwitch({@required this.changePart, this.activePart, this.parts});
+  PartsSwitch(
+      {@required this.changePart,
+      this.partBorder,
+      this.activePart,
+      this.parts,
+      this.color});
   final List parts;
+  final partBorder;
   final Function changePart;
   final int activePart;
+  final color;
 
   switchButton(data) {
-    var active = data['partOfAvatar'] == activePart;
+    bool active = data['part'] == activePart;
     return new IconButton(
       padding: EdgeInsets.all(0),
       onPressed: () {
-        changePart(data['partOfAvatar']);
+        changePart(data['part']);
       },
       color: Colors.blue,
       icon: Container(
@@ -22,7 +29,10 @@ class PartsSwitch extends StatelessWidget {
         width: 36,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            gradient: active
+            border: partBorder != null && active
+                ? Border.all(color: partBorder, width: 1)
+                : null,
+            gradient: active && partBorder == null
                 ? LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -34,8 +44,8 @@ class PartsSwitch extends StatelessWidget {
                   )
                 : null),
         padding: EdgeInsets.all(6),
-        child: renderSvgWithColor(data['image'],
-            active ? hexToColor('#C4CFDE') : data['color'], true),
+        child: renderSvgWithColor(data['partImage'],
+            active ? hexToColor('#C4CFDE') : hexToColor('#8D9CB3'), true),
       ),
     );
   }
@@ -46,24 +56,27 @@ class PartsSwitch extends StatelessWidget {
         height: 44,
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: hexToColor('#FFFFFF').withOpacity(0.45),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Color.fromRGBO(255, 255, 255, 0.4),
-                offset: Offset(-3, -3),
-                blurRadius: 10,
-              ),
-              BoxShadow(
-                color: Color.fromRGBO(152, 176, 199, 0.25),
-                offset: Offset(3, 3),
-                blurRadius: 5,
-              ),
-            ]),
+          color:
+              color != null ? color : hexToColor('#FFFFFF').withOpacity(0.95),
+          borderRadius: BorderRadius.circular(10),
+          // boxShadow: <BoxShadow>[
+          //   BoxShadow(
+          //     color: Color.fromRGBO(255, 255, 255, 0.4),
+          //     offset: Offset(-3, -3),
+          //     blurRadius: 10,
+          //   ),
+          //   BoxShadow(
+          //     color: Color.fromRGBO(152, 176, 199, 0.25),
+          //     offset: Offset(3, 3),
+          //     blurRadius: 5,
+          //   ),
+          // ]
+        ),
         child: new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children:
-                parts.map<Widget>((item) => switchButton(item)).toList()));
+            children: parts.map<Widget>((item) {
+              return switchButton(item);
+            }).toList()));
   }
 }

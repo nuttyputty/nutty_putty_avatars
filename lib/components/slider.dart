@@ -3,17 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-// import 'package:flutter_colorpicker/utils.dart';
-
 class CircleColorPicker extends StatefulWidget {
-  const CircleColorPicker({
-    Key key,
-    this.onChanged,
-    this.strokeWidth = 2,
-    this.thumbSize = 32,
-    this.initialColor,
-    this.initialHue,
-  }) : super(key: key);
+  const CircleColorPicker(
+      {Key key,
+      this.onChanged,
+      this.strokeWidth = 2,
+      this.thumbSize = 32,
+      this.initialColor,
+      this.initialHue})
+      : super(key: key);
 
   final onChanged;
 
@@ -26,8 +24,6 @@ class CircleColorPicker extends StatefulWidget {
   final initialHue;
 
   double get initialLightness => HSLColor.fromColor(initialColor).lightness;
-
-  // double get initialHue => HSLColor.fromColor(initialColor).hue;
 
   @override
   _CircleColorPickerState createState() => _CircleColorPickerState();
@@ -54,7 +50,7 @@ class _CircleColorPickerState extends State<CircleColorPicker>
                   initialLightness: widget.initialLightness,
                   width: 230,
                   thumbSize: 26,
-                  hue: HSLColor.fromColor(widget.initialColor).hue,
+                  hue: widget.initialHue,
                   onChanged: (lightness) {
                     _lightnessController.value = lightness;
                   },
@@ -80,9 +76,10 @@ class _CircleColorPickerState extends State<CircleColorPicker>
   }
 
   void _onColorChanged() {
-    widget.onChanged(HSLColor.fromColor(widget.initialColor)
+    widget.onChanged?.call(HSLColor.fromColor(widget.initialColor)
         .withHue(widget.initialHue)
-        .withLightness(_lightnessController.value));
+        .withLightness(_lightnessController.value)
+        .toColor());
   }
 }
 
