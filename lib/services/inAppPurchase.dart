@@ -1,32 +1,36 @@
+import 'dart:async';
+
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'dart:io' show Platform;
 
-Future<void> initPlatformState(iosList, androidList) async {
+Future<void> initPlatformState(iosList, androidList, cb) async {
   await FlutterInappPurchase.instance.initConnection;
 
   await FlutterInappPurchase.instance.platformVersion;
-
-  print(iosList);
-  print(androidList);
 
   FlutterInappPurchase.purchaseUpdated.listen((productItem) async {
     if (Platform.isAndroid) {
       await FlutterInappPurchase.instance.acknowledgePurchaseAndroid(
         productItem.purchaseToken,
       );
-      print(productItem);
     } else if (Platform.isIOS) {
       await FlutterInappPurchase.instance.finishTransactionIOS(
         productItem.purchaseToken,
       );
     }
-
+    cb();
     _getProduct(iosList, androidList);
-    _getPurchases(false);
+    getPurchases(false);
+  });
+
+  StreamSubscription _purchaseErrorSubscription =
+      FlutterInappPurchase.purchaseError.listen((purchaseError) {
+    print('$purchaseError');
+    print('ERRORRR');
   });
 
   _getProduct(iosList, androidList);
-  _getPurchases(false);
+  getPurchases(false);
 }
 
 Future _getProduct(ios, android) async {
@@ -36,12 +40,14 @@ Future _getProduct(ios, android) async {
   return items;
 }
 
-Future _getPurchases(restore) async {
+Future getPurchases([restore]) async {
   List<PurchasedItem> items =
       await FlutterInappPurchase.instance.getAvailablePurchases();
 
+  if (restore != null) {
+    restore();
+  }
   return items;
-  // checkIfPurchasedAnyProducts();
 }
 
 hasPurchased(String productID, purchasedProduct) {
@@ -51,10 +57,7 @@ hasPurchased(String productID, purchasedProduct) {
 }
 
 void requestPurchase() {
-  FlutterInappPurchase.instance
-      .requestPurchase('com.nuttyputty.partymafia.lawyer')
-      .whenComplete(() {
-    // _getProduct(iosList, androidList);
-    // _getPurchases(false);
-  });
+  FlutterInappPurchase.instance.requestPurchase(Platform.isIOS
+      ? 'com.nuttyputty.partymafia.fullAvatars'
+      : 'com.nuttyputty.partymafia.avatars');
 }

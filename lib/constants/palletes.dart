@@ -45,3 +45,16 @@ List<String> clothPalette = [
   '#87C486',
   '#70D3F3',
 ];
+
+List<String> eyesPalette = [
+  '#1C1B1B',
+  '#602007',
+  '#945103',
+  '#6B006D',
+  '#220C52',
+  '#0089B5',
+  '#197B00',
+  '#04BD00',
+  '#959595',
+  '#FFFFFF'
+];

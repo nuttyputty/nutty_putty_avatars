@@ -14,6 +14,7 @@ class ColorChanger extends StatefulWidget {
   final onChanged;
   final List<String> palette;
   final activeHue;
+  final displaySlider;
   final initialColor;
   final bg;
   ColorChanger(
@@ -21,11 +22,11 @@ class ColorChanger extends StatefulWidget {
       @required this.color,
       @required this.onChanged,
       this.palette,
+      this.displaySlider,
       this.bg,
       this.activeHue,
       this.initialColor})
-      : assert(color != null),
-        super(key: key);
+      : super(key: key);
 
   @override
   _ColorChangerState createState() => new _ColorChangerState();
@@ -73,8 +74,8 @@ class _ColorChangerState extends State<ColorChanger>
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 115,
-      padding: EdgeInsets.only(left: 14, right: 14, top: 18, bottom: 20),
+      height: widget.displaySlider ? 115 : 61,
+      padding: EdgeInsets.only(left: 14, right: 14, top: 18, bottom: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
@@ -112,22 +113,24 @@ class _ColorChangerState extends State<ColorChanger>
                 return colorButton(hexToColor(item), index);
               })).toList()),
         ),
-        SizedBox(
-          height: 54,
-          width: 230,
-          child: new Padding(
-              padding: EdgeInsets.only(top: 0),
-              child: new RotationTransition(
-                  turns: new AlwaysStoppedAnimation(00 / 360),
-                  child: CircleColorPicker(
-                    initialColor: widget.color,
-                    initialHue: activeHue,
-                    onChanged: (v) {
-                      widget.onChanged(v);
-                    },
-                    thumbSize: 45,
-                  ))),
-        ),
+        widget.displaySlider
+            ? SizedBox(
+                height: 54,
+                width: 230,
+                child: new Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: new RotationTransition(
+                        turns: new AlwaysStoppedAnimation(00 / 360),
+                        child: CircleColorPicker(
+                          initialColor: widget.color,
+                          initialHue: activeHue,
+                          onChanged: (v) {
+                            widget.onChanged(v);
+                          },
+                          thumbSize: 45,
+                        ))),
+              )
+            : Container(),
       ]),
     );
   }
