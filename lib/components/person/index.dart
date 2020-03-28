@@ -53,8 +53,8 @@ class Person extends StatelessWidget {
             ? Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Image(
-                  height: 25.5,
-                  width: 25.5,
+                  height: 25.8,
+                  width: 25.8,
                   image: AssetImage('assets/images/Circle.png',
                       package: 'nutty_putty_avatars'),
                 ),

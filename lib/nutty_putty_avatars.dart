@@ -109,17 +109,6 @@ class AvatarState extends State<Avatar> {
 
       var decodeResponse = jsonDecode(response);
 
-      // print(decodeResponse['backgrounds']);
-      // print(decodeResponse['heads']);
-      // print(decodeResponse['hairs']);
-      // print(decodeResponse['hats']);
-      // print(decodeResponse['eyes']);
-      // print(decodeResponse['noses']);
-      // print(decodeResponse['mouths']);
-      // print(decodeResponse['face_hairs']);
-      // print(decodeResponse['clothes']);
-      // print(decodeResponse['accessories']);
-      // print(decodeResponse['eyebrows']);
       var initialPerson = {
         'background': {
           'color': hexToColor(bgPalette[5]),

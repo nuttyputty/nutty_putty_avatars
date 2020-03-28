@@ -24,13 +24,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/ListBg.png
-    - assets/images/person/
-    - assets/images/heads/
     - assets/images/partIcons/
-    - assets/images/mouth/
-    - assets/images/hairs/
-    - assets/images/faceHair/
-    - assets/images/eyes/
+    
   
 
  
