@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // avatarBg: AssetImage(
             //   'assets/Star.png',
             // ),
+            isStaging: true,
             androidList: ['com.nuttyputty.partymafia.avatars'],
             iosList: ['com.nuttyputty.partymafia.avatars'],
           ),
