@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'dart:io' show Platform;
 
-Future<void> initPlatformState(iosList, androidList, cb) async {
+Future<void> initPlatformState(iosList, androidList, cb, errorCb) async {
   await FlutterInappPurchase.instance.initConnection;
 
   await FlutterInappPurchase.instance.platformVersion;
@@ -23,8 +23,8 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
     getPurchases(false);
   });
 
-  StreamSubscription _purchaseErrorSubscription =
-      FlutterInappPurchase.purchaseError.listen((purchaseError) {
+  FlutterInappPurchase.purchaseError.listen((purchaseError) {
+    errorCb();
     print('$purchaseError');
     print('ERRORRR');
   });

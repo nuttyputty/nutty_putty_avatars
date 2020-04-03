@@ -61,6 +61,7 @@ class AvatarState extends State<Avatar> {
   bool isHatActive = false;
   bool showSlider = true;
   bool fullVersion = false;
+  static bool loader = false;
   @override
   void initState() {
     super.initState();
@@ -70,6 +71,10 @@ class AvatarState extends State<Avatar> {
         setState(() {
           fullVersion = true;
         });
+        UpgradePopupState.toggleLoader(true);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      }, () {
+        toggleLoader(false);
       }).whenComplete(() async {
         var purchased = await getPurchases();
 
@@ -337,6 +342,12 @@ class AvatarState extends State<Avatar> {
     });
   }
 
+  toggleLoader(data) {
+    setState(() {
+      loader = data;
+    });
+  }
+
   changeActiveElement(item, element) {
     if (item['free'] || fullVersion) {
       if (element == 'hats') {
@@ -368,7 +379,9 @@ class AvatarState extends State<Avatar> {
         showSlider = item['free'] && element == 'background';
       });
     } else {
-      showPopUp(context);
+      showPopUp(context, loader, () {
+        toggleLoader(true);
+      });
     }
   }
 
