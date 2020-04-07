@@ -9,6 +9,7 @@ Future<void> initPlatformState(iosList, androidList, cb, errorCb) async {
   await FlutterInappPurchase.instance.platformVersion;
 
   FlutterInappPurchase.purchaseUpdated.listen((productItem) async {
+    print('FlutterInappPurchase.purchaseUpdated');
     if (Platform.isAndroid) {
       await FlutterInappPurchase.instance.acknowledgePurchaseAndroid(
         productItem.purchaseToken,
