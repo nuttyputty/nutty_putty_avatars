@@ -37,6 +37,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
+          Container(
+            height: 200,
+            color: Colors.green,
+            width: 120,
+          ),
           Avatar(
             bgColor: Colors.transparent,
             initialAvatar: {

@@ -46,23 +46,29 @@ Widget wrapper(title, text, isImage) {
   );
 }
 
-// void showPopUp(context, loader, changeLoader) {
-//   showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//             elevation: 0.0,
-//             shape: OutlineInputBorder(
-//                 borderSide: BorderSide.none,
-//                 borderRadius: BorderRadius.circular(15)),
-//             contentPadding: EdgeInsets.all(15),
-//             content: UpgradePopup(loader: loader, changeLoader: changeLoader));
-//       });
-// }
+void showPopUp(context, loader, toogleLoader) {
+  showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            elevation: 0.0,
+            shape: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(15)),
+            contentPadding: EdgeInsets.all(15),
+            content: UpgradePopup(
+              loader: loader,
+              changeLoader: (data) {
+                toogleLoader(data);
+              },
+            ));
+      });
+}
 
 class UpgradePopup extends StatefulWidget {
   UpgradePopup({this.loader, this.changeLoader, this.closePopup});
-  final loader;
+  var loader;
   final changeLoader;
   final closePopup;
   UpgradePopupState createState() => UpgradePopupState();
@@ -73,80 +79,76 @@ class UpgradePopupState extends State<UpgradePopup> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     print(widget.loader);
-    return Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
-        width: width,
-        height: height,
-        color: hexToColor('#000000').withOpacity(0.7),
-        child: Container(
-            padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
-            decoration: BoxDecoration(
-                color: hexToColor('#E3EDF7'),
-                borderRadius: BorderRadius.circular(18)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                wrapper('Unlock Avatar+ \$9.99',
-                    'Combine more items and\nget new looks', true),
-                Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 20),
-                  child: wrapper('Express yourself!',
-                      'Complete your image here and now!', false),
-                ),
-                wrapper('Be unique!', 'Friends will instantly recognize you',
-                    false),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: !widget.loader
-                        ? SizedBox(
-                            width: 142,
-                            height: 44,
-                            child: FlatButton(
-                              onPressed: () {
-                                widget.changeLoader(true);
-                                requestPurchase();
-                              },
-                              padding: EdgeInsets.only(
-                                  left: 30, top: 8, right: 30, bottom: 8),
-                              color: hexToColor('#80B5EB'),
-                              child: Text(
-                                'Buy Now',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: 142,
-                            height: 44,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: hexToColor('#80B5EB'),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: new CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    hexToColor('#ffffff')),
-                              ),
-                            ),
-                          )),
-                FlatButton(
-                  padding: EdgeInsets.all(0),
-                  child: Text(
-                    'Cancel',
-                    style:
-                        TextStyle(color: hexToColor('#3C4F73'), fontSize: 18),
-                  ),
-                  onPressed: () {
-                    widget.closePopup();
-                  },
-                )
-              ],
-            )));
+    return
+        // Container(
+        //     alignment: Alignment.center,
+        //     padding: EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
+        //     width: width,
+        //     height: height,
+        //     color: hexToColor('#000000').withOpacity(0.7),
+        //     child: Container(
+        //         padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
+        //         decoration: BoxDecoration(
+        //             color: hexToColor('#E3EDF7'),
+        //             borderRadius: BorderRadius.circular(18)),
+        //         child:
+        Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        wrapper('Unlock Avatar+ \$9.99',
+            'Combine more items and\nget new looks', true),
+        Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: wrapper(
+              'Express yourself!', 'Complete your image here and now!', false),
+        ),
+        wrapper('Be unique!', 'Friends will instantly recognize you', false),
+        Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: !widget.loader
+                ? SizedBox(
+                    width: 142,
+                    height: 44,
+                    child: FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.loader = true;
+                        });
+                        widget.changeLoader(true);
+                        requestPurchase();
+                      },
+                      padding: EdgeInsets.only(
+                          left: 30, top: 8, right: 30, bottom: 8),
+                      color: hexToColor('#80B5EB'),
+                      child: Text(
+                        'Buy Now',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    ),
+                  )
+                : Container(
+                    width: 142,
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: hexToColor('#80B5EB'),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: new CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            hexToColor('#ffffff')),
+                      ),
+                    ),
+                  )),
+      ],
+    );
+
+    // );
+    // );
   }
 }

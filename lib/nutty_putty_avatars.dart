@@ -72,9 +72,11 @@ class AvatarState extends State<Avatar> {
         setState(() {
           fullVersion = true;
         });
-        showPopup(false);
+        // showPopup(false);
         toggleLoader(false);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       }, () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
         toggleLoader(false);
       }).whenComplete(() async {
         var purchased = await getPurchases();
@@ -386,10 +388,11 @@ class AvatarState extends State<Avatar> {
         showSlider = item['free'] && element == 'background';
       });
     } else {
-      // showPopUp(context, loader, (data) {
-      //   toggleLoader(data);
-      // });
-      showPopup(true);
+      toggleLoader(false);
+      showPopUp(context, loader, (data) {
+        toggleLoader(data);
+      });
+      // showPopup(true);
     }
   }
 
@@ -410,6 +413,7 @@ class AvatarState extends State<Avatar> {
 
     return parts != null
         ? Stack(
+            overflow: Overflow.visible,
             children: <Widget>[
               Container(
                   decoration: BoxDecoration(
