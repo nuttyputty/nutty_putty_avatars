@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
 import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
 import 'package:nutty_putty_avatars/styles/index.dart';
@@ -16,7 +15,6 @@ Widget wrapper(title, text, isImage) {
           colors: gradient,
         ),
         boxShadow: shadow),
-    // color: Colors.red,
     child: Column(
       children: <Widget>[
         Text(title,
@@ -76,23 +74,7 @@ class UpgradePopup extends StatefulWidget {
 
 class UpgradePopupState extends State<UpgradePopup> {
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-    print(widget.loader);
-    return
-        // Container(
-        //     alignment: Alignment.center,
-        //     padding: EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
-        //     width: width,
-        //     height: height,
-        //     color: hexToColor('#000000').withOpacity(0.7),
-        //     child: Container(
-        //         padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
-        //         decoration: BoxDecoration(
-        //             color: hexToColor('#E3EDF7'),
-        //             borderRadius: BorderRadius.circular(18)),
-        //         child:
-        Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         wrapper('Unlock Avatar+ \$9.99',
@@ -147,8 +129,5 @@ class UpgradePopupState extends State<UpgradePopup> {
                   )),
       ],
     );
-
-    // );
-    // );
   }
 }

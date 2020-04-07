@@ -15,6 +15,7 @@ dependencies:
   flutter_inapp_purchase: ^2.0.4
   # screenshot: ^0.1.1
   flutter_circle_color_picker: ^0.1.1
+  fluttertoast: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
