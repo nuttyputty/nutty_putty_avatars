@@ -70,7 +70,6 @@ class AvatarState extends State<Avatar> {
     getImages();
     if (widget.iosList != null && widget.androidList != null) {
       initPlatformState(widget.iosList, widget.androidList, () {
-        print('aaaaaaaaaaaaaaaaaa');
         setState(() {
           fullVersion = true;
         });
