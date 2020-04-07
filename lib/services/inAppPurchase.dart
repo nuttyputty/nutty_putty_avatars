@@ -56,11 +56,9 @@ hasPurchased(String productID, purchasedProduct) {
       orElse: () => null);
 }
 
-void requestPurchase() {
+void requestPurchase(id) {
   try {
-    FlutterInappPurchase.instance.requestPurchase(Platform.isIOS
-        ? 'com.nuttyputty.partymafia.fullAvatars'
-        : 'com.nuttyputty.partymafia.avatars');
+    FlutterInappPurchase.instance.requestPurchase(id);
   } catch (e) {
     print('[ERERERERERERERER]');
     print("[ERERERERERERERER] $e");

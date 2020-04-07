@@ -44,7 +44,7 @@ Widget wrapper(title, text, isImage) {
   );
 }
 
-void showPopUp(context, loader, toogleLoader) {
+void showPopUp(context, loader, toogleLoader, id) {
   showDialog(
       context: context,
       barrierDismissible: true,
@@ -56,19 +56,20 @@ void showPopUp(context, loader, toogleLoader) {
                 borderRadius: BorderRadius.circular(15)),
             contentPadding: EdgeInsets.all(15),
             content: UpgradePopup(
-              loader: loader,
-              changeLoader: (data) {
-                toogleLoader(data);
-              },
-            ));
+                loader: loader,
+                changeLoader: (data) {
+                  toogleLoader(data);
+                },
+                id: id));
       });
 }
 
 class UpgradePopup extends StatefulWidget {
-  UpgradePopup({this.loader, this.changeLoader, this.closePopup});
+  UpgradePopup({this.loader, this.changeLoader, this.id, this.closePopup});
   var loader;
   final changeLoader;
   final closePopup;
+  final id;
   UpgradePopupState createState() => UpgradePopupState();
 }
 
@@ -97,7 +98,8 @@ class UpgradePopupState extends State<UpgradePopup> {
                           widget.loader = true;
                         });
                         widget.changeLoader(true);
-                        requestPurchase();
+
+                        requestPurchase(widget.id);
                       },
                       padding: EdgeInsets.only(
                           left: 30, top: 8, right: 30, bottom: 8),

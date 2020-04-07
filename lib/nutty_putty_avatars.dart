@@ -387,7 +387,7 @@ class AvatarState extends State<Avatar> {
       toggleLoader(false);
       showPopUp(context, loader, (data) {
         toggleLoader(data);
-      });
+      }, Platform.isIOS ? widget.iosList[0] : widget.androidList[0]);
       // showPopup(true);
     }
   }
