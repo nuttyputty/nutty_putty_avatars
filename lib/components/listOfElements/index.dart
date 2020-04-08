@@ -116,7 +116,8 @@ class ListOfElements extends StatelessWidget {
                 icon: Transform.scale(
                     scale: 1.8,
                     child: Person(
-                      isFree: fullVersion ? true : item['free'],
+                      // isFree: fullVersion ? true : item['free'],
+                      isFree: true,
                       active: active,
                       head: list['subpart'] == 'head' ? item : head,
                       headColor: headColor,
