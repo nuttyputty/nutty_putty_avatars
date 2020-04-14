@@ -12,6 +12,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:nutty_putty_avatars/constants/palletes.dart';
 import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
+import 'package:nutty_putty_avatars/services/toast.dart';
 import 'package:nutty_putty_avatars/styles/index.dart';
 
 import './components/person/index.dart';
@@ -61,6 +62,8 @@ class AvatarState extends State<Avatar> {
   bool isHatActive = false;
   bool showSlider = true;
   bool fullVersion = false;
+  bool loader = false;
+
   @override
   void initState() {
     super.initState();
@@ -70,6 +73,12 @@ class AvatarState extends State<Avatar> {
         setState(() {
           fullVersion = true;
         });
+        toggleLoader(false);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      }, () {
+        showToast('Looks like something went wrong, please try again');
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        toggleLoader(false);
       }).whenComplete(() async {
         var purchased = await getPurchases();
 
@@ -337,6 +346,12 @@ class AvatarState extends State<Avatar> {
     });
   }
 
+  toggleLoader(data) {
+    setState(() {
+      loader = data;
+    });
+  }
+
   changeActiveElement(item, element) {
     if (item['free'] || fullVersion) {
       if (element == 'hats') {
@@ -368,7 +383,10 @@ class AvatarState extends State<Avatar> {
         showSlider = item['free'] && element == 'background';
       });
     } else {
-      showPopUp(context);
+      toggleLoader(false);
+      showPopUp(context, loader, (data) {
+        toggleLoader(data);
+      }, Platform.isIOS ? widget.iosList[0] : widget.androidList[0]);
     }
   }
 
@@ -505,7 +523,8 @@ class AvatarState extends State<Avatar> {
                     Column(
                       children: active['items'].map<Widget>((item) {
                         bool show = item['subpart'] != 'background' ||
-                            showSlider ||
+                            person['background']['element']['free'] &&
+                                item['subpart'] == 'background' ||
                             item['title'] == 'BACKGROUND TYPE';
                         return Column(
                           children: <Widget>[

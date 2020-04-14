@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'dart:io' show Platform;
 
-Future<void> initPlatformState(iosList, androidList, cb) async {
+Future<void> initPlatformState(iosList, androidList, cb, errorCb) async {
   await FlutterInappPurchase.instance.initConnection;
 
   await FlutterInappPurchase.instance.platformVersion;
@@ -23,8 +23,8 @@ Future<void> initPlatformState(iosList, androidList, cb) async {
     getPurchases();
   });
 
-  StreamSubscription _purchaseErrorSubscription =
-      FlutterInappPurchase.purchaseError.listen((purchaseError) {
+  FlutterInappPurchase.purchaseError.listen((purchaseError) {
+    errorCb();
     print('$purchaseError');
     print('ERROR');
   });
@@ -56,8 +56,10 @@ hasPurchased(String productID, purchasedProduct) {
       orElse: () => null);
 }
 
-void requestPurchase() {
-  FlutterInappPurchase.instance.requestPurchase(Platform.isIOS
-      ? 'com.nuttyputty.partymafia.fullAvatars'
-      : 'com.nuttyputty.partymafia.avatars');
+void requestPurchase(id) {
+  try {
+    FlutterInappPurchase.instance.requestPurchase(id);
+  } catch (e) {
+    print("[EROR] $e");
+  }
 }
