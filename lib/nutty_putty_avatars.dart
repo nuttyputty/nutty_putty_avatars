@@ -353,42 +353,41 @@ class AvatarState extends State<Avatar> {
   }
 
   changeActiveElement(item, element) {
-    // if (item['free'] || fullVersion) {
-    if (element == 'hats') {
-      bool isHat = item['image'] != null;
-      var a = parts.map((item) {
-        if (item['part'] == 2) {
-          item['items'][0]['parts'] = isHat ? hatHairs : hairs;
+    if (item['free'] || fullVersion) {
+      if (element == 'hats') {
+        bool isHat = item['image'] != null;
+        var a = parts.map((item) {
+          if (item['part'] == 2) {
+            item['items'][0]['parts'] = isHat ? hatHairs : hairs;
+            return item;
+          }
           return item;
-        }
-        return item;
-      }).toList();
+        }).toList();
 
-      var index = hatHairs
-          .indexWhere((item) => person['hair']['element']['id'] == item['id']);
-
-      if (index == -1) {
-        index = hairs.indexWhere(
+        var index = hatHairs.indexWhere(
             (item) => person['hair']['element']['id'] == item['id']);
+
+        if (index == -1) {
+          index = hairs.indexWhere(
+              (item) => person['hair']['element']['id'] == item['id']);
+        }
+
+        setState(() {
+          person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
+          parts = a;
+        });
       }
 
       setState(() {
-        person['hair']['element'] = isHat ? hatHairs[index] : hairs[index];
-        parts = a;
+        person[element]['element'] = item;
+        showSlider = item['free'] && element == 'background';
       });
+    } else {
+      toggleLoader(false);
+      showPopUp(context, loader, (data) {
+        toggleLoader(data);
+      }, Platform.isIOS ? widget.iosList[0] : widget.androidList[0]);
     }
-
-    setState(() {
-      person[element]['element'] = item;
-      showSlider = item['free'] && element == 'background';
-    });
-    // } else {
-    //   toggleLoader(false);
-    //   showPopUp(context, loader, (data) {
-    //     toggleLoader(data);
-    //   }, Platform.isIOS ? widget.iosList[0] : widget.androidList[0]);
-
-    // }
   }
 
   var a = LinearGradient(
@@ -524,7 +523,8 @@ class AvatarState extends State<Avatar> {
                     Column(
                       children: active['items'].map<Widget>((item) {
                         bool show = item['subpart'] != 'background' ||
-                            showSlider ||
+                            person['background']['element']['free'] &&
+                                item['subpart'] == 'background' ||
                             item['title'] == 'BACKGROUND TYPE';
                         return Column(
                           children: <Widget>[

@@ -60,7 +60,6 @@ void requestPurchase(id) {
   try {
     FlutterInappPurchase.instance.requestPurchase(id);
   } catch (e) {
-    print('[ERERERERERERERER]');
-    print("[ERERERERERERERER] $e");
+    print("[EROR] $e");
   }
 }

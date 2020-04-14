@@ -107,7 +107,9 @@ class Person extends StatelessWidget {
                 width: 0,
                 height: 0,
               ),
-        renderSvgWithColor(clothes['image'], clothesColor),
+        clothes['shadow_image'] != null
+            ? renderSvgWithColor(clothes['image'], clothesColor)
+            : renderSvg(clothes['image']),
         clothes['shadow_image'] != null
             ? renderSvgWithColor(
                 clothes['shadow_image'], calculateShadowColor(clothesColor))

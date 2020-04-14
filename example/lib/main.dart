@@ -40,6 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Avatar(
             bgColor: Colors.transparent,
             isStaging: true,
+            // androidList: ['com.nuttyputty.partymafia.avatars'],
+            // iosList: ['com.nuttyputty.partymafia.fullAvatars'],
           ),
           FlatButton(
             onPressed: () async {
