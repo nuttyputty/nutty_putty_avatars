@@ -35,13 +35,19 @@ class Avatar extends StatefulWidget {
       this.avatarBg,
       this.iosList,
       this.androidList,
+      this.textColor,
       this.isStaging,
+      this.activePartColor,
+      this.partColor,
       this.initialAvatar})
       : super(key: key);
   final bgImage;
   final bgColor;
   final elementsColor;
   final avatarBg;
+  final Color activePartColor;
+  final Color partColor;
+  final textColor;
   final iosList;
   final isStaging;
   final restoreCb;
@@ -331,7 +337,9 @@ class AvatarState extends State<Avatar> {
           child: new Text(
             text.toUpperCase(),
             style: TextStyle(
-              color: hexToColor('#8D9CB3'),
+              color: widget.textColor != null
+                  ? widget.textColor
+                  : hexToColor('#8D9CB3'),
               fontFamily: 'Roboto',
               fontSize: 14,
             ),
@@ -496,7 +504,10 @@ class AvatarState extends State<Avatar> {
                               'Restore\npurchase',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 12, color: hexToColor('#8D9CB3')),
+                                  fontSize: 12,
+                                  color: widget.textColor != null
+                                      ? widget.textColor
+                                      : hexToColor('#8D9CB3')),
                             ),
                             onPressed: () {
                               getPurchases(() {
@@ -516,6 +527,8 @@ class AvatarState extends State<Avatar> {
                       child: PartsSwitch(
                           changePart: changePartOfAvatar,
                           parts: parts,
+                          activePartColor: widget.activePartColor,
+                          partColor: widget.partColor,
                           partBorder: widget.partBorderColor,
                           activePart: partOfAvatar,
                           color: widget.elementsColor),

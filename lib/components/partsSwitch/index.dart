@@ -9,9 +9,13 @@ class PartsSwitch extends StatelessWidget {
       this.partBorder,
       this.activePart,
       this.parts,
+      this.partColor,
+      this.activePartColor,
       this.color});
   final List parts;
   final partBorder;
+  final Color partColor;
+  final Color activePartColor;
   final Function changePart;
   final int activePart;
   final color;
@@ -44,8 +48,14 @@ class PartsSwitch extends StatelessWidget {
                   )
                 : null),
         padding: EdgeInsets.all(6),
-        child: renderSvgWithColor(data['partImage'],
-            active ? hexToColor('#C4CFDE') : hexToColor('#8D9CB3'), true),
+        child: renderSvgWithColor(
+            data['partImage'],
+            active
+                ? activePartColor != null
+                    ? activePartColor
+                    : hexToColor('#C4CFDE')
+                : partColor != null ? partColor : hexToColor('#8D9CB3'),
+            true),
       ),
     );
   }
