@@ -39,6 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Avatar(
             bgColor: Colors.transparent,
+            androidList: [],
+            iosList: ['com.nuttyputty.partymafia.fullAvatars'],
             isStaging: true,
           ),
           FlatButton(
