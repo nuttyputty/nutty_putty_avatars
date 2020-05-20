@@ -81,8 +81,8 @@ class AvatarState extends State<Avatar> {
         });
         toggleLoader(false);
         Navigator.of(context, rootNavigator: true).pop('dialog');
-      }, () {
-        showToast('Looks like something went wrong, please try again');
+      }, (e) {
+        showToast('$e');
         Navigator.of(context, rootNavigator: true).pop('dialog');
         toggleLoader(false);
       }).whenComplete(() async {
