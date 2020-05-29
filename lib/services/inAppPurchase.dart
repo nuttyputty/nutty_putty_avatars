@@ -24,8 +24,8 @@ Future<void> initPlatformState(iosList, androidList, cb, errorCb) async {
   });
 
   FlutterInappPurchase.purchaseError.listen((purchaseError) {
-    errorCb();
-    print('$purchaseError');
+    errorCb(purchaseError.message);
+    print('${purchaseError.message}');
     print('ERROR');
   });
 

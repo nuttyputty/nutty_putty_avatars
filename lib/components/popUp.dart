@@ -8,12 +8,13 @@ Widget wrapper(title, text, isImage) {
     padding: EdgeInsets.all(8),
     decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.circular(5),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.45, 1],
-          colors: gradient,
-        ),
+        // gradient: LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        //   stops: [0.45, 1],
+        //   colors: gradient,
+        // ),
+        color: Colors.white,
         boxShadow: shadow),
     child: Column(
       children: <Widget>[
@@ -78,7 +79,7 @@ class UpgradePopupState extends State<UpgradePopup> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        wrapper('Unlock Avatar+ \$9.99',
+        wrapper('Unlock Avatar+ \$4.99',
             'Combine more items and\nget new looks', true),
         Padding(
           padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -90,8 +91,6 @@ class UpgradePopupState extends State<UpgradePopup> {
             padding: EdgeInsets.only(top: 20),
             child: !widget.loader
                 ? SizedBox(
-                    width: 142,
-                    height: 44,
                     child: FlatButton(
                       onPressed: () {
                         setState(() {

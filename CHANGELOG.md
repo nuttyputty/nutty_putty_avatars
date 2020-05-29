@@ -1,3 +1,6 @@
+## [0.0.4] - 07.05.2020
+    ## Updated
+    - `flutter_svg` and `fluttertoast` to the latest version
 ## [0.0.3] - 15.04.2020
     ## Added
     - New parts of avatar

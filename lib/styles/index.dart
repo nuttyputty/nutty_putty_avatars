@@ -16,5 +16,6 @@ List<BoxShadow> shadow = <BoxShadow>[
 
 List<Color> gradient = [
   hexToColor('#E3EDF7').withOpacity(1),
-  Color.fromRGBO(255, 255, 255, 0.7)
+  hexToColor('#E3EDF7').withOpacity(1),
+  // Color.fromRGBO(255, 255, 255, 0.7)
 ];

@@ -38,25 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Avatar(
             bgColor: Colors.transparent,
+            androidList: [],
+            iosList: ['com.nuttyputty.partymafia.fullAvatars'],
             isStaging: true,
           ),
-          FlatButton(
-            onPressed: () async {
-              var a = await AvatarState.takeImage();
-
-              var v = a['image'];
-              setState(() {
-                c = v;
-              });
-            },
-            child: Text('save'),
-          ),
-          c != null
-              ? Image.memory(
-                  c,
-                  scale: 2,
-                )
-              : Container()
         ],
       ),
     );
