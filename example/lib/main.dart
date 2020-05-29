@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
-
 import 'dart:ui';
 
-import 'package:nutty_putty_avatars/services/hexToColor.dart';
+import 'package:flutter/material.dart';
+import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var a = Avatar();
 
   var c;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

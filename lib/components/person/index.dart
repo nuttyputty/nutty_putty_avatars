@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
-import 'package:nutty_putty_avatars/styles/index.dart';
 
 import '../../services/renderSvg.dart';
 import '../../services/shadow.dart';
@@ -26,6 +25,7 @@ class Person extends StatelessWidget {
       @required this.mouthColor,
       @required this.clothesColor,
       this.active});
+
   final head;
   final hair;
   final faceHair;
@@ -45,6 +45,7 @@ class Person extends StatelessWidget {
   final mouthColor;
   final clothesColor;
   final isFree;
+
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
