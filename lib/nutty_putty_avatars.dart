@@ -535,9 +535,13 @@ class AvatarState extends State<Avatar> {
                     ),
                     Column(
                       children: active['items'].map<Widget>((item) {
+                        bool bg = person['background']['element']
+                                    ['custom_color'] !=
+                                null
+                            ? person['background']['element']['custom_color']
+                            : person['background']['element']['free'];
                         bool show = item['subpart'] != 'background' ||
-                            person['background']['element']['custom_color'] &&
-                                item['subpart'] == 'background' ||
+                            bg && item['subpart'] == 'background' ||
                             item['title'] == 'BACKGROUND TYPE';
                         return Column(
                           children: <Widget>[
