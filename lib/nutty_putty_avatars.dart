@@ -536,7 +536,7 @@ class AvatarState extends State<Avatar> {
                     Column(
                       children: active['items'].map<Widget>((item) {
                         bool show = item['subpart'] != 'background' ||
-                            person['background']['element']['free'] &&
+                            person['background']['element']['custom_color'] &&
                                 item['subpart'] == 'background' ||
                             item['title'] == 'BACKGROUND TYPE';
                         return Column(
