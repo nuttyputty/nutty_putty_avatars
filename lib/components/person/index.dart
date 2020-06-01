@@ -64,7 +64,7 @@ class Person extends StatelessWidget {
                 width: 0,
                 height: 0,
               ),
-        background['free']
+        background['custom_color']
             ? renderSvgWithColor(background['image'], bgColor)
             : renderSvg(background['image']),
         hats['back_image'] != null
