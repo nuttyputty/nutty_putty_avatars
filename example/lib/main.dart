@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nutty_putty_avatars/app.dart';
 import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 
 import 'dart:ui';
@@ -37,12 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          Avatar(
-            bgColor: Colors.transparent,
-            androidList: [],
-            iosList: ['com.nuttyputty.partymafia.fullAvatars'],
-            isStaging: true,
-          ),
+          App(),
+          // Avatar(
+          //   bgColor: Colors.transparent,
+          //   androidList: [],
+          //   iosList: ['com.nuttyputty.partymafia.fullAvatars'],
+          //   isStaging: true,
+          // ),
         ],
       ),
     );

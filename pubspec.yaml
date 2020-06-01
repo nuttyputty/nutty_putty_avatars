@@ -16,6 +16,11 @@ dependencies:
   # screenshot: ^0.1.1
   flutter_circle_color_picker: ^0.1.1
   fluttertoast: ^4.0.1
+  flutter_bloc: ^4.0.0
+  hydrated_bloc: ^4.1.0
+  equatable: ^1.1.1
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -174,49 +174,51 @@ class _ListOfElementsState extends State<ListOfElements> {
                       },
                       icon: Transform.scale(
                           scale: 1.8,
-                          child: Person(
-                            isFree: widget.fullVersion ? true : item['free'],
-                            active: active,
-                            head: widget.list['subpart'] == 'head'
-                                ? item
-                                : widget.head,
-                            headColor: widget.headColor,
-                            eyebrows: widget.list['subpart'] == 'eyebrows'
-                                ? item
-                                : widget.eyebrows,
-                            noses: widget.list['subpart'] == 'noses'
-                                ? item
-                                : widget.noses,
-                            hair: widget.list['subpart'] == 'hair'
-                                ? item
-                                : hairPart,
-                            bgColor: widget.bgColor,
-                            hairColor: widget.hairColor,
-                            hats: widget.list['subpart'] == 'hats'
-                                ? item
-                                : widget.hats,
-                            eyes: widget.list['subpart'] == 'eyes'
-                                ? item
-                                : widget.eyes,
-                            mouth: widget.list['subpart'] == 'mouth'
-                                ? item
-                                : widget.mouth,
-                            clothes: widget.list['subpart'] == 'clothes'
-                                ? item
-                                : widget.clothes,
-                            background: widget.list['subpart'] == 'background'
-                                ? item
-                                : widget.background,
-                            faceHair: widget.list['subpart'] == 'face_hairs'
-                                ? item
-                                : widget.faceHair,
-                            clothesColor: widget.clothesColor,
-                            accessories: widget.list['subpart'] == 'accessories'
-                                ? item
-                                : widget.accessories,
-                            eyesColor: widget.eyesColor,
-                            mouthColor: Colors.white,
-                          ))),
+                          child:
+                              //  Person(
+                              //   isFree: widget.fullVersion ? true : item['free'],
+                              //   active: active,
+                              //   head: widget.list['subpart'] == 'head'
+                              //       ? item
+                              //       : widget.head,
+                              //   headColor: widget.headColor,
+                              //   eyebrows: widget.list['subpart'] == 'eyebrows'
+                              //       ? item
+                              //       : widget.eyebrows,
+                              //   noses: widget.list['subpart'] == 'noses'
+                              //       ? item
+                              //       : widget.noses,
+                              //   hair: widget.list['subpart'] == 'hair'
+                              //       ? item
+                              //       : hairPart,
+                              //   bgColor: widget.bgColor,
+                              //   hairColor: widget.hairColor,
+                              //   hats: widget.list['subpart'] == 'hats'
+                              //       ? item
+                              //       : widget.hats,
+                              //   eyes: widget.list['subpart'] == 'eyes'
+                              //       ? item
+                              //       : widget.eyes,
+                              //   mouth: widget.list['subpart'] == 'mouth'
+                              //       ? item
+                              //       : widget.mouth,
+                              //   clothes: widget.list['subpart'] == 'clothes'
+                              //       ? item
+                              //       : widget.clothes,
+                              //   background: widget.list['subpart'] == 'background'
+                              //       ? item
+                              //       : widget.background,
+                              //   faceHair: widget.list['subpart'] == 'face_hairs'
+                              //       ? item
+                              //       : widget.faceHair,
+                              //   clothesColor: widget.clothesColor,
+                              //   accessories: widget.list['subpart'] == 'accessories'
+                              //       ? item
+                              //       : widget.accessories,
+                              //   eyesColor: widget.eyesColor,
+                              //   mouthColor: Colors.white,
+                              // )
+                              Container())),
                 );
               }).toList(),
             ),

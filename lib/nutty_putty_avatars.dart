@@ -9,13 +9,19 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutty_putty_avatars/blocks/avatars/avatar.dart';
+import 'package:nutty_putty_avatars/blocks/person/person.dart';
+import 'package:nutty_putty_avatars/components/person/index.dart';
 
 import 'package:nutty_putty_avatars/constants/palletes.dart';
+import 'package:nutty_putty_avatars/models/person.dart' as model;
 import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
 import 'package:nutty_putty_avatars/services/toast.dart';
 import 'package:nutty_putty_avatars/styles/index.dart';
 
-import './components/person/index.dart';
+// import './components/person/index.dart';
 import './components/colorChanger/index.dart';
 import './components/listOfElements/index.dart';
 import './components/partsSwitch/index.dart';
@@ -52,14 +58,14 @@ class Avatar extends StatefulWidget {
   final isStaging;
   final restoreCb;
   final androidList;
-  static GlobalKey _globalKey = new GlobalKey<AvatarState>();
+  static GlobalKey _globalKey = new GlobalKey<AvatarStatea>();
   final initialAvatar;
   final partBorderColor;
   @override
-  AvatarState createState() => AvatarState();
+  AvatarStatea createState() => AvatarStatea();
 }
 
-class AvatarState extends State<Avatar> {
+class AvatarStatea extends State<Avatar> {
   List parts;
   int partOfAvatar = 0;
   static var person;
@@ -74,29 +80,34 @@ class AvatarState extends State<Avatar> {
   void initState() {
     super.initState();
     getImages();
-    if (widget.iosList != null && widget.androidList != null) {
-      initPlatformState(widget.iosList, widget.androidList, () {
-        setState(() {
-          fullVersion = true;
-        });
-        toggleLoader(false);
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-      }, (e) {
-        showToast('$e');
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-        toggleLoader(false);
-      }).whenComplete(() async {
-        var purchased = await getPurchases();
+    // if (widget.iosList != null && widget.androidList != null) {
+    //   initPlatformState(widget.iosList, widget.androidList, () {
+    //     setState(() {
+    //       fullVersion = true;
+    //     });
+    //     toggleLoader(false);
+    //     Navigator.of(context, rootNavigator: true).pop('dialog');
+    //   }, (e) {
+    //     showToast('$e');
+    //     Navigator.of(context, rootNavigator: true).pop('dialog');
+    //     toggleLoader(false);
+    //   }).whenComplete(() async {
+    //     var purchased = await getPurchases();
 
-        var data = await hasPurchased(
-            Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
-            purchased);
+    //     var data = await hasPurchased(
+    //         Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
+    //         purchased);
 
-        setState(() {
-          fullVersion = data != null;
-        });
-      });
-    }
+    //     setState(() {
+    //       fullVersion = data != null;
+    //     });
+    //   });
+    // }
+
+    _avatarBloc = BlocProvider.of<AvatarBloc>(context);
+    _personBloc = BlocProvider.of<PersonBloc>(context);
+    _avatarBloc.add(GetAvatars());
+    // getImages();
   }
 
   static getParts() {
@@ -120,42 +131,40 @@ class AvatarState extends State<Avatar> {
 
   getImages() async {
     try {
-      var response = await getRequest('/images', widget.isStaging);
+      var response = await getRequest('/images', true);
 
       var decodeResponse = jsonDecode(response);
 
-      var initialPerson = {
+      Map<String, dynamic> initialPerson = {
         'background': {
-          'color': hexToColor(bgPalette[5]),
+          'color': bgPalette[5],
           'element': decodeResponse['backgrounds'][0]
         },
         'head': {
-          'color': hexToColor(headPalette[1]),
+          'color': headPalette[1],
           'element': decodeResponse['heads'][0]
         },
         'hair': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hairPalette[0],
           'element': decodeResponse['hairs'][0]
         },
         'hats': {'element': decodeResponse['hats'][0]},
-        'eyes': {
-          'element': decodeResponse['eyes'][0],
-          'color': hexToColor(eyesPalette[0])
-        },
+        'eyes': {'element': decodeResponse['eyes'][0], 'color': eyesPalette[0]},
         'noses': {'element': decodeResponse['noses'][0]},
         'mouth': {'element': decodeResponse['mouths'][0]},
         'face_hairs': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hairPalette[0],
           'element': decodeResponse['face_hairs'][0]
         },
         'clothes': {
-          'color': hexToColor(clothPalette[0]),
+          'color': clothPalette[0],
           'element': decodeResponse['clothes'][0]
         },
         'accessories': {'element': decodeResponse['accessories'][0]},
         'eyebrows': {'element': decodeResponse['eyebrows'][0]}
       };
-
+      Clipboard.setData(ClipboardData(text: json.encode(initialPerson)));
+      print(json.encode(initialPerson));
       var initAvatar = widget.initialAvatar;
       if (widget.initialAvatar != null) {
         initialPerson.forEach((key, val) {
@@ -404,17 +413,61 @@ class AvatarState extends State<Avatar> {
     stops: [0.45, 1],
     colors: [hexToColor('#2A2A2A'), hexToColor('#2A2A2A')],
   );
-
+  AvatarBloc _avatarBloc;
+  PersonBloc _personBloc;
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    var active;
-    if (parts != null) {
-      active = parts.firstWhere((item) => item['part'] == partOfAvatar);
-    }
+    return BlocConsumer<AvatarBloc, AvatarState>(
+      listener: (BuildContext context, AvatarState state) {
+        if (state is AvatarLoaded) {
+          print(state.avatars.accessories);
+          _personBloc.add(InitialPerson(model.Person.fromJson({
+            'background': {
+              'color': bgPalette[5],
+              'element': state.avatars.backgrounds[0].toJson()
+            },
+            'head': {
+              'color': headPalette[1],
+              'element': state.avatars.heads[0].toJson()
+            },
+            'hair': {
+              'color': hairPalette[0],
+              'element': state.avatars.hairs[0].toJson()
+            },
+            'hats': {'element': state.avatars.hats[0].toJson()},
+            'eyes': {
+              'element': state.avatars.eyes[0].toJson(),
+              'color': eyesPalette[0]
+            },
+            'noses': {'element': state.avatars.noses[0].toJson()},
+            'mouth': {'element': state.avatars.mouths[0].toJson()},
+            'face_hairs': {
+              'color': hairPalette[0],
+              'element': state.avatars.faceHairs[0].toJson()
+            },
+            'clothes': {
+              'color': clothPalette[0],
+              'element': state.avatars.clothes[0].toJson()
+            },
+            'accessories': {'element': state.avatars.accessories[0].toJson()},
+            'eyebrows': {'element': state.avatars.eyebrows[0].toJson()}
+          })));
+        }
+      },
+      builder: (BuildContext context, AvatarState state) {
+        if (state is AvatarLoading) {
+          return new Container(
+            width: 20,
+            height: 40,
+            alignment: Alignment.center,
+            child: new CircularProgressIndicator(
+              valueColor:
+                  new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
+            ),
+          );
+        }
 
-    return parts != null
-        ? Container(
+        return Container(
             decoration: BoxDecoration(
                 color: widget.bgColor != null
                     ? widget.bgColor
@@ -435,66 +488,43 @@ class AvatarState extends State<Avatar> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(left: 80),
-                              width: 142,
-                              height: 142,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(38),
-                                  image: widget.avatarBg != null
-                                      ? DecorationImage(
-                                          image: widget.avatarBg,
-                                          fit: BoxFit.contain)
-                                      : null,
-                                  gradient: widget.avatarBg == null
-                                      ? LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          stops: [0.45, 1],
-                                          colors: widget.elementsColor != null
-                                              ? [
-                                                  widget.elementsColor,
-                                                  widget.elementsColor
-                                                ]
-                                              : gradient,
-                                        )
-                                      : null,
-                                  boxShadow: widget.elementsColor != null ||
-                                          widget.avatarBg != null
-                                      ? null
-                                      : shadow),
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 20),
-                                child: Transform.scale(
-                                  scale: 2,
-                                  child: RepaintBoundary(
-                                    key: Avatar._globalKey,
-                                    child: Person(
-                                      isFree: true,
-                                      head: person['head']['element'],
-                                      hats: person['hats']['element'],
-                                      headColor: person['head']['color'],
-                                      eyebrows: person['eyebrows']['element'],
-                                      hair: person['hair']['element'],
-                                      accessories: person['accessories']
-                                          ['element'],
-                                      faceHair: person['face_hairs']['element'],
-                                      hairColor: person['face_hairs']['color'],
-                                      noses: person['noses']['element'],
-                                      eyes: person['eyes']['element'],
-                                      mouth: person['mouth']['element'],
-                                      background: person['background']
-                                          ['element'],
-                                      clothes: person['clothes']['element'],
-                                      bgColor: person['background']['color'],
-                                      clothesColor: person['clothes']['color'],
-                                      eyesColor: person['eyes']['color'],
-                                      mouthColor: Colors.white,
-                                    ),
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(left: 80),
+                                width: 142,
+                                height: 142,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(38),
+                                    image: widget.avatarBg != null
+                                        ? DecorationImage(
+                                            image: widget.avatarBg,
+                                            fit: BoxFit.contain)
+                                        : null,
+                                    gradient: widget.avatarBg == null
+                                        ? LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            stops: [0.45, 1],
+                                            colors: widget.elementsColor != null
+                                                ? [
+                                                    widget.elementsColor,
+                                                    widget.elementsColor
+                                                  ]
+                                                : gradient,
+                                          )
+                                        : null,
+                                    boxShadow: widget.elementsColor != null ||
+                                            widget.avatarBg != null
+                                        ? null
+                                        : shadow),
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 20),
+                                  child: Transform.scale(
+                                    scale: 2,
+                                    child: RepaintBoundary(
+                                        key: Avatar._globalKey,
+                                        child: PersonMaket()),
                                   ),
-                                ),
-                              ),
-                            ),
+                                )),
                           ),
                         ),
                         SizedBox(
@@ -522,8 +552,8 @@ class AvatarState extends State<Avatar> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: height > 667 ? 32 : 25,
-                          bottom: height > 667 ? 20 : 15),
+                          top: 200 > 667 ? 32 : 25,
+                          bottom: 200 > 667 ? 20 : 15),
                       child: PartsSwitch(
                           changePart: changePartOfAvatar,
                           parts: parts,
@@ -533,86 +563,215 @@ class AvatarState extends State<Avatar> {
                           activePart: partOfAvatar,
                           color: widget.elementsColor),
                     ),
-                    Column(
-                      children: active['items'].map<Widget>((item) {
-                        bool show = item['subpart'] != 'background' ||
-                            person['background']['element']['free'] &&
-                                item['subpart'] == 'background' ||
-                            item['title'] == 'BACKGROUND TYPE';
-                        return Column(
-                          children: <Widget>[
-                            item['title'] != ''
-                                ? show
-                                    ? renderTitle(item['title'])
-                                    : Container()
-                                : Container(),
-                            item['type'] == 'part'
-                                ? ListOfElements(
-                                    list: item,
-                                    partOfAvatar: partOfAvatar,
-                                    head: person['head']['element'],
-                                    hats: person['hats']['element'],
-                                    headColor: person['head']['color'],
-                                    hair: person['hair']['element'],
-                                    eyebrows: person['eyebrows']['element'],
-                                    accessories: person['accessories']
-                                        ['element'],
-                                    bgColor: person['background']['color'],
-                                    faceHair: person['face_hairs']['element'],
-                                    hairColor: person['face_hairs']['color'],
-                                    eyes: person['eyes']['element'],
-                                    mouth: person['mouth']['element'],
-                                    noses: person['noses']['element'],
-                                    background: person['background']['element'],
-                                    clothes: person['clothes']['element'],
-                                    clothesColor: person['clothes']['color'],
-                                    eyesColor: person['eyes']['color'],
-                                    mouthColor: Colors.white,
-                                    hairs: hairs,
-                                    hatHairs: hatHairs,
-                                    changeActiveElement: (element) {
-                                      changeActiveElement(
-                                        element,
-                                        item['subpart'],
-                                      );
-                                    },
-                                    fullVersion: fullVersion,
-                                    person: person,
-                                    color: widget.elementsColor)
-                                : Container(),
-                            item['type'] == 'pallet'
-                                ? show
-                                    ? Padding(
-                                        padding:
-                                            EdgeInsets.only(top: 5, bottom: 5),
-                                        child: ColorChanger(
-                                            bg: widget.elementsColor,
-                                            color: person[item['subpart']]
-                                                ['color'],
-                                            onChanged: (color) {
-                                              changeColor(
-                                                  color, item['subpart']);
-                                            },
-                                            displaySlider:
-                                                item['slider'] == null,
-                                            palette: item['colors']),
-                                      )
-                                    : Container()
-                                : Container()
-                          ],
-                        );
-                      }).toList(),
-                    )
                   ]))
-            ]))
-        : new Container(
-            width: 20,
-            height: 40,
-            alignment: Alignment.center,
-            child: new CircularProgressIndicator(
-              valueColor:
-                  new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
-            ),
-          );
+            ]));
+      },
+    );
+
+    // if (parts != null) {
+    //   active = parts.firstWhere((item) => item['part'] == partOfAvatar);
+    // }
+
+    // return parts != null
+    // ? Container(
+    //     decoration: BoxDecoration(
+    //         color: widget.bgColor != null
+    //             ? widget.bgColor
+    //             : hexToColor('#E3EDF7'),
+    //         image: widget.bgImage != null
+    //             ? DecorationImage(fit: BoxFit.cover, image: widget.bgImage)
+    //             : null),
+    //     child: Column(children: <Widget>[
+    //       new Container(
+    //           padding: EdgeInsets.only(left: 14, right: 14),
+    //           child: new Column(children: <Widget>[
+    //             Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               mainAxisSize: MainAxisSize.max,
+    //               children: <Widget>[
+    //                 Expanded(
+    //                   child: Container(
+    //                     alignment: Alignment.center,
+    //                     child: Container(
+    //                       alignment: Alignment.center,
+    //                       margin: EdgeInsets.only(left: 80),
+    //                       width: 142,
+    //                       height: 142,
+    //                       decoration: BoxDecoration(
+    //                           borderRadius: BorderRadius.circular(38),
+    //                           image: widget.avatarBg != null
+    //                               ? DecorationImage(
+    //                                   image: widget.avatarBg,
+    //                                   fit: BoxFit.contain)
+    //                               : null,
+    //                           gradient: widget.avatarBg == null
+    //                               ? LinearGradient(
+    //                                   begin: Alignment.topLeft,
+    //                                   end: Alignment.bottomRight,
+    //                                   stops: [0.45, 1],
+    //                                   colors: widget.elementsColor != null
+    //                                       ? [
+    //                                           widget.elementsColor,
+    //                                           widget.elementsColor
+    //                                         ]
+    //                                       : gradient,
+    //                                 )
+    //                               : null,
+    //                           boxShadow: widget.elementsColor != null ||
+    //                                   widget.avatarBg != null
+    //                               ? null
+    //                               : shadow),
+    //                       child: Padding(
+    //                         padding: EdgeInsets.only(bottom: 20),
+    //                         child: Transform.scale(
+    //                           scale: 2,
+    //                           child: RepaintBoundary(
+    //                             key: Avatar._globalKey,
+    //                             child: Person(
+    //                               isFree: true,
+    //                               head: person['head']['element'],
+    //                               hats: person['hats']['element'],
+    //                               headColor: person['head']['color'],
+    //                               eyebrows: person['eyebrows']['element'],
+    //                               hair: person['hair']['element'],
+    //                               accessories: person['accessories']
+    //                                   ['element'],
+    //                               faceHair: person['face_hairs']['element'],
+    //                               hairColor: person['face_hairs']['color'],
+    //                               noses: person['noses']['element'],
+    //                               eyes: person['eyes']['element'],
+    //                               mouth: person['mouth']['element'],
+    //                               background: person['background']
+    //                                   ['element'],
+    //                               clothes: person['clothes']['element'],
+    //                               bgColor: person['background']['color'],
+    //                               clothesColor: person['clothes']['color'],
+    //                               eyesColor: person['eyes']['color'],
+    //                               mouthColor: Colors.white,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 SizedBox(
+    //                   width: 88,
+    //                   child: FlatButton(
+    //                     child: Text(
+    //                       'Restore\npurchase',
+    //                       textAlign: TextAlign.center,
+    //                       style: TextStyle(
+    //                           fontSize: 12,
+    //                           color: widget.textColor != null
+    //                               ? widget.textColor
+    //                               : hexToColor('#8D9CB3')),
+    //                     ),
+    //                     onPressed: () {
+    //                       getPurchases(() {
+    //                         if (widget.restoreCb != null) {
+    //                           widget.restoreCb();
+    //                         }
+    //                       });
+    //                     },
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //             Padding(
+    //               padding: EdgeInsets.only(
+    //                   top: height > 667 ? 32 : 25,
+    //                   bottom: height > 667 ? 20 : 15),
+    //               child: PartsSwitch(
+    //                   changePart: changePartOfAvatar,
+    //                   parts: parts,
+    //                   activePartColor: widget.activePartColor,
+    //                   partColor: widget.partColor,
+    //                   partBorder: widget.partBorderColor,
+    //                   activePart: partOfAvatar,
+    //                   color: widget.elementsColor),
+    //             ),
+    //             Column(
+    //                   children: active['items'].map<Widget>((item) {
+    //                     bool show = item['subpart'] != 'background' ||
+    //                         person['background']['element']['free'] &&
+    //                             item['subpart'] == 'background' ||
+    //                         item['title'] == 'BACKGROUND TYPE';
+    //                     return Column(
+    //                       children: <Widget>[
+    //                         item['title'] != ''
+    //                             ? show
+    //                                 ? renderTitle(item['title'])
+    //                                 : Container()
+    //                             : Container(),
+    //                         item['type'] == 'part'
+    //                             ? ListOfElements(
+    //                                 list: item,
+    //                                 partOfAvatar: partOfAvatar,
+    //                                 head: person['head']['element'],
+    //                                 hats: person['hats']['element'],
+    //                                 headColor: person['head']['color'],
+    //                                 hair: person['hair']['element'],
+    //                                 eyebrows: person['eyebrows']['element'],
+    //                                 accessories: person['accessories']
+    //                                     ['element'],
+    //                                 bgColor: person['background']['color'],
+    //                                 faceHair: person['face_hairs']['element'],
+    //                                 hairColor: person['face_hairs']['color'],
+    //                                 eyes: person['eyes']['element'],
+    //                                 mouth: person['mouth']['element'],
+    //                                 noses: person['noses']['element'],
+    //                                 background: person['background']['element'],
+    //                                 clothes: person['clothes']['element'],
+    //                                 clothesColor: person['clothes']['color'],
+    //                                 eyesColor: person['eyes']['color'],
+    //                                 mouthColor: Colors.white,
+    //                                 hairs: hairs,
+    //                                 hatHairs: hatHairs,
+    //                                 changeActiveElement: (element) {
+    //                                   changeActiveElement(
+    //                                     element,
+    //                                     item['subpart'],
+    //                                   );
+    //                                 },
+    //                                 fullVersion: fullVersion,
+    //                                 person: person,
+    //                                 color: widget.elementsColor)
+    //                             : Container(),
+    //                         item['type'] == 'pallet'
+    //                             ? show
+    //                                 ? Padding(
+    //                                     padding:
+    //                                         EdgeInsets.only(top: 5, bottom: 5),
+    //                                     child: ColorChanger(
+    //                                         bg: widget.elementsColor,
+    //                                         color: person[item['subpart']]
+    //                                             ['color'],
+    //                                         onChanged: (color) {
+    //                                           changeColor(
+    //                                               color, item['subpart']);
+    //                                         },
+    //                                         displaySlider:
+    //                                             item['slider'] == null,
+    //                                         palette: item['colors']),
+    //                                   )
+    //                                 : Container()
+    //                             : Container()
+    //                       ],
+    //                     );
+    //                   }).toList(),
+    //                 )
+    //               ]))
+    //         ]))
+    // : new Container(
+    //     width: 20,
+    //     height: 40,
+    //     alignment: Alignment.center,
+    //     child: new CircularProgressIndicator(
+    //       valueColor:
+    //           new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
+    //     ),
+    //   );
   }
 }
