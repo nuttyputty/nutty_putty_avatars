@@ -117,6 +117,7 @@ class Element {
   String shadowImage;
   String longHairImage;
   String backImage;
+  bool customColor;
 
   Element(
       {this.id,
@@ -133,6 +134,7 @@ class Element {
     shadowImage = json['shadow_image'];
     longHairImage = json['long_hair_image'];
     backImage = json['back_image'];
+    customColor = json['custom_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -143,6 +145,7 @@ class Element {
     data['shadow_image'] = this.shadowImage;
     data['long_hair_image'] = this.longHairImage;
     data['back_image'] = this.backImage;
+    data['custom_color'] = this.customColor;
     return data;
   }
 }

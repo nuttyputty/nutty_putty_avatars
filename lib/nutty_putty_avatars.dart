@@ -13,12 +13,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/avatars/avatar.dart';
 import 'package:nutty_putty_avatars/blocks/person/person.dart';
+import 'package:nutty_putty_avatars/components/creater_avatar_part.dart';
 import 'package:nutty_putty_avatars/components/person/index.dart';
 
 import 'package:nutty_putty_avatars/constants/palletes.dart';
+import 'package:nutty_putty_avatars/models/part.dart';
 import 'package:nutty_putty_avatars/models/person.dart' as model;
+import 'package:nutty_putty_avatars/models/avatar.dart' as avatarModel;
 import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
-import 'package:nutty_putty_avatars/services/toast.dart';
+
 import 'package:nutty_putty_avatars/styles/index.dart';
 
 // import './components/person/index.dart';
@@ -79,7 +82,7 @@ class AvatarStatea extends State<Avatar> {
   @override
   void initState() {
     super.initState();
-    getImages();
+    // getImages();
     // if (widget.iosList != null && widget.androidList != null) {
     //   initPlatformState(widget.iosList, widget.androidList, () {
     //     setState(() {
@@ -134,45 +137,6 @@ class AvatarStatea extends State<Avatar> {
       var response = await getRequest('/images', true);
 
       var decodeResponse = jsonDecode(response);
-
-      Map<String, dynamic> initialPerson = {
-        'background': {
-          'color': bgPalette[5],
-          'element': decodeResponse['backgrounds'][0]
-        },
-        'head': {
-          'color': headPalette[1],
-          'element': decodeResponse['heads'][0]
-        },
-        'hair': {
-          'color': hairPalette[0],
-          'element': decodeResponse['hairs'][0]
-        },
-        'hats': {'element': decodeResponse['hats'][0]},
-        'eyes': {'element': decodeResponse['eyes'][0], 'color': eyesPalette[0]},
-        'noses': {'element': decodeResponse['noses'][0]},
-        'mouth': {'element': decodeResponse['mouths'][0]},
-        'face_hairs': {
-          'color': hairPalette[0],
-          'element': decodeResponse['face_hairs'][0]
-        },
-        'clothes': {
-          'color': clothPalette[0],
-          'element': decodeResponse['clothes'][0]
-        },
-        'accessories': {'element': decodeResponse['accessories'][0]},
-        'eyebrows': {'element': decodeResponse['eyebrows'][0]}
-      };
-      Clipboard.setData(ClipboardData(text: json.encode(initialPerson)));
-      print(json.encode(initialPerson));
-      var initAvatar = widget.initialAvatar;
-      if (widget.initialAvatar != null) {
-        initialPerson.forEach((key, val) {
-          if (!initAvatar.containsKey(key)) {
-            initAvatar[key] = val;
-          }
-        });
-      }
 
       setState(() {
         hatHairs = decodeResponse['hat_hairs'];
@@ -315,8 +279,9 @@ class AvatarStatea extends State<Avatar> {
             ]
           },
         ];
-        person = widget.initialAvatar == null ? initialPerson : initAvatar;
       });
+
+      Clipboard.setData(ClipboardData(text: json.encode(parts)));
     } catch (err) {
       print(err);
     }
@@ -407,6 +372,175 @@ class AvatarStatea extends State<Avatar> {
     }
   }
 
+  Map<String, dynamic> generateInitalPerson(avatarModel.Avatar avatars) {
+    return {
+      'background': {
+        'color': bgPalette[5],
+        'element': avatars.backgrounds[0].toJson()
+      },
+      'head': {'color': headPalette[1], 'element': avatars.heads[0].toJson()},
+      'hair': {'color': hairPalette[0], 'element': avatars.hairs[0].toJson()},
+      'hats': {'element': avatars.hats[0].toJson()},
+      'eyes': {'element': avatars.eyes[0].toJson(), 'color': eyesPalette[0]},
+      'noses': {'element': avatars.noses[0].toJson()},
+      'mouth': {'element': avatars.mouths[0].toJson()},
+      'face_hairs': {
+        'color': hairPalette[0],
+        'element': avatars.faceHairs[0].toJson()
+      },
+      'clothes': {
+        'color': clothPalette[0],
+        'element': avatars.clothes[0].toJson()
+      },
+      'accessories': {'element': avatars.accessories[0].toJson()},
+      'eyebrows': {'element': avatars.eyebrows[0].toJson()}
+    };
+  }
+
+  List<AvatarPart> generatePartsList(avatarModel.Avatar data) {
+    var array = [
+      {
+        'part': 0,
+        'partImage': 'assets/images/partIcons/backgroundIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'BACKGROUND TYPE',
+            'subpart': 'background',
+            'parts': data.backgrounds.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'pallet',
+            'subpart': 'background',
+            'title': 'BACKGROUND COLOR',
+            'colors': bgPalette
+          }
+        ]
+      },
+      {
+        'part': 1,
+        'partImage': 'assets/images/partIcons/headIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'HEAD TYPE',
+            'subpart': 'head',
+            'parts': data.heads.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'pallet',
+            'subpart': 'head',
+            'title': 'SKIN TONE',
+            'colors': headPalette
+          }
+        ]
+      },
+      {
+        'part': 2,
+        'partImage': 'assets/images/partIcons/hairIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'HAIR TYPE',
+            'subpart': 'hair',
+            'parts': widget.initialAvatar != null &&
+                    widget.initialAvatar['hats']['element']['image'] != null
+                ? data.hatHairs.map((e) => e.toJson()).toList()
+                : data.hairs.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'part',
+            'title': 'FACE HAIR TYPE',
+            'subpart': 'face_hairs',
+            'parts': data.faceHairs.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'pallet',
+            'subpart': 'face_hairs',
+            'title': 'HAIR COLOR',
+            'colors': hairPalette
+          }
+        ]
+      },
+      {
+        'part': 3,
+        'partImage': 'assets/images/partIcons/emotionIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'EYEBROWS & EYES',
+            'subpart': 'eyebrows',
+            'parts': data.eyebrows.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'part',
+            'title': '',
+            'subpart': 'eyes',
+            'parts': data.eyes.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'pallet',
+            'subpart': 'eyes',
+            'title': 'EYES COLOR',
+            'slider': false,
+            'colors': eyesPalette
+          },
+          {
+            'type': 'part',
+            'title': 'NOSES & MOUTH',
+            'subpart': 'noses',
+            'parts': data.noses.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'part',
+            'title': '',
+            'subpart': 'mouth',
+            'parts': data.mouths.map((e) => e.toJson()).toList()
+          },
+        ]
+      },
+      {
+        'part': 4,
+        'partImage': 'assets/images/partIcons/tshirtIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'CLOTHES TYPE',
+            'subpart': 'clothes',
+            'parts': data.clothes.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'pallet',
+            'subpart': 'clothes',
+            'title': 'CLOTH COLOR',
+            'colors': clothPalette
+          }
+        ]
+      },
+      {
+        'part': 5,
+        'partImage': 'assets/images/partIcons/accessoriesIcon.svg',
+        'items': [
+          {
+            'type': 'part',
+            'title': 'HATS',
+            'subpart': 'hats',
+            'parts': data.hats.map((e) => e.toJson()).toList()
+          },
+          {
+            'type': 'part',
+            'title': 'ACCESSORIES',
+            'subpart': 'accessories',
+            'parts': data.accessories.map((e) => e.toJson()).toList()
+          },
+        ]
+      },
+    ];
+
+    var b = array.map((item) => AvatarPart.fromJson(item)).toList();
+    return b;
+  }
+
   var a = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -421,41 +555,14 @@ class AvatarStatea extends State<Avatar> {
       listener: (BuildContext context, AvatarState state) {
         if (state is AvatarLoaded) {
           print(state.avatars.accessories);
-          _personBloc.add(InitialPerson(model.Person.fromJson({
-            'background': {
-              'color': bgPalette[5],
-              'element': state.avatars.backgrounds[0].toJson()
-            },
-            'head': {
-              'color': headPalette[1],
-              'element': state.avatars.heads[0].toJson()
-            },
-            'hair': {
-              'color': hairPalette[0],
-              'element': state.avatars.hairs[0].toJson()
-            },
-            'hats': {'element': state.avatars.hats[0].toJson()},
-            'eyes': {
-              'element': state.avatars.eyes[0].toJson(),
-              'color': eyesPalette[0]
-            },
-            'noses': {'element': state.avatars.noses[0].toJson()},
-            'mouth': {'element': state.avatars.mouths[0].toJson()},
-            'face_hairs': {
-              'color': hairPalette[0],
-              'element': state.avatars.faceHairs[0].toJson()
-            },
-            'clothes': {
-              'color': clothPalette[0],
-              'element': state.avatars.clothes[0].toJson()
-            },
-            'accessories': {'element': state.avatars.accessories[0].toJson()},
-            'eyebrows': {'element': state.avatars.eyebrows[0].toJson()}
-          })));
+          _personBloc.add(InitialPerson(
+              model.Person.fromJson(generateInitalPerson(state.avatars))));
+          _avatarBloc
+              .add(GeneratePartsList((generatePartsList(state.avatars))));
         }
       },
       builder: (BuildContext context, AvatarState state) {
-        if (state is AvatarLoading) {
+        if (state is AvatarLoading || state is ListLoading) {
           return new Container(
             width: 20,
             height: 40,
@@ -466,7 +573,7 @@ class AvatarStatea extends State<Avatar> {
             ),
           );
         }
-
+        print('[STATE] $state');
         return Container(
             decoration: BoxDecoration(
                 color: widget.bgColor != null
@@ -550,19 +657,31 @@ class AvatarStatea extends State<Avatar> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 200 > 667 ? 32 : 25,
-                          bottom: 200 > 667 ? 20 : 15),
-                      child: PartsSwitch(
-                          changePart: changePartOfAvatar,
-                          parts: parts,
-                          activePartColor: widget.activePartColor,
-                          partColor: widget.partColor,
-                          partBorder: widget.partBorderColor,
-                          activePart: partOfAvatar,
-                          color: widget.elementsColor),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 25, bottom: 15),
+                    //   child: PartsSwitch(
+                    //       changePart: changePartOfAvatar,
+                    //       parts: [],
+                    //       activePartColor: widget.activePartColor,
+                    //       partColor: widget.partColor,
+                    //       partBorder: widget.partBorderColor,
+                    //       activePart: partOfAvatar,
+                    //       color: widget.elementsColor),
+                    // ),
+                    CreateAvatarWrapper()
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //       top: 200 > 667 ? 32 : 25,
+                    //       bottom: 200 > 667 ? 20 : 15),
+                    //   child: PartsSwitch(
+                    //       changePart: changePartOfAvatar,
+                    //       parts: state.props.,
+                    //       activePartColor: widget.activePartColor,
+                    //       partColor: widget.partColor,
+                    //       partBorder: widget.partBorderColor,
+                    //       activePart: partOfAvatar,
+                    //       color: widget.elementsColor),
+                    // ),
                   ]))
             ]));
       },

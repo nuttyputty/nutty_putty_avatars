@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutty_putty_avatars/blocks/blocs.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
 import 'package:nutty_putty_avatars/services/renderSvg.dart';
+
+class PartsSwitch extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return BlocConsumer<AvatarBloc, AvatarState>(
+      listener: (BuildContext context, AvatarState state) {},
+      builder: (BuildContext context, AvatarState state) {
+        if (state is GeneratePartsList) {
+          // return state.
+        }
+
+        return Container(
+          height: 40,
+          width: 40,
+          color: Colors.yellow,
+        );
+      },
+    );
+  }
+}
 
 class PartsSwitch extends StatelessWidget {
   PartsSwitch(

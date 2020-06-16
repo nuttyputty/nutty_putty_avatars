@@ -38,9 +38,15 @@ class AvatarBloc extends Bloc<AvatarEvents, AvatarState> {
   Stream<AvatarState> mapEventToState(
     AvatarEvents event,
   ) async* {
-    if (event is GetAvatars) {
-      yield AvatarLoading();
-      yield* _mapStateFromGetAvatars(event);
+    switch (event.runtimeType) {
+      case GetAvatars:
+        yield AvatarLoading();
+        yield* _mapStateFromGetAvatars(event);
+        break;
+      case GeneratePartsList:
+        yield ListLoading();
+        yield* _mapStateGenerateParts(event);
+        break;
     }
   }
 
@@ -48,6 +54,16 @@ class AvatarBloc extends Bloc<AvatarEvents, AvatarState> {
     try {
       final Avatar response = await _avatarService.getImages();
       yield AvatarLoaded(response);
+    } catch (err) {
+      print(err);
+      yield AvatarError(err.toString());
+    }
+  }
+
+  Stream<AvatarState> _mapStateGenerateParts(GeneratePartsList event) async* {
+    try {
+      print('dsfdgdf');
+      yield ListGenerated(event.parts);
     } catch (err) {
       print(err);
       yield AvatarError(err.toString());

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/blocs.dart';
 import 'package:nutty_putty_avatars/models/person.dart';
-import 'package:nutty_putty_avatars/services/hexToColor.dart';
-import 'package:nutty_putty_avatars/styles/index.dart';
 
 import '../../services/renderSvg.dart';
 import '../../services/shadow.dart';
 
 class PersonMaket extends StatelessWidget {
+  PersonMaket({this.customPerson});
+  final Person customPerson;
+
   Widget build(BuildContext context) {
-    print('aa');
     return BlocConsumer<PersonBloc, PersonState>(
       listener: (BuildContext context, PersonState state) {},
       builder: (BuildContext context, PersonState state) {
         if (state is PersonLoaded) {
-          return renderPerson(state.person);
+          return renderPerson(customPerson ?? state.person);
         }
 
         return Container(
@@ -29,7 +29,6 @@ class PersonMaket extends StatelessWidget {
 }
 
 Widget renderPerson(Person person) {
-  print(person.clothes.element.shadowImage);
   return Stack(
     alignment: Alignment.center,
     children: <Widget>[

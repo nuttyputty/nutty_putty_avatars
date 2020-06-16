@@ -28,81 +28,81 @@ class Avatar {
 
   Avatar.fromJson(Map<String, dynamic> json) {
     if (json['accessories'] != null) {
-      accessories = new List<Accessories>();
+      accessories = List<Accessories>();
       json['accessories'].forEach((v) {
-        accessories.add(new Accessories.fromJson(v));
+        accessories.add(Accessories.fromJson(v));
       });
     }
     if (json['backgrounds'] != null) {
-      backgrounds = new List<Backgrounds>();
+      backgrounds = List<Backgrounds>();
       json['backgrounds'].forEach((v) {
-        backgrounds.add(new Backgrounds.fromJson(v));
+        backgrounds.add(Backgrounds.fromJson(v));
       });
     }
     if (json['clothes'] != null) {
-      clothes = new List<Clothes>();
+      clothes = List<Clothes>();
       json['clothes'].forEach((v) {
-        clothes.add(new Clothes.fromJson(v));
+        clothes.add(Clothes.fromJson(v));
       });
     }
     if (json['eyebrows'] != null) {
-      eyebrows = new List<Eyebrows>();
+      eyebrows = List<Eyebrows>();
       json['eyebrows'].forEach((v) {
-        eyebrows.add(new Eyebrows.fromJson(v));
+        eyebrows.add(Eyebrows.fromJson(v));
       });
     }
     if (json['eyes'] != null) {
-      eyes = new List<Eyes>();
+      eyes = List<Eyes>();
       json['eyes'].forEach((v) {
-        eyes.add(new Eyes.fromJson(v));
+        eyes.add(Eyes.fromJson(v));
       });
     }
     if (json['face_hairs'] != null) {
-      faceHairs = new List<FaceHairs>();
+      faceHairs = List<FaceHairs>();
       json['face_hairs'].forEach((v) {
-        faceHairs.add(new FaceHairs.fromJson(v));
+        faceHairs.add(FaceHairs.fromJson(v));
       });
     }
     if (json['hairs'] != null) {
-      hairs = new List<Hairs>();
+      hairs = List<Hairs>();
       json['hairs'].forEach((v) {
-        hairs.add(new Hairs.fromJson(v));
+        hairs.add(Hairs.fromJson(v));
       });
     }
     if (json['hat_hairs'] != null) {
-      hatHairs = new List<HatHairs>();
+      hatHairs = List<HatHairs>();
       json['hat_hairs'].forEach((v) {
-        hatHairs.add(new HatHairs.fromJson(v));
+        hatHairs.add(HatHairs.fromJson(v));
       });
     }
     if (json['hats'] != null) {
-      hats = new List<Hats>();
+      hats = List<Hats>();
       json['hats'].forEach((v) {
-        hats.add(new Hats.fromJson(v));
+        hats.add(Hats.fromJson(v));
       });
     }
     if (json['heads'] != null) {
-      heads = new List<Heads>();
+      heads = List<Heads>();
       json['heads'].forEach((v) {
-        heads.add(new Heads.fromJson(v));
+        heads.add(Heads.fromJson(v));
       });
     }
     if (json['mouths'] != null) {
-      mouths = new List<Mouths>();
+      mouths = List<Mouths>();
       json['mouths'].forEach((v) {
-        mouths.add(new Mouths.fromJson(v));
+        mouths.add(Mouths.fromJson(v));
       });
     }
     if (json['noses'] != null) {
-      noses = new List<Noses>();
+      noses = List<Noses>();
       json['noses'].forEach((v) {
-        noses.add(new Noses.fromJson(v));
+        noses.add(Noses.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.accessories != null) {
       data['accessories'] = this.accessories.map((v) => v.toJson()).toList();
     }
@@ -147,6 +147,7 @@ class Accessories {
   String id;
   String image;
   bool free;
+  bool customColor;
 
   Accessories({this.id, this.image, this.free});
 
@@ -154,13 +155,15 @@ class Accessories {
     id = json['id'];
     image = json['image'];
     free = json['free'];
+    free = json['custom_color'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
+    data['custom_color'] = this.customColor;
     return data;
   }
 }
@@ -181,7 +184,7 @@ class Clothes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -208,7 +211,7 @@ class Hairs {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -234,7 +237,7 @@ class Hats {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -257,7 +260,7 @@ class Backgrounds {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -281,7 +284,7 @@ class Eyes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -309,7 +312,7 @@ class HatHairs {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -333,7 +336,7 @@ class Eyebrows {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -357,7 +360,7 @@ class FaceHairs {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -382,7 +385,7 @@ class Heads {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -405,7 +408,7 @@ class Mouths {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
@@ -429,7 +432,7 @@ class Noses {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
