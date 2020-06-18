@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/blocs.dart';
 import 'package:nutty_putty_avatars/components/person/index.dart';
+import 'package:nutty_putty_avatars/models/part.dart';
 import 'package:nutty_putty_avatars/models/person.dart' as models;
 import 'package:nutty_putty_avatars/models/person.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
@@ -54,8 +55,10 @@ class ListOfParts extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: list.length,
               itemBuilder: (BuildContext context, int i) {
-                return renderSvg(list[i].image);
-                // return PersonMaket(customPerson: ,);
+                // return renderSvg(list[i]);
+                return PersonMaket(
+                  customPerson: list[i],
+                );
               }),
           // new ListView(
           // shrinkWrap: true,

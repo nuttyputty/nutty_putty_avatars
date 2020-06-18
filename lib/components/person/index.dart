@@ -1,21 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/blocs.dart';
-import 'package:nutty_putty_avatars/models/person.dart';
+// import 'package:nutty_putty_avatars/models/part.dart' as model;
+import 'package:nutty_putty_avatars/models/person.dart' as model;
 
 import '../../services/renderSvg.dart';
 import '../../services/shadow.dart';
 
-class PersonMaket extends StatelessWidget {
+class PersonMaket extends StatefulWidget {
   PersonMaket({this.customPerson});
-  final Person customPerson;
+  final model.Element customPerson;
+
+  _PersonMaketState createState() => _PersonMaketState();
+}
+
+class _PersonMaketState extends State<PersonMaket> {
+  PersonBloc _personBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _personBloc = BlocProvider.of<PersonBloc>(context);
+  }
 
   Widget build(BuildContext context) {
+    if (widget.customPerson != null) {
+      print('asdasd');
+      _personBloc.add(CustomPerson(background: widget.customPerson));
+    }
     return BlocConsumer<PersonBloc, PersonState>(
       listener: (BuildContext context, PersonState state) {},
       builder: (BuildContext context, PersonState state) {
         if (state is PersonLoaded) {
-          return renderPerson(customPerson ?? state.person);
+          // if (widget.customPerson != null) {
+          //   print('asdasd');
+          //   _personBloc.add(CustomPerson(background: widget.customPerson));
+          // }
+
+          return renderPerson(
+              background: state.background,
+              accessories: state.accessories,
+              backgroundColor: state.backgroundColor,
+              clothes: state.clothes,
+              clothesColor: state.clothesColor,
+              eyebrows: state.eyebrows,
+              eyes: state.eyes,
+              eyesColor: state.eyesColor,
+              face_hairs: state.face_hairs,
+              face_hairsColor: state.face_hairsColor,
+              hair: state.hair,
+              hairColor: state.hairColor,
+              hats: state.hats,
+              head: state.head,
+              headColor: state.headColor,
+              mouth: state.mouth,
+              noses: state.noses);
         }
 
         return Container(
@@ -28,7 +67,24 @@ class PersonMaket extends StatelessWidget {
   }
 }
 
-Widget renderPerson(Person person) {
+Widget renderPerson(
+    {String backgroundColor,
+    model.Element background,
+    String headColor,
+    model.Element head,
+    String hairColor,
+    model.Element hair,
+    model.Element hats,
+    String eyesColor,
+    model.Element eyes,
+    model.Element mouth,
+    model.Element noses,
+    String face_hairsColor,
+    model.Element face_hairs,
+    String clothesColor,
+    model.Element clothes,
+    model.Element accessories,
+    model.Element eyebrows}) {
   return Stack(
     alignment: Alignment.center,
     children: <Widget>[
@@ -46,84 +102,78 @@ Widget renderPerson(Person person) {
       //         width: 0,
       //         height: 0,
       //       ),
-      person.background.element.free
+      background.free
+          ? renderSvgWithColor(background.image, backgroundColor)
+          : renderSvg(background.image),
+      hats.backImage != null
+          ? renderSvg(hats.backImage)
+          : Container(
+              width: 0,
+              height: 0,
+            ),
+      hair.longHairImage != null
+          ? renderSvgWithColor(hair.longHairImage, hairColor)
+          : Container(
+              width: 0,
+              height: 0,
+            ),
+      renderSvgWithColor(head.image, headColor),
+      head.shadowImage != null
           ? renderSvgWithColor(
-              person.background.element.image, person.background.color)
-          : renderSvg(person.background.element.image),
-      person.hats.element.backImage != null
-          ? renderSvg(person.hats.element.backImage)
+              head.shadowImage, calculateShadowColor(headColor))
           : Container(
               width: 0,
               height: 0,
             ),
-      person.hair.element.longHairImage != null
+      renderSvg(eyebrows.image),
+      hair.image != null
+          ? renderSvgWithColor(hair.image, hairColor)
+          : Container(
+              width: 0,
+              height: 0,
+            ),
+      hair.shadowImage != null
           ? renderSvgWithColor(
-              person.hair.element.longHairImage, person.hair.color)
+              hair.shadowImage, calculateShadowColor(hairColor))
           : Container(
               width: 0,
               height: 0,
             ),
-      renderSvgWithColor(person.head.element.image, person.head.color),
-      person.head.element.shadowImage != null
-          ? renderSvgWithColor(person.head.element.shadowImage,
-              calculateShadowColor(person.head.color))
+      renderSvg(eyes.image),
+      eyes.shadowImage != null
+          ? renderSvgWithColor(eyes.shadowImage, eyesColor)
           : Container(
               width: 0,
               height: 0,
             ),
-      renderSvg(person.eyebrows.element.image),
-      person.hair.element.image != null
-          ? renderSvgWithColor(person.hair.element.image, person.hair.color)
-          : Container(
-              width: 0,
-              height: 0,
-            ),
-      person.hair.element.shadowImage != null
-          ? renderSvgWithColor(person.hair.element.shadowImage,
-              calculateShadowColor(person.hair.color))
-          : Container(
-              width: 0,
-              height: 0,
-            ),
-      renderSvg(person.eyes.element.image),
-      person.eyes.element.shadowImage != null
+      clothes.shadowImage != null
+          ? renderSvgWithColor(clothes.image, clothesColor)
+          : renderSvg(clothes.image),
+      clothes.shadowImage != null
           ? renderSvgWithColor(
-              person.eyes.element.shadowImage, person.eyes.color)
+              clothes.shadowImage, calculateShadowColor(clothesColor))
           : Container(
               width: 0,
               height: 0,
             ),
-      person.clothes.element.shadowImage != null
+      renderSvgWithColor(face_hairs.image, face_hairsColor),
+      renderSvg(mouth.image),
+      face_hairs.shadowImage != null
           ? renderSvgWithColor(
-              person.clothes.element.image, person.clothes.color)
-          : renderSvg(person.clothes.element.image),
-      person.clothes.element.shadowImage != null
-          ? renderSvgWithColor(person.clothes.element.shadowImage,
-              calculateShadowColor(person.clothes.color))
+              face_hairs.shadowImage, calculateShadowColor(face_hairsColor))
           : Container(
               width: 0,
               height: 0,
             ),
-      renderSvgWithColor(
-          person.faceHairs.element.image, person.faceHairs.color),
-      renderSvg(person.mouth.element.image),
-      person.faceHairs.element.shadowImage != null
-          ? renderSvgWithColor(person.faceHairs.element.shadowImage,
-              calculateShadowColor(person.faceHairs.color))
+      renderSvgWithColor(noses.image, calculateShadowColor(headColor)),
+      hats.image != null
+          ? renderSvg(hats.image)
           : Container(
               width: 0,
               height: 0,
             ),
-      renderSvgWithColor(
-          person.noses.element.image, calculateShadowColor(person.head.color)),
-      person.hats.element.image != null
-          ? renderSvg(person.hats.element.image)
-          : Container(
-              width: 0,
-              height: 0,
-            ),
-      person.accessories.element.image != null
-          ? renderSvg(person.accessories.element.image)
+      accessories.image != null
+          ? renderSvg(accessories.image)
           : Container(
               width: 0,
               height: 0,

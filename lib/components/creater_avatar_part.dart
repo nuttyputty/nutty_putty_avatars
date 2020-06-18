@@ -25,7 +25,7 @@ class CreateAvatarWrapper extends StatelessWidget {
   }
 
   renderMainPart(List<AvatarPart> list) {
-    List<Items> parts = list[2].items;
+    List<Items> parts = list[0].items;
     return ListView.builder(
         shrinkWrap: true,
         itemCount: parts.length,
@@ -37,7 +37,7 @@ class CreateAvatarWrapper extends StatelessWidget {
                   : SizedBox(),
               parts[index].type == 'part'
                   ? ListOfParts(
-                      list: parts[1].parts,
+                      list: parts[index].parts,
                     )
                   : SizedBox()
             ],

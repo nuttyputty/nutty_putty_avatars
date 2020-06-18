@@ -555,8 +555,26 @@ class AvatarStatea extends State<Avatar> {
       listener: (BuildContext context, AvatarState state) {
         if (state is AvatarLoaded) {
           print(state.avatars.accessories);
+          model.Person initP =
+              model.Person.fromJson(generateInitalPerson(state.avatars));
           _personBloc.add(InitialPerson(
-              model.Person.fromJson(generateInitalPerson(state.avatars))));
+              background: initP.background.element,
+              accessories: initP.accessories.element,
+              backgroundColor: initP.background.color,
+              clothes: initP.clothes.element,
+              clothesColor: initP.clothes.color,
+              eyebrows: initP.eyebrows.element,
+              eyes: initP.eyes.element,
+              eyesColor: initP.eyes.color,
+              face_hairs: initP.faceHairs.element,
+              face_hairsColor: initP.faceHairs.color,
+              hair: initP.hair.element,
+              hairColor: initP.hair.color,
+              hats: initP.hats.element,
+              head: initP.head.element,
+              headColor: initP.head.color,
+              mouth: initP.mouth.element,
+              noses: initP.noses.element));
           _avatarBloc
               .add(GeneratePartsList((generatePartsList(state.avatars))));
         }
