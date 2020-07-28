@@ -510,8 +510,9 @@ class AvatarStatea extends State<Avatar> {
         if (widget.initialAvatar == null) {
           initP = model.Person.fromJson(generateInitalPerson(state.avatars));
         }
-
+        print("[INITIAL AVATAR] ${widget.initialAvatar}");
         List<AvatarPart> parts = generatePartsList(state.avatars);
+        print('[PARTS] $parts');
         setState(() {
           person = widget.initialAvatar ?? initP;
           partsData = parts;
