@@ -84,7 +84,9 @@ class AvatarStatea extends State<Avatar> {
   void initState() {
     super.initState();
     // getImages();
+    print('tyt1');
     if (widget.iosList != null && widget.androidList != null) {
+      print('tyt2');
       initPlatformState(widget.iosList, widget.androidList, () {
         print('[FULL] $fullVersion');
         setState(() {
@@ -93,10 +95,12 @@ class AvatarStatea extends State<Avatar> {
         toggleLoader(false);
         Navigator.of(context, rootNavigator: true).pop('dialog');
       }, (e) {
+        print('tyt3');
         showToast('$e');
         Navigator.of(context, rootNavigator: true).pop('dialog');
         toggleLoader(false);
       }).whenComplete(() async {
+        print('tyt4');
         var purchased = await getPurchases();
 
         var data = await hasPurchased(
@@ -108,7 +112,7 @@ class AvatarStatea extends State<Avatar> {
         });
       });
     }
-
+    print('tyt5');
     _avatarBloc = BlocProvider.of<AvatarBloc>(context);
     _personBloc = BlocProvider.of<PersonBloc>(context);
     _avatarBloc.add(GetAvatars(isStaging: widget.isStaging ?? false));
