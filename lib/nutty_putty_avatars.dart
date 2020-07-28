@@ -21,6 +21,7 @@ import 'package:nutty_putty_avatars/models/part.dart';
 import 'package:nutty_putty_avatars/models/person.dart' as model;
 import 'package:nutty_putty_avatars/models/avatar.dart' as avatarModel;
 import 'package:nutty_putty_avatars/services/inAppPurchase.dart';
+import 'package:nutty_putty_avatars/services/toast.dart';
 
 import 'package:nutty_putty_avatars/styles/index.dart';
 
@@ -83,29 +84,29 @@ class AvatarStatea extends State<Avatar> {
   void initState() {
     super.initState();
     // getImages();
-    // if (widget.iosList != null && widget.androidList != null) {
-    //   initPlatformState(widget.iosList, widget.androidList, () {
-    //     setState(() {
-    //       fullVersion = true;
-    //     });
-    //     toggleLoader(false);
-    //     Navigator.of(context, rootNavigator: true).pop('dialog');
-    //   }, (e) {
-    //     showToast('$e');
-    //     Navigator.of(context, rootNavigator: true).pop('dialog');
-    //     toggleLoader(false);
-    //   }).whenComplete(() async {
-    //     var purchased = await getPurchases();
+    if (widget.iosList != null && widget.androidList != null) {
+      initPlatformState(widget.iosList, widget.androidList, () {
+        setState(() {
+          fullVersion = true;
+        });
+        toggleLoader(false);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      }, (e) {
+        showToast('$e');
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        toggleLoader(false);
+      }).whenComplete(() async {
+        var purchased = await getPurchases();
 
-    //     var data = await hasPurchased(
-    //         Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
-    //         purchased);
+        var data = await hasPurchased(
+            Platform.isIOS ? widget.iosList[0] : widget.androidList[0],
+            purchased);
 
-    //     setState(() {
-    //       fullVersion = data != null;
-    //     });
-    //   });
-    // }
+        setState(() {
+          fullVersion = data != null;
+        });
+      });
+    }
 
     _avatarBloc = BlocProvider.of<AvatarBloc>(context);
     _personBloc = BlocProvider.of<PersonBloc>(context);
