@@ -62,7 +62,7 @@ class Avatar extends StatefulWidget {
   final restoreCb;
   final androidList;
   static GlobalKey _globalKey = new GlobalKey<AvatarStatea>();
-  final initialAvatar;
+  final model.Person initialAvatar;
   final partBorderColor;
   @override
   AvatarStatea createState() => AvatarStatea();
@@ -394,7 +394,7 @@ class AvatarStatea extends State<Avatar> {
             'title': 'HAIR TYPE',
             'subpart': 'hair',
             'parts': widget.initialAvatar != null &&
-                    widget.initialAvatar['hats']['element']['image'] != null
+                    widget.initialAvatar.hats.element.image != null
                 ? data.hatHairs.map((e) => e.toJson()).toList()
                 : data.hairs.map((e) => e.toJson()).toList()
           },
