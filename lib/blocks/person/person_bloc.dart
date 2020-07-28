@@ -84,7 +84,6 @@ class PersonBloc extends Bloc<PersonEvents, PersonState> {
     try {
       // final Person response = await _avatarService.getImages();
 
-      print('TYTYTYTYT');
       yield PersonLoaded(
           background: event.background,
           accessories: event.accessories,

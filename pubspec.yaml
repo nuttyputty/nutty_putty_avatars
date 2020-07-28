@@ -19,7 +19,7 @@ dependencies:
   flutter_bloc: ^4.0.0
   hydrated_bloc: ^4.1.0
   equatable: ^1.1.1
-
+  http: ^0.12.1
 
 dev_dependencies:
   flutter_test:

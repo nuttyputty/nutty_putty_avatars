@@ -11,10 +11,10 @@ abstract class AvatarEvents extends Equatable {
 }
 
 class GetAvatars extends AvatarEvents {
-  GetAvatars();
-
+  GetAvatars({this.isStaging});
+  bool isStaging;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isStaging];
 }
 
 class GeneratePartsList extends AvatarEvents {

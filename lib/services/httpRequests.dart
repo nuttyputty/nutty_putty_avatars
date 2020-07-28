@@ -6,12 +6,12 @@ String prodApi = 'http://159.203.113.181/api/v1/';
 
 getRequest(String path, isStaging) async {
   String API = isStaging ? stagingApi : prodApi;
-
+  print('[STATUS CODE] ');
   final response = await http.get('$API$path', headers: {
     "Accept": "application/json",
     "Content-Type": "application/json",
   });
-
+  print('[STATUS CODE] ${response.statusCode}');
   if (response.statusCode < 200 || response.statusCode > 400 || json == null) {
     throw new Exception("Error while fetching data");
   }

@@ -39,9 +39,10 @@ class _ColorChangerState extends State<ColorChanger>
   var activeSat;
   initState() {
     super.initState();
+
     setState(() {
-      activeHue = HSLColor.fromColor(widget.color).hue;
-      activeSat = HSLColor.fromColor(widget.color).saturation;
+      activeHue = HSLColor.fromColor(hexToColor(widget.color)).hue;
+      activeSat = HSLColor.fromColor(hexToColor(widget.color)).saturation;
     });
   }
 
@@ -122,7 +123,7 @@ class _ColorChangerState extends State<ColorChanger>
                     child: new RotationTransition(
                         turns: new AlwaysStoppedAnimation(00 / 360),
                         child: CircleColorPicker(
-                          initialColor: widget.color,
+                          initialColor: hexToColor(widget.color),
                           initialHue: activeHue,
                           onChanged: (v) {
                             widget.onChanged(v);

@@ -52,7 +52,7 @@ class AvatarBloc extends Bloc<AvatarEvents, AvatarState> {
 
   Stream<AvatarState> _mapStateFromGetAvatars(GetAvatars event) async* {
     try {
-      final Avatar response = await _avatarService.getImages();
+      final Avatar response = await _avatarService.getImages(event.isStaging);
       yield AvatarLoaded(response);
     } catch (err) {
       print(err);

@@ -4,13 +4,14 @@ import 'package:nutty_putty_avatars/models/avatar.dart';
 import 'package:nutty_putty_avatars/services/httpRequests.dart';
 
 class AvatarService {
-  getImages() async {
+  getImages(bool isStaging) async {
     try {
-      var response = await getRequest('/images', false);
-
+      print('[IS STAGING] $isStaging');
+      var response = await getRequest('/images', isStaging);
+      print('[RESPONSE] $response');
       return Avatar.fromJson(json.decode(response));
     } catch (e) {
-      print(e);
+      print('[ERROR] $e');
     }
   }
 }

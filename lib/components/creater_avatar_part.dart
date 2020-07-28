@@ -1,35 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/blocs.dart';
+import 'package:nutty_putty_avatars/models/avatar.dart';
 import 'package:nutty_putty_avatars/models/part.dart';
+import 'package:nutty_putty_avatars/models/person.dart' as model;
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
 
+import 'colorChanger/index.dart';
 import 'list_of_parts.dart';
 
 class CreateAvatarWrapper extends StatelessWidget {
+  CreateAvatarWrapper(
+      {this.data,
+      @required this.person,
+      @required this.partOfAvatar,
+      @required this.changeActiveElement,
+      @required this.hairs,
+      @required this.hatHairs,
+      @required this.changeColor});
+  final List<AvatarPart> data;
+  final List<Hairs> hairs;
+  final List<HatHairs> hatHairs;
+  final model.Person person;
+  final int partOfAvatar;
+  final Function changeActiveElement;
+  final Function changeColor;
   Widget build(BuildContext context) {
     return BlocConsumer<AvatarBloc, AvatarState>(
       listener: (BuildContext context, AvatarState state) {},
       builder: (BuildContext context, AvatarState state) {
-        if (state is ListGenerated) {
-          return renderMainPart(state.parts);
-        }
-
-        return Container(
-          height: 40,
-          width: 40,
-          color: Colors.yellow,
-        );
+        return renderMainPart(data);
       },
     );
   }
 
   renderMainPart(List<AvatarPart> list) {
-    List<Items> parts = list[0].items;
+    List<Items> parts = list[partOfAvatar].items;
+
     return ListView.builder(
         shrinkWrap: true,
         itemCount: parts.length,
         itemBuilder: (BuildContext context, int index) {
+          String subpart = parts[index].subpart;
+          bool bg = person.background.element.customColor != null
+              ? person.background.element.customColor
+              : person.background.element.free;
+          bool show = subpart != 'background' ||
+              bg && subpart == 'background' ||
+              parts[index].title == 'BACKGROUND TYPE';
           return Column(
             children: <Widget>[
               parts[index].title != ''
@@ -38,11 +56,49 @@ class CreateAvatarWrapper extends StatelessWidget {
               parts[index].type == 'part'
                   ? ListOfParts(
                       list: parts[index].parts,
+                      subpart: parts[index].subpart,
+                      partOfAvatar: partOfAvatar,
+                      hairs: hairs,
+                      hatHairs: hatHairs,
+                      activePerson: person,
+                      changeActiveElement: changeActiveElement,
                     )
-                  : SizedBox()
+                  : SizedBox(),
+              parts[index].type == 'pallet'
+                  ? show
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 5, bottom: 5),
+                          child: ColorChanger(
+                              // bg: widget.elementsColor,
+                              color: _data(subpart),
+                              onChanged: (color) {
+                                changeColor(color, subpart);
+                              },
+                              displaySlider: parts[index].slider == null,
+                              palette: parts[index].colors),
+                        )
+                      : Container()
+                  : Container()
             ],
           );
         });
+  }
+
+  _data(subpart) {
+    Map<String, String> a = {
+      'background': person.background.color,
+      'accessories': person.accessories.color,
+      'clothes': person.clothes.color,
+      'eyebrows': person.eyebrows.color,
+      'eyes': person.eyes.color,
+      'face_hairs': person.faceHairs.color,
+      'hair': person.hair.color,
+      'hats': person.hats.color,
+      'head': person.head.color,
+      'mouth': person.mouth.color
+    };
+
+    return a[subpart];
   }
 
   renderTitle(text) {

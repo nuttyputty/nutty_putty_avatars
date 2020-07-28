@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutty_putty_avatars/app.dart';
+import 'package:nutty_putty_avatars/blocks/avatars/avatar.dart';
 import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 
 import 'dart:ui';
@@ -29,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var avatar;
-  var a = Avatar();
 
   var c;
   @override
@@ -38,13 +38,32 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          App(),
+          App(
+            bgColor: Colors.transparent,
+            androidList: ['com.nuttyputty.partymafia.fullAvatars'],
+            iosList: ['com.nuttyputty.partymafia.fullAvatars'],
+            isStaging: true,
+          ),
           // Avatar(
           //   bgColor: Colors.transparent,
           //   androidList: [],
           //   iosList: ['com.nuttyputty.partymafia.fullAvatars'],
           //   isStaging: true,
           // ),
+          RaisedButton(onPressed: () async {
+            var data = await AvatarStatea.takeImage();
+            var data2 = await AvatarStatea.getParts();
+            var v = data;
+            setState(() {
+              c = v;
+            });
+          }),
+          c != null
+              ? Image.memory(
+                  c,
+                  scale: 2,
+                )
+              : Container()
         ],
       ),
     );

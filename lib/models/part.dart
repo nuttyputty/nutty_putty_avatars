@@ -11,7 +11,6 @@ class AvatarPart {
     part = json['part'];
     partImage = json['partImage'];
     if (json['items'] != null) {
-      print('[JSON] ${json['items']}');
       items = List<Items>();
       json['items'].forEach((v) {
         items.add(Items.fromJson(v));
@@ -36,8 +35,14 @@ class Items {
   String subpart;
   List<Element> parts;
   List<String> colors;
-
-  Items({this.type, this.title, this.subpart, this.parts, this.colors});
+  bool slider;
+  Items(
+      {this.type,
+      this.title,
+      this.subpart,
+      this.parts,
+      this.colors,
+      this.slider});
 
   Items.fromJson(Map<String, dynamic> json) {
     type = json['type'];
@@ -52,6 +57,10 @@ class Items {
     if (json['colors'] != null) {
       colors = json['colors'].cast<String>();
     }
+
+    if (json['slider'] != null) {
+      slider = json['slider'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +73,9 @@ class Items {
     }
     if (this.colors != null) {
       data['colors'] = this.colors;
+    }
+    if (this.slider != null) {
+      data['slider'] = this.slider;
     }
     return data;
   }

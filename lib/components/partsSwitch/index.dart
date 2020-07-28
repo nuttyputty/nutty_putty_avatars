@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutty_putty_avatars/blocks/blocs.dart';
+import 'package:nutty_putty_avatars/models/part.dart';
 import 'package:nutty_putty_avatars/services/hexToColor.dart';
 import 'package:nutty_putty_avatars/services/renderSvg.dart';
 
@@ -33,7 +34,7 @@ class PartsSwitch extends StatelessWidget {
       this.partColor,
       this.activePartColor,
       this.color});
-  final List parts;
+  final List<AvatarPart> parts;
   final partBorder;
   final Color partColor;
   final Color activePartColor;
@@ -41,12 +42,12 @@ class PartsSwitch extends StatelessWidget {
   final int activePart;
   final color;
 
-  switchButton(data) {
-    bool active = data['part'] == activePart;
+  switchButton(AvatarPart data) {
+    bool active = data.part == activePart;
     return new IconButton(
       padding: EdgeInsets.all(0),
       onPressed: () {
-        changePart(data['part']);
+        changePart(data.part);
       },
       color: Colors.blue,
       icon: Container(
@@ -70,7 +71,7 @@ class PartsSwitch extends StatelessWidget {
                 : null),
         padding: EdgeInsets.all(6),
         child: renderSvgWithColor(
-            data['partImage'],
+            data.partImage,
             active
                 ? activePartColor != null
                     ? activePartColor

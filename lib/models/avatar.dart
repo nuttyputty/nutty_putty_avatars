@@ -147,7 +147,6 @@ class Accessories {
   String id;
   String image;
   bool free;
-  bool customColor;
 
   Accessories({this.id, this.image, this.free});
 
@@ -155,7 +154,6 @@ class Accessories {
     id = json['id'];
     image = json['image'];
     free = json['free'];
-    free = json['custom_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -163,7 +161,7 @@ class Accessories {
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
-    data['custom_color'] = this.customColor;
+
     return data;
   }
 }
@@ -250,13 +248,14 @@ class Backgrounds {
   String id;
   String image;
   bool free;
-
-  Backgrounds({this.id, this.image, this.free});
+  bool customColor;
+  Backgrounds({this.id, this.image, this.free, this.customColor});
 
   Backgrounds.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     image = json['image'];
     free = json['free'];
+    customColor = json['custom_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +263,7 @@ class Backgrounds {
     data['id'] = this.id;
     data['image'] = this.image;
     data['free'] = this.free;
+    data['custom_color'] = this.customColor;
     return data;
   }
 }
