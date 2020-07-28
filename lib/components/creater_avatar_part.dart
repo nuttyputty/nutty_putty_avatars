@@ -17,6 +17,7 @@ class CreateAvatarWrapper extends StatelessWidget {
       @required this.changeActiveElement,
       @required this.hairs,
       @required this.hatHairs,
+      @required this.fullVersion,
       @required this.changeColor});
   final List<AvatarPart> data;
   final List<Hairs> hairs;
@@ -25,6 +26,7 @@ class CreateAvatarWrapper extends StatelessWidget {
   final int partOfAvatar;
   final Function changeActiveElement;
   final Function changeColor;
+  final bool fullVersion;
   Widget build(BuildContext context) {
     return BlocConsumer<AvatarBloc, AvatarState>(
       listener: (BuildContext context, AvatarState state) {},
@@ -59,6 +61,7 @@ class CreateAvatarWrapper extends StatelessWidget {
                       subpart: parts[index].subpart,
                       partOfAvatar: partOfAvatar,
                       hairs: hairs,
+                      fullVersion: fullVersion,
                       hatHairs: hatHairs,
                       activePerson: person,
                       changeActiveElement: changeActiveElement,

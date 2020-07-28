@@ -582,6 +582,7 @@ class AvatarStatea extends State<Avatar> {
                           person: person,
                           changeActiveElement: changeActiveElement,
                           hairs: hairs,
+                          fullVersion: fullVersion,
                           hatHairs: hatHairs,
                           changeColor: changeColor,
                           partOfAvatar: partOfAvatar)

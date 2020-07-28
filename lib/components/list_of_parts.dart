@@ -21,6 +21,7 @@ class ListOfParts extends StatelessWidget {
       @required this.hairs,
       @required this.hatHairs,
       @required this.changeActiveElement,
+      @required this.fullVersion,
       @required this.partOfAvatar});
   final List<models.Element> list;
   final models.Person activePerson;
@@ -29,6 +30,7 @@ class ListOfParts extends StatelessWidget {
   final String subpart;
   final int partOfAvatar;
   final Function changeActiveElement;
+  final bool fullVersion;
   Widget build(BuildContext context) {
     return new Container(
         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -95,7 +97,7 @@ class ListOfParts extends StatelessWidget {
                     icon: Transform.scale(
                         scale: 1.8,
                         child: PersonMaket(
-                          isFree: list[i].free,
+                          isFree: fullVersion ? true : list[i].free,
                           active: active,
                           head: subpart == 'head'
                               ? list[i]
