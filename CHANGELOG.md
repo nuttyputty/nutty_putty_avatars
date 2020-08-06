@@ -1,3 +1,6 @@
+## [0.0.5] - 06.08.2020
+    ## Updated
+    - `flutter_svg`, `fluttertoast` and `flutter_circle_color_picker` to the latest version 
 ## [0.0.4] - 07.05.2020
     ## Updated
     - `flutter_svg` and `fluttertoast` to the latest version
