@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:nutty_putty_avatars/nutty_putty_avatars.dart';
 
