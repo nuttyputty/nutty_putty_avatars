@@ -8,6 +8,16 @@ List<String> headPalette = [
   '#F5C345',
   '#87C486',
   '#70D3F3',
+  //
+  '#F5E3C3',
+  '#F3D5A7',
+  '#E5C297',
+  '#CCA07F',
+  '#8C613E',
+  '#E89494',
+  '#F5C345',
+  '#87C486',
+  '#70D3F3',
 ];
 
 List<String> bgPalette = [
@@ -19,6 +29,16 @@ List<String> bgPalette = [
   '#7784FC',
   '#8ECC5D',
   '#5DCCBF',
+  '#70D3F3',
+  // just for testing
+  '#F5E3C3',
+  '#F3D5A7',
+  '#E5C297',
+  '#CCA07F',
+  '#8C613E',
+  '#E89494',
+  '#F5C345',
+  '#87C486',
   '#70D3F3',
 ];
 
@@ -32,6 +52,16 @@ List<String> hairPalette = [
   '#E56DB5',
   '#BBED9D',
   '#69E3FE',
+  // just for testing
+  '#F5E3C3',
+  '#F3D5A7',
+  '#E5C297',
+  '#CCA07F',
+  '#8C613E',
+  '#E89494',
+  '#F5C345',
+  '#87C486',
+  '#70D3F3',
 ];
 
 List<String> clothPalette = [
@@ -41,6 +71,16 @@ List<String> clothPalette = [
   '#DC6380',
   '#706DE9',
   '#69CFCF',
+  '#F5C345',
+  '#87C486',
+  '#70D3F3',
+  // just for testing
+  '#F5E3C3',
+  '#F3D5A7',
+  '#E5C297',
+  '#CCA07F',
+  '#8C613E',
+  '#E89494',
   '#F5C345',
   '#87C486',
   '#70D3F3',
@@ -56,5 +96,15 @@ List<String> eyesPalette = [
   '#197B00',
   '#04BD00',
   '#959595',
-  '#FFFFFF'
+  '#FFFFFF',
+  // just for testing
+  '#F5E3C3',
+  '#F3D5A7',
+  '#E5C297',
+  '#CCA07F',
+  '#8C613E',
+  '#E89494',
+  '#F5C345',
+  '#87C486',
+  '#70D3F3',
 ];

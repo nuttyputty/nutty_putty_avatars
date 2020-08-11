@@ -252,7 +252,6 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'eyes',
                 'title': 'EYES COLOR',
-                'slider': false,
                 'colors': eyesPalette
               },
               {
@@ -425,7 +424,7 @@ class AvatarState extends State<Avatar> {
             child: Column(children: <Widget>[
               new Container(
                   padding: EdgeInsets.only(left: 14, right: 14),
-                  child: new Column(children: <Widget>[
+                  child: Column(children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,8 +547,8 @@ class AvatarState extends State<Avatar> {
                             item['title'] != ''
                                 ? show
                                     ? renderTitle(item['title'])
-                                    : Container()
-                                : Container(),
+                                    : SizedBox.shrink()
+                                : SizedBox.shrink(),
                             item['type'] == 'part'
                                 ? ListOfElements(
                                     list: item,
@@ -583,7 +582,7 @@ class AvatarState extends State<Avatar> {
                                     fullVersion: fullVersion,
                                     person: person,
                                     color: widget.elementsColor)
-                                : Container(),
+                                : SizedBox.shrink(),
                             item['type'] == 'pallet'
                                 ? show
                                     ? Padding(
@@ -597,25 +596,22 @@ class AvatarState extends State<Avatar> {
                                               changeColor(
                                                   color, item['subpart']);
                                             },
-                                            displaySlider:
-                                                item['slider'] == null,
                                             palette: item['colors']),
                                       )
-                                    : Container()
-                                : Container()
+                                    : SizedBox.shrink()
+                                : SizedBox.shrink()
                           ],
                         );
                       }).toList(),
                     )
                   ]))
             ]))
-        : new Container(
+        : Container(
             width: 20,
             height: 40,
             alignment: Alignment.center,
-            child: new CircularProgressIndicator(
-              valueColor:
-                  new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
             ),
           );
   }
