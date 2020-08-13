@@ -1,4 +1,11 @@
-## [0.0.5] - 06.08.2020
+## [0.0.5] - __.__.2020
+    ## Removed
+    - Color slider
+    ## Added
+    - New color dots
+    ## Changed
+    - Color palletes
+    - Part icons
     ## Updated
     - `flutter_svg`, `fluttertoast` and `flutter_circle_color_picker` to the latest version 
 ## [0.0.4] - 07.05.2020

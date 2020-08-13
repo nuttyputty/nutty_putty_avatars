@@ -126,7 +126,7 @@ class AvatarState extends State<Avatar> {
 
       var initialPerson = {
         'background': {
-          'color': hexToColor(bgPalette[5]),
+          'color': hexToColor(generalPallete[5]),
           'element': decodeResponse['backgrounds'][0]
         },
         'head': {
@@ -134,22 +134,22 @@ class AvatarState extends State<Avatar> {
           'element': decodeResponse['heads'][0]
         },
         'hair': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['hairs'][0]
         },
         'hats': {'element': decodeResponse['hats'][0]},
         'eyes': {
           'element': decodeResponse['eyes'][0],
-          'color': hexToColor(eyesPalette[0])
+          'color': hexToColor(generalPallete[0])
         },
         'noses': {'element': decodeResponse['noses'][0]},
         'mouth': {'element': decodeResponse['mouths'][0]},
         'face_hairs': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['face_hairs'][0]
         },
         'clothes': {
-          'color': hexToColor(clothPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['clothes'][0]
         },
         'accessories': {'element': decodeResponse['accessories'][0]},
@@ -183,7 +183,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'background',
                 'title': 'BACKGROUND COLOR',
-                'colors': bgPalette
+                'colors': generalPallete
               }
             ]
           },
@@ -228,7 +228,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'face_hairs',
                 'title': 'HAIR COLOR',
-                'colors': hairPalette
+                'colors': generalPallete
               }
             ]
           },
@@ -252,8 +252,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'eyes',
                 'title': 'EYES COLOR',
-                'slider': false,
-                'colors': eyesPalette
+                'colors': generalPallete
               },
               {
                 'type': 'part',
@@ -283,7 +282,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'clothes',
                 'title': 'CLOTH COLOR',
-                'colors': clothPalette
+                'colors': generalPallete
               }
             ]
           },
@@ -425,7 +424,7 @@ class AvatarState extends State<Avatar> {
             child: Column(children: <Widget>[
               new Container(
                   padding: EdgeInsets.only(left: 14, right: 14),
-                  child: new Column(children: <Widget>[
+                  child: Column(children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,8 +547,8 @@ class AvatarState extends State<Avatar> {
                             item['title'] != ''
                                 ? show
                                     ? renderTitle(item['title'])
-                                    : Container()
-                                : Container(),
+                                    : SizedBox.shrink()
+                                : SizedBox.shrink(),
                             item['type'] == 'part'
                                 ? ListOfElements(
                                     list: item,
@@ -583,7 +582,7 @@ class AvatarState extends State<Avatar> {
                                     fullVersion: fullVersion,
                                     person: person,
                                     color: widget.elementsColor)
-                                : Container(),
+                                : SizedBox.shrink(),
                             item['type'] == 'pallet'
                                 ? show
                                     ? Padding(
@@ -597,25 +596,22 @@ class AvatarState extends State<Avatar> {
                                               changeColor(
                                                   color, item['subpart']);
                                             },
-                                            displaySlider:
-                                                item['slider'] == null,
                                             palette: item['colors']),
                                       )
-                                    : Container()
-                                : Container()
+                                    : SizedBox.shrink()
+                                : SizedBox.shrink()
                           ],
                         );
                       }).toList(),
                     )
                   ]))
             ]))
-        : new Container(
+        : Container(
             width: 20,
             height: 40,
             alignment: Alignment.center,
-            child: new CircularProgressIndicator(
-              valueColor:
-                  new AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(hexToColor('#f44336')),
             ),
           );
   }
