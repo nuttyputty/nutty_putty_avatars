@@ -79,7 +79,7 @@ class _ColorChangerState extends State<ColorChanger>
     final ScrollController _scrollController = ScrollController();
     return new Container(
       height: 80,
-      padding: EdgeInsets.only(left: 14, right: 14, top: 18, bottom: 18),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
