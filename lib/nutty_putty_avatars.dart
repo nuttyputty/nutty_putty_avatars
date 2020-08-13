@@ -126,7 +126,7 @@ class AvatarState extends State<Avatar> {
 
       var initialPerson = {
         'background': {
-          'color': hexToColor(bgPalette[5]),
+          'color': hexToColor(generalPallete[5]),
           'element': decodeResponse['backgrounds'][0]
         },
         'head': {
@@ -134,22 +134,22 @@ class AvatarState extends State<Avatar> {
           'element': decodeResponse['heads'][0]
         },
         'hair': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['hairs'][0]
         },
         'hats': {'element': decodeResponse['hats'][0]},
         'eyes': {
           'element': decodeResponse['eyes'][0],
-          'color': hexToColor(eyesPalette[0])
+          'color': hexToColor(generalPallete[0])
         },
         'noses': {'element': decodeResponse['noses'][0]},
         'mouth': {'element': decodeResponse['mouths'][0]},
         'face_hairs': {
-          'color': hexToColor(hairPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['face_hairs'][0]
         },
         'clothes': {
-          'color': hexToColor(clothPalette[0]),
+          'color': hexToColor(generalPallete[0]),
           'element': decodeResponse['clothes'][0]
         },
         'accessories': {'element': decodeResponse['accessories'][0]},
@@ -183,7 +183,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'background',
                 'title': 'BACKGROUND COLOR',
-                'colors': bgPalette
+                'colors': generalPallete
               }
             ]
           },
@@ -228,7 +228,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'face_hairs',
                 'title': 'HAIR COLOR',
-                'colors': hairPalette
+                'colors': generalPallete
               }
             ]
           },
@@ -252,7 +252,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'eyes',
                 'title': 'EYES COLOR',
-                'colors': eyesPalette
+                'colors': generalPallete
               },
               {
                 'type': 'part',
@@ -282,7 +282,7 @@ class AvatarState extends State<Avatar> {
                 'type': 'pallet',
                 'subpart': 'clothes',
                 'title': 'CLOTH COLOR',
-                'colors': clothPalette
+                'colors': generalPallete
               }
             ]
           },
