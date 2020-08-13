@@ -97,7 +97,6 @@ class _ListOfElementsState extends State<ListOfElements> {
   @override
   void deactivate() {
     _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
     super.deactivate();
   }
 
