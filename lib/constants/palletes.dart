@@ -1,3 +1,24 @@
+List<String> generalPallete = <String>[
+  '#32302E',
+  '#78736D',
+  '#CCC3BA',
+  '#FFFFFF',
+  '#946654',
+  '#D59B61',
+  '#F7DC96',
+  '#F5E3C3',
+  '#FFEDD7',
+  '#E97036',
+  '#F1B758',
+  '#F0EDAA',
+  '#FFFDD2',
+  '#BBED9D',
+  '#83F3F3',
+  '#8FB6EC',
+  '#9D86FA',
+  '#E56DB5',
+];
+
 List<String> headPalette = [
   '#F5E3C3',
   '#F3D5A7',
@@ -8,8 +29,19 @@ List<String> headPalette = [
   '#F5C345',
   '#87C486',
   '#70D3F3',
+  '#E97036',
+  '#F1B758',
+  '#F0EDAA',
+  '#FFFDD2',
+  '#BBED9D',
+  '#83F3F3',
+  '#8FB6EC',
+  '#9D86FA',
+  '#E56DB5',
 ];
 
+//LEAVE TILL JAY APPROVE
+/* 
 List<String> bgPalette = [
   '#FFFFFF',
   '#F5C345',
@@ -56,5 +88,6 @@ List<String> eyesPalette = [
   '#197B00',
   '#04BD00',
   '#959595',
-  '#FFFFFF'
+  '#FFFFFF',
 ];
+*/

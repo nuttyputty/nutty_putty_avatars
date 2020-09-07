@@ -102,13 +102,6 @@ class _ListOfElementsState extends State<ListOfElements> {
   }
 
   @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return new Container(
