@@ -1,3 +1,6 @@
+## [0.0.5] - 07.09.2020
+    ## Change 
+    - Full avatars pack to 1,99$
 ## [0.0.4] - 07.05.2020
     ## Updated
     - `flutter_svg` and `fluttertoast` to the latest version
