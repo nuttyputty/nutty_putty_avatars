@@ -33,10 +33,10 @@ Future<void> initPlatformState(iosList, androidList, cb, errorCb) async {
   getPurchases();
 }
 
-Future _getProduct(ios, android) async {
+Future _getProduct(List<String> ios, List<String> android) async {
   List<IAPItem> items = await FlutterInappPurchase.instance
       .getProducts(Platform.isIOS ? ios : android);
-
+  print('[ITEMS] $items');
   return items;
 }
 

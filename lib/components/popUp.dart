@@ -79,7 +79,7 @@ class UpgradePopupState extends State<UpgradePopup> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        wrapper('Unlock Avatar+ \$4.99',
+        wrapper('Unlock Avatar+ \$1.99',
             'Combine more items and\nget new looks', true),
         Padding(
           padding: EdgeInsets.only(top: 20, bottom: 20),
