@@ -12,6 +12,8 @@ import 'list_of_parts.dart';
 class CreateAvatarWrapper extends StatelessWidget {
   CreateAvatarWrapper(
       {this.data,
+      this.listOfPartColor,
+      this.elementsColor,
       @required this.person,
       @required this.partOfAvatar,
       @required this.changeActiveElement,
@@ -21,6 +23,8 @@ class CreateAvatarWrapper extends StatelessWidget {
       @required this.changeColor});
   final List<AvatarPart> data;
   final List<Hairs> hairs;
+  final elementsColor;
+  final listOfPartColor;
   final List<HatHairs> hatHairs;
   final model.Person person;
   final int partOfAvatar;
@@ -58,6 +62,7 @@ class CreateAvatarWrapper extends StatelessWidget {
               parts[index].type == 'part'
                   ? ListOfParts(
                       list: parts[index].parts,
+                      color: listOfPartColor,
                       subpart: parts[index].subpart,
                       partOfAvatar: partOfAvatar,
                       hairs: hairs,
@@ -72,7 +77,7 @@ class CreateAvatarWrapper extends StatelessWidget {
                       ? Padding(
                           padding: EdgeInsets.only(top: 5, bottom: 5),
                           child: ColorChanger(
-                              // bg: widget.elementsColor,
+                              bg: elementsColor,
                               color: _data(subpart),
                               onChanged: (color) {
                                 changeColor(color, subpart);

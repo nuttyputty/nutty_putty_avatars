@@ -13,16 +13,20 @@ import 'package:nutty_putty_avatars/styles/index.dart';
 // import '../../services/renderSvg.dart';
 // import '../../services/shadow.dart';
 
-class ListOfParts extends StatelessWidget {
+class ListOfParts extends StatefulWidget {
   ListOfParts(
-      {@required this.list,
+      {Key key,
+      @required this.list,
       @required this.activePerson,
       @required this.subpart,
       @required this.hairs,
       @required this.hatHairs,
       @required this.changeActiveElement,
       @required this.fullVersion,
-      @required this.partOfAvatar});
+      @required this.partOfAvatar,
+      this.color})
+      : super(key: key);
+  final Color color;
   final List<models.Element> list;
   final models.Person activePerson;
   final List<Hairs> hairs;
@@ -31,113 +35,179 @@ class ListOfParts extends StatelessWidget {
   final int partOfAvatar;
   final Function changeActiveElement;
   final bool fullVersion;
+  _ListOfPartsState createState() => _ListOfPartsState();
+}
+
+class _ListOfPartsState extends State<ListOfParts> {
+  ScrollController _scrollController;
+  double _scrollPosition;
+  double maxScroll;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+      maxScroll = _scrollController.position.maxScrollExtent;
+    });
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        maxScroll = _scrollController.position.maxScrollExtent;
+        _scrollPosition = 0;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(oldWidget) {
+    if (oldWidget.subpart != widget.subpart) {
+      _scrollController.jumpTo(0);
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
-    return new Container(
+    final double width = MediaQuery.of(context).size.width;
+    return Container(
         margin: EdgeInsets.only(top: 5, bottom: 5),
         height: 78,
-        // constraints: BoxConstraints(minWidth: width),
+        constraints: BoxConstraints(minWidth: width),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             stops: [0.45, 1],
-            colors:
-                // widget.color != null
-                //     ? [widget.color, widget.color]
-                //     :
-                [
-              hexToColor('#E3EDF7').withOpacity(1),
-              Color.fromRGBO(255, 255, 255, 0.7)
-            ],
+            colors: widget.color != null
+                ? [widget.color, widget.color]
+                : [
+                    hexToColor('#E3EDF7').withOpacity(1),
+                    Color.fromRGBO(255, 255, 255, 0.7)
+                  ],
           ),
         ),
         child: Stack(children: <Widget>[
-          // _scrollPosition != 0
-          //     ? Positioned(
-          //         left: 3,
-          //         top: 3,
-          //         child: Icon(
-          //           Icons.arrow_back_ios,
-          //           size: 16,
-          //         ),
-          //       )
-          //     : SizedBox(),
+          _scrollPosition != 0
+              ? Positioned(
+                  left: 3,
+                  top: 3,
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 16,
+                  ),
+                )
+              : SizedBox(),
           ListView.builder(
               shrinkWrap: true,
-              // controller: _scrollController,
+              controller: _scrollController,
               physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              itemCount: list.length,
+              itemCount: widget.list.length,
               itemBuilder: (BuildContext context, int i) {
-                var active = _data(subpart, list[i].id);
+                var active = _data(widget.subpart, widget.list[i].id);
 
-                models.Element hairPart = activePerson.hair.element;
-                if (subpart == 'hats') {
-                  int index = hatHairs
-                      .indexWhere((i) => activePerson.hair.element.id == i.id);
+                models.Element hairPart = widget.activePerson.hair.element;
+                if (widget.subpart == 'hats') {
+                  int index = widget.hatHairs.indexWhere(
+                      (i) => widget.activePerson.hair.element.id == i.id);
 
                   if (index == -1) {
-                    index = hairs.indexWhere(
-                        (i) => activePerson.hair.element.id == i.id);
+                    index = widget.hairs.indexWhere(
+                        (i) => widget.activePerson.hair.element.id == i.id);
                   }
 
                   if (index != -1) {
-                    hairPart = list[i].image != null
-                        ? models.Element.fromJson(hatHairs[index].toJson())
-                        : models.Element.fromJson(hairs[index].toJson());
+                    hairPart = widget.list[i].image != null
+                        ? models.Element.fromJson(
+                            widget.hatHairs[index].toJson())
+                        : models.Element.fromJson(widget.hairs[index].toJson());
                   }
                 }
                 // return renderSvg(list[i]);
 
                 return new IconButton(
                     onPressed: () {
-                      changeActiveElement(list[i], subpart);
+                      widget.changeActiveElement(
+                          widget.list[i], widget.subpart);
                     },
                     icon: Transform.scale(
                         scale: 1.8,
                         child: PersonMaket(
-                          isFree: fullVersion ? true : list[i].free,
+                          isFree:
+                              widget.fullVersion ? true : widget.list[i].free,
                           active: active,
-                          head: subpart == 'head'
-                              ? list[i]
-                              : activePerson.head.element,
-                          hats: subpart == 'hats'
-                              ? list[i]
-                              : activePerson.hats.element,
-                          headColor: activePerson.head.color,
-                          eyebrows: subpart == 'eyebrows'
-                              ? list[i]
-                              : activePerson.eyebrows.element,
-                          hair: subpart == 'hair' ? list[i] : hairPart,
-                          accessories: subpart == 'accessories'
-                              ? list[i]
-                              : activePerson.accessories.element,
-                          faceHairs: subpart == 'face_hairs'
-                              ? list[i]
-                              : activePerson.faceHairs.element,
-                          hairColor: activePerson.faceHairs.color,
-                          noses: subpart == 'noses'
-                              ? list[i]
-                              : activePerson.noses.element,
-                          eyes: subpart == 'eyes'
-                              ? list[i]
-                              : activePerson.eyes.element,
-                          mouth: subpart == 'mouth'
-                              ? list[i]
-                              : activePerson.mouth.element,
-                          background: subpart == 'background'
-                              ? list[i]
-                              : activePerson.background.element,
-                          clothes: subpart == 'clothes'
-                              ? list[i]
-                              : activePerson.clothes.element,
-                          bgColor: activePerson.background.color,
-                          clothesColor: activePerson.clothes.color,
-                          eyesColor: activePerson.eyes.color,
+                          head: widget.subpart == 'head'
+                              ? widget.list[i]
+                              : widget.activePerson.head.element,
+                          hats: widget.subpart == 'hats'
+                              ? widget.list[i]
+                              : widget.activePerson.hats.element,
+                          headColor: widget.activePerson.head.color,
+                          eyebrows: widget.subpart == 'eyebrows'
+                              ? widget.list[i]
+                              : widget.activePerson.eyebrows.element,
+                          hair: widget.subpart == 'hair'
+                              ? widget.list[i]
+                              : hairPart,
+                          accessories: widget.subpart == 'accessories'
+                              ? widget.list[i]
+                              : widget.activePerson.accessories.element,
+                          faceHairs: widget.subpart == 'face_hairs'
+                              ? widget.list[i]
+                              : widget.activePerson.faceHairs.element,
+                          hairColor: widget.activePerson.faceHairs.color,
+                          noses: widget.subpart == 'noses'
+                              ? widget.list[i]
+                              : widget.activePerson.noses.element,
+                          eyes: widget.subpart == 'eyes'
+                              ? widget.list[i]
+                              : widget.activePerson.eyes.element,
+                          mouth: widget.subpart == 'mouth'
+                              ? widget.list[i]
+                              : widget.activePerson.mouth.element,
+                          background: widget.subpart == 'background'
+                              ? widget.list[i]
+                              : widget.activePerson.background.element,
+                          clothes: widget.subpart == 'clothes'
+                              ? widget.list[i]
+                              : widget.activePerson.clothes.element,
+                          bgColor: widget.activePerson.background.color,
+                          clothesColor: widget.activePerson.clothes.color,
+                          eyesColor: widget.activePerson.eyes.color,
                           mouthColor: Colors.white,
                         )));
               }),
+          _scrollPosition != maxScroll
+              ? Positioned(
+                  right: 3,
+                  top: 3,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                  ),
+                )
+              : SizedBox(),
           // new ListView(
           // shrinkWrap: true,
           // controller: _scrollController,
@@ -152,34 +222,34 @@ class ListOfParts extends StatelessWidget {
   bool _data(String element, id) {
     switch (element) {
       case 'background':
-        return activePerson.background.element.id == id;
+        return widget.activePerson.background.element.id == id;
         break;
       case 'accessories':
-        return activePerson.accessories.element.id == id;
+        return widget.activePerson.accessories.element.id == id;
         break;
       case 'face_hairs':
-        return activePerson.faceHairs.element.id == id;
+        return widget.activePerson.faceHairs.element.id == id;
         break;
       case 'clothes':
-        return activePerson.clothes.element.id == id;
+        return widget.activePerson.clothes.element.id == id;
         break;
       case 'eyebrows':
-        return activePerson.eyebrows.element.id == id;
+        return widget.activePerson.eyebrows.element.id == id;
         break;
       case 'eyes':
-        return activePerson.eyes.element.id == id;
+        return widget.activePerson.eyes.element.id == id;
         break;
       case 'hair':
-        return activePerson.hair.element.id == id;
+        return widget.activePerson.hair.element.id == id;
         break;
       case 'hats':
-        return activePerson.hats.element.id == id;
+        return widget.activePerson.hats.element.id == id;
         break;
       case 'head':
-        return activePerson.head.element.id == id;
+        return widget.activePerson.head.element.id == id;
         break;
       case 'mouth':
-        return activePerson.mouth.element.id == id;
+        return widget.activePerson.mouth.element.id == id;
         break;
     }
   }
